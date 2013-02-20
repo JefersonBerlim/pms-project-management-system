@@ -163,7 +163,6 @@ public class TbUsuarioJpaController implements Serializable {
         
         //Caso esteja vazio retorna null, caso contrário retorna String com "OK"
         if ( usuario.getResultList().isEmpty()  ){
-            context.addMessage(null, new FacesMessage("Atenção","Usuário e/ou senha incorretos"));  
             return "null";
         }else{
             return "ok";
