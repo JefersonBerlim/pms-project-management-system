@@ -13,8 +13,10 @@
     <h:head>
 
         <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+        
+        
 
-        <title>Cadastro de Usuários</title>
+        <title>Cadastro de UsuÃ¡rios</title>
 
         <f:view contentType="text/html; charset=ISO-8859-1"/> 
 
@@ -24,17 +26,17 @@
 
         <h:form>
 
-            <!--Template padrão para o menu de nagegação-->
+            <!--Template padrÃ£o para o menu de nagegaÃ§Ã£o-->
             <ui:decorate template="TemplateMenu.xhtml">
                 <ui:define name="Menu"></ui:define>
             </ui:decorate>
 
-            <h3>Cadastro de Usuários</h3>
+            <h3>Cadastro de UsuÃ¡rios</h3>
 
-            <!--Campo de Código Oculto-->
+            <!--Campo de CÃ³digo Oculto-->
             <h:inputHidden value="#{TbUsuario.hand}"/>
             
-            <h:outputLabel value="Usuário: "/>
+            <h:outputLabel value="UsuÃ¡rio: "/>
             <h:inputText value="#{TbUsuario.nome}"/>
             <br/>
             
