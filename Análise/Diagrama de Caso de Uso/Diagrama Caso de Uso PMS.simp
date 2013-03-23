@@ -66,7 +66,7 @@
           </authors>
           <description />
           <creation-date>03/19/2013 22:05:41</creation-date>
-          <change-date>03/19/2013 22:22:11</change-date>
+          <change-date>03/21/2013 21:22:10</change-date>
           <revision-count>0</revision-count>
           <version />
         </meta>
@@ -99,14 +99,7 @@
             <owned-items />
             <style class="default" />
           </item>
-          <item id="di786679775522174632" cid="UC001" type="use-case" name="UseCase1" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/19/2013 22:21:11">
-            <stereotypes />
-            <tagged-values />
-            <associated-diagrams />
-            <owned-items />
-            <style class="default" />
-          </item>
-          <item id="di248941937836221280" cid="SYS001" type="system-boundary" name="Planejamento" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/19/2013 22:21:18">
+          <item id="di786679775522174632" cid="UC001" type="use-case" name="Cadastra Projeto" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/19/2013 22:21:11">
             <stereotypes />
             <tagged-values />
             <documentation>
@@ -133,17 +126,65 @@
             <owned-items />
             <style class="default" />
           </item>
+          <item id="di248941937836221280" cid="SYS001" type="system-boundary" name="Planejamento" style-class="default" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/19/2013 22:21:18">
+            <stereotypes />
+            <tagged-values />
+            <documentation>
+              <text>
+                <content>
+                  <paragraph line-spacing="1">
+                    <p index="0">
+                      <t />
+                      <style font-name="Arial" font-size="12" font-bold="false" font-italic="false" font-underline="false" font-strikeout="false">
+                        <text>
+                          <solid-brush color="#FF000000" />
+                        </text>
+                      </style>
+                    </p>
+                  </paragraph>
+                </content>
+              </text>
+            </documentation>
+            <cooperation>
+              <participants />
+              <comments />
+            </cooperation>
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+          </item>
+          <item id="di895797431585913476" cid="REL003" type="relationship" name="" style-class="" is-abstract="false" is-root="false" is-leaf="false" is-active="false" creation-date="03/21/2013 21:22:10">
+            <stereotypes />
+            <tagged-values />
+            <associated-diagrams />
+            <owned-items />
+            <style class="default" />
+            <relation from="di693423023665860992" to="di786679775522174632">
+              <start-role id="" name="" multiplicity="" navigability="" association-type="association" visibility="private" />
+              <end-role id="" name="" multiplicity="" navigability="" association-type="association" visibility="private" />
+            </relation>
+          </item>
         </abstract-items>
         <layer name="Default" visible="true" enabled="true" locked="false">
           <item id="di248941937836221280" iid="03db58783af143148623a2155911121c" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="03/19/2013 22:21:19" order-index="2" type="entity">
-            <layout ax="-10" ay="21" awidth="718" aheight="469" x="-10" y="21" width="718" height="469" angle="0" />
+            <layout ax="94" ay="7" awidth="986" aheight="548" x="94" y="7" width="986" height="548" angle="0" />
           </item>
           <item id="di693423023665860992" iid="0d0a7864b2024b7daa5847dab52584e7" container="di248941937836221280" container-iid="03db58783af143148623a2155911121c" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="03/19/2013 22:05:54" order-index="0" type="entity">
-            <layout ax="79" ay="63" awidth="85" aheight="92" x="162" y="109" width="85" height="92" angle="0" />
+            <layout ax="138" ay="38" awidth="85" aheight="92" x="34" y="52" width="85" height="92" angle="0" />
           </item>
           <item id="di786679775522174632" iid="d31760d5b44f406eae02d237061fca94" container="di248941937836221280" container-iid="03db58783af143148623a2155911121c" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="03/19/2013 22:21:11" order-index="1" type="entity">
-            <layout ax="377" ay="113" awidth="120" aheight="75" x="377" y="112" width="0" height="0" angle="0" />
+            <layout ax="368" ay="41" awidth="120" aheight="75" x="368" y="41" width="0" height="0" angle="0" />
             <use-case />
+          </item>
+          <item id="di895797431585913476" iid="5eefec6dddd74bda921045c953d06d69" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="03/21/2013 21:22:10" order-index="3" type="relation">
+            <layout line-style="oblique" lock-start-point="false" lock-end-point="false" name-position="10,-10" x1="223" y1="83" x2="368" y2="79" start-border-pos="0.372173039809517" end-border-pos="0.878172047932943">
+              <points>
+                <point x="223" y="83" />
+                <point x="368" y="79" />
+              </points>
+            </layout>
+            <relation from="di693423023665860992" from-iid="0d0a7864b2024b7daa5847dab52584e7" to="di786679775522174632" to-iid="d31760d5b44f406eae02d237061fca94" />
+            <role-positions start-role="25,15" end-role="25,15" start-multiplicity="25,-15" end-multiplicity="25,-15" />
           </item>
         </layer>
       </diagram>
