@@ -316,6 +316,7 @@ CREATE TABLE TB_DIA_SEMANA (
 
 -- -----------------------------------------------------
 -- Table TB_FUNCIONARIOS_TB_TURNOS
+
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `mydb`.`TB_FUNCIONARIOS_has_TB_TURNOS` (
   `TB_FUNCIONARIOS_HAND` INT NOT NULL ,
