@@ -13,12 +13,6 @@
         <managed-bean-scope>request</managed-bean-scope>  
     </managed-bean> 
     
-    <managed-bean>  
-        <managed-bean-name>TbUsuario</managed-bean-name>  
-        <managed-bean-class>Entidades.TbUsuario</managed-bean-class>  
-        <managed-bean-scope>request</managed-bean-scope>  
-    </managed-bean> 
-    
     <!-- Navegação da Tela de Login-->
     <navigation-rule>
         <from-view-id>/Login.xhtml</from-view-id>
