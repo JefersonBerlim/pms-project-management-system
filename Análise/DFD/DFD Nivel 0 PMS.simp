@@ -122,7 +122,7 @@
         </abstract-items>
         <layer name="Default" visible="true" enabled="true" locked="false">
           <item id="di112217214926069116" iid="563ae33279104f44a72803cff2f89696" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="04/28/2013 20:50:17" order-index="0" type="entity">
-            <layout ax="508" ay="232" awidth="164" aheight="117" x="508" y="232" width="164" height="117" angle="0" />
+            <layout ax="448" ay="225" awidth="164" aheight="117" x="448" y="225" width="164" height="117" angle="0" />
           </item>
           <item id="di957345046499724805" iid="0546aa0c13b74282b1999c5a4c9add3d" show-cid="false" show-parent-name="false" show-stereotypes="true" show-tagged-values="false" creation-date="04/28/2013 20:50:25" order-index="1" type="entity">
             <layout ax="21" ay="30" awidth="120" aheight="70" x="21" y="30" width="0" height="0" angle="0" />
