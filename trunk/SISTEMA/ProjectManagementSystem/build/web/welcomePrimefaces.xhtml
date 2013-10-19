@@ -14,43 +14,19 @@
         </h:head>
 
         <h:body>
+            
+            <h:form id="menu">
 
-            <p:layout fullPage="true">
-
-                <p:layoutUnit position="north" size="100" maxSize="80" resizable="false" closable="false" collapsible="false">
-                    <p:tabMenu activeIndex="0">  
-                        <p:menuitem value="Overview" url="/ui/tabMenu.jsf" icon="ui-icon-star"/>  
-                        <p:menuitem value="Demos" url="/ui/tabMenuDemos.jsf" icon="ui-icon-search" />  
-                        <p:menuitem value="Documentation" url="/ui/tabMenuDocumentation.jsf" icon="ui-icon-document"/>  
-                        <p:menuitem value="Support" url="/ui/tabMenuSupport.jsf" icon="ui-icon-wrench"/>  
-                        <p:menuitem value="Social" url="/ui/tabMenuSocial.jsf" icon="ui-icon-person" />  
-                    </p:tabMenu>  
-
-                </p:layoutUnit>
-
-                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
-                    Footer
-                </p:layoutUnit>
-
-                <p:layoutUnit position="west" size="175" header="Left" collapsible="true">
-                    <p:menu>
-                        <p:submenu label="Resources">
-                            <p:menuitem value="Demo" url="http://www.primefaces.org/showcase-labs/ui/home.jsf" />
-                            <p:menuitem value="Documentation" url="http://www.primefaces.org/documentation.html" />
-                            <p:menuitem value="Forum" url="http://forum.primefaces.org/" />
-                            <p:menuitem value="Themes" url="http://www.primefaces.org/themes.html" />
-
-                        </p:submenu>
-
-                    </p:menu>
-                </p:layoutUnit>
-
-                <p:layoutUnit position="center">
-                    Welcome to PrimeFaces
-                </p:layoutUnit>
-
-            </p:layout>
-
+                <p:tabMenu activeIndex="3">  
+                    <p:menuitem value="Cadastros" url="/ui/tabMenu.jsf" icon="ui-icon-star"/>  
+                    <p:menuitem value="Planejamento" url="/ui/tabMenuDemos.jsf" icon="ui-icon-search" />  
+                    <p:menuitem value="Apontamento" url="/ui/tabMenuDocumentation.jsf" icon="ui-icon-document"/>  
+                    <p:menuitem value="Comercial" url="/ui/tabMenuSupport.jsf" icon="ui-icon-wrench"/>  
+                    <p:menuitem value="Visão" url="/ui/tabMenuSocial.jsf" icon="ui-icon-person" />  
+                </p:tabMenu>  
+                
+            </h:form>
+            
         </h:body>
 
     </f:view>
