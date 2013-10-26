@@ -4,8 +4,14 @@
  */
 package Entidades;
 
+import Controle.TbPaisesJpaController;
+import Controle.exceptions.PreexistingEntityException;
+import Controle.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.ManagedBean;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TbPaises.findByHand", query = "SELECT t FROM TbPaises t WHERE t.hand = :hand"),
     @NamedQuery(name = "TbPaises.findByPais", query = "SELECT t FROM TbPaises t WHERE t.pais = :pais")})
 public class TbPaises implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -105,7 +112,6 @@ public class TbPaises implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.TbPaises[ hand=" + hand + " ]";
-    }
-    
+        return pais;
+    }    
 }
