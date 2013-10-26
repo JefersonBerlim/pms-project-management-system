@@ -16,121 +16,72 @@ import Entidades.TbPaises;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.transaction.UserTransaction;
 
 /**
  *
  * @author berlim
  */
+@ManagedBean
 public class TbPaisesJpaController implements Serializable {
 
     public TbPaisesJpaController() {
         emf = Persistence.createEntityManagerFactory("ProjectManagementSystemPU");
     }
-    private UserTransaction utx = null;
+    
     private EntityManagerFactory emf = null;
+    private TbPaises tbPaises = new TbPaises();
+    private List<TbPaises> tbPaisesLista = new ArrayList<TbPaises>();
+
+    public void setTbPaisesLista(List<TbPaises> tbPaisesLista) {
+        this.tbPaisesLista = tbPaisesLista;
+    }    
+
+    public void setTbPaises(TbPaises tbPaises) {
+        this.tbPaises = tbPaises;
+    }
+
+    public TbPaises getTbPaises() {
+        return tbPaises;
+    }
+
+    public List<TbPaises> getTbPaisesLista() {
+        return tbPaisesLista;
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(TbPaises tbPaises) throws PreexistingEntityException, RollbackFailureException, Exception {
-        if (tbPaises.getTbEstadosCollection() == null) {
-            tbPaises.setTbEstadosCollection(new ArrayList<TbEstados>());
-        }
-        EntityManager em = null;
-        try {
-            utx.begin();
-            em = getEntityManager();
-            Collection<TbEstados> attachedTbEstadosCollection = new ArrayList<TbEstados>();
-            for (TbEstados tbEstadosCollectionTbEstadosToAttach : tbPaises.getTbEstadosCollection()) {
-                tbEstadosCollectionTbEstadosToAttach = em.getReference(tbEstadosCollectionTbEstadosToAttach.getClass(), tbEstadosCollectionTbEstadosToAttach.getHand());
-                attachedTbEstadosCollection.add(tbEstadosCollectionTbEstadosToAttach);
-            }
-            tbPaises.setTbEstadosCollection(attachedTbEstadosCollection);
-            em.persist(tbPaises);
-            for (TbEstados tbEstadosCollectionTbEstados : tbPaises.getTbEstadosCollection()) {
-                TbPaises oldTbPaisesHandOfTbEstadosCollectionTbEstados = tbEstadosCollectionTbEstados.getTbPaisesHand();
-                tbEstadosCollectionTbEstados.setTbPaisesHand(tbPaises);
-                tbEstadosCollectionTbEstados = em.merge(tbEstadosCollectionTbEstados);
-                if (oldTbPaisesHandOfTbEstadosCollectionTbEstados != null) {
-                    oldTbPaisesHandOfTbEstadosCollectionTbEstados.getTbEstadosCollection().remove(tbEstadosCollectionTbEstados);
-                    oldTbPaisesHandOfTbEstadosCollectionTbEstados = em.merge(oldTbPaisesHandOfTbEstadosCollectionTbEstados);
-                }
-            }
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            if (findTbPaises(tbPaises.getHand()) != null) {
-                throw new PreexistingEntityException("TbPaises " + tbPaises + " already exists.", ex);
-            }
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
+    public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
 
-    public void edit(TbPaises tbPaises) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+        if (this.tbPaises.getTbEstadosCollection() == null) {
+            this.tbPaises.setTbEstadosCollection(new ArrayList<TbEstados>());
+        }
+
         EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
-            TbPaises persistentTbPaises = em.find(TbPaises.class, tbPaises.getHand());
-            Collection<TbEstados> tbEstadosCollectionOld = persistentTbPaises.getTbEstadosCollection();
-            Collection<TbEstados> tbEstadosCollectionNew = tbPaises.getTbEstadosCollection();
-            List<String> illegalOrphanMessages = null;
-            for (TbEstados tbEstadosCollectionOldTbEstados : tbEstadosCollectionOld) {
-                if (!tbEstadosCollectionNew.contains(tbEstadosCollectionOldTbEstados)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain TbEstados " + tbEstadosCollectionOldTbEstados + " since its tbPaisesHand field is not nullable.");
-                }
+            em.getTransaction().begin();
+            Collection<TbEstados> attachedTbEstadosCollection = new ArrayList<TbEstados>();
+
+            this.tbPaises.setTbEstadosCollection(attachedTbEstadosCollection);
+
+            if (this.tbPaises.getHand() == null) {
+                em.persist(this.tbPaises);
+            } else {
+                em.merge(this.tbPaises);
             }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Collection<TbEstados> attachedTbEstadosCollectionNew = new ArrayList<TbEstados>();
-            for (TbEstados tbEstadosCollectionNewTbEstadosToAttach : tbEstadosCollectionNew) {
-                tbEstadosCollectionNewTbEstadosToAttach = em.getReference(tbEstadosCollectionNewTbEstadosToAttach.getClass(), tbEstadosCollectionNewTbEstadosToAttach.getHand());
-                attachedTbEstadosCollectionNew.add(tbEstadosCollectionNewTbEstadosToAttach);
-            }
-            tbEstadosCollectionNew = attachedTbEstadosCollectionNew;
-            tbPaises.setTbEstadosCollection(tbEstadosCollectionNew);
-            tbPaises = em.merge(tbPaises);
-            for (TbEstados tbEstadosCollectionNewTbEstados : tbEstadosCollectionNew) {
-                if (!tbEstadosCollectionOld.contains(tbEstadosCollectionNewTbEstados)) {
-                    TbPaises oldTbPaisesHandOfTbEstadosCollectionNewTbEstados = tbEstadosCollectionNewTbEstados.getTbPaisesHand();
-                    tbEstadosCollectionNewTbEstados.setTbPaisesHand(tbPaises);
-                    tbEstadosCollectionNewTbEstados = em.merge(tbEstadosCollectionNewTbEstados);
-                    if (oldTbPaisesHandOfTbEstadosCollectionNewTbEstados != null && !oldTbPaisesHandOfTbEstadosCollectionNewTbEstados.equals(tbPaises)) {
-                        oldTbPaisesHandOfTbEstadosCollectionNewTbEstados.getTbEstadosCollection().remove(tbEstadosCollectionNewTbEstados);
-                        oldTbPaisesHandOfTbEstadosCollectionNewTbEstados = em.merge(oldTbPaisesHandOfTbEstadosCollectionNewTbEstados);
-                    }
-                }
-            }
-            utx.commit();
+
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Integer id = tbPaises.getHand();
-                if (findTbPaises(id) == null) {
-                    throw new NonexistentEntityException("The tbPaises with id " + id + " no longer exists.");
-                }
+                throw new RollbackFailureException("Problemas ao salvar o registro.", re);
             }
             throw ex;
         } finally {
@@ -143,7 +94,7 @@ public class TbPaisesJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         EntityManager em = null;
         try {
-            utx.begin();
+            em.getTransaction().begin();
             em = getEntityManager();
             TbPaises tbPaises;
             try {
@@ -164,10 +115,10 @@ public class TbPaisesJpaController implements Serializable {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(tbPaises);
-            utx.commit();
+            em.getTransaction().commit();
         } catch (Exception ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
             }
@@ -177,14 +128,6 @@ public class TbPaisesJpaController implements Serializable {
                 em.close();
             }
         }
-    }
-
-    public List<TbPaises> findTbPaisesEntities() {
-        return findTbPaisesEntities(true, -1, -1);
-    }
-
-    public List<TbPaises> findTbPaisesEntities(int maxResults, int firstResult) {
-        return findTbPaisesEntities(false, maxResults, firstResult);
     }
 
     private List<TbPaises> findTbPaisesEntities(boolean all, int maxResults, int firstResult) {
