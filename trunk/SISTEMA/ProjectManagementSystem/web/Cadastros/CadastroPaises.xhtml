@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Facelet Title</title>
+
+        <style type="text/css">  
+            .ui-widget {  
+                font-size: 14px !important;  
+            }  
+        </style> 
+
+        <f:metadata>
+            <f:viewParam name="hand" value="#{TbPaisesJpaController.findTbPaisesPage()}" />
+        </f:metadata>
+
+    </h:head>
+    <h:body>
+        <h:form>  
+
+            <p:growl id="growl" showDetail="true" sticky="true" /> 
+
+            <p:panel header="Cadastro de Paises">  
+
+                <h:panelGrid columns="3">  
+                    <h:outputLabel value="Código:"/>  
+                    <p:inputText disabled="true" />
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Descrição: *"/>  
+                    <p:inputText required="true" label="Descrição"
+                                 value="#{ TbPaisesJpaController.tbPaises.pais }"/>  
+                    <br/>
+                </h:panelGrid>  
+                <br/>
+
+                <p:commandButton value="Salvar" icon="ui-icon-disk" 
+                                 actionListener="#{TbPaisesJpaController.save(actionEvent)}" update="growl"/>
+            </p:panel>  
+
+        </h:form>
+    </h:body>
+</html>
+
