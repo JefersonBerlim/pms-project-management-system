@@ -8,40 +8,36 @@ package Controle;
 import Controle.exceptions.IllegalOrphanException;
 import Controle.exceptions.NonexistentEntityException;
 import Entidades.TbPaises;
+import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class TbPaisesJpaController implements Serializable {
 
     private TbPaises tbPaises;
     private final EntityManagerFactory emf;
     private String mensagem;
+
     private List<TbPaises> paises;
 
     public TbPaisesJpaController() {
         emf = Persistence.createEntityManagerFactory("ProjectManagementSystemPU");
-        tbPaises = new TbPaises();
-        paises = new ArrayList<TbPaises>();
-    }
-
-    public List<TbPaises> getPaises() {
-        paises = findPaises();
-        return paises;
     }
 
     public EntityManager getEntityManager() {
@@ -49,6 +45,10 @@ public class TbPaisesJpaController implements Serializable {
     }
 
     public TbPaises getTbPaises() {
+        tbPaises = findPaisHand();
+        if (tbPaises.getHand() == null) {           
+            tbPaises = new TbPaises();
+        }
         return tbPaises;
     }
 
@@ -62,6 +62,31 @@ public class TbPaisesJpaController implements Serializable {
 
     public void setText(String text) {
         this.mensagem = text;
+    }
+
+    public List<TbPaises> getPaises() {
+        return paises;
+    }
+
+    public void setPaises(List<TbPaises> paises) {
+        this.paises = paises;
+    }
+
+    // Método Usado para Popular a Grid de Países
+    public List<TbPaises> getPaisesGrid() {
+        paises = findPaises();
+        return paises;
+    }
+
+    // Método Usado para a Abertura da Tela de Paises
+    public TbPaises findPaisHand() {
+        EntityManager em = getEntityManager();
+
+        Map< String, String> params = FacesContext.getCurrentInstance()
+                .getExternalContext().getRequestParameterMap();
+        String hand = params.get("hand");
+        tbPaises = findTbPaises(Integer.parseInt(hand));
+        return tbPaises;
     }
 
     public void create() throws Exception {
@@ -113,22 +138,12 @@ public class TbPaisesJpaController implements Serializable {
     }
 
     public TbPaises findTbPaises(Integer id) {
-        EntityManager em = null;
+        EntityManager em = getEntityManager();
         try {
             return em.find(TbPaises.class, id);
         } finally {
             em.close();
         }
-    }
-
-    public void findTbPaisesPage() {
-
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest req = (HttpServletRequest) context.getExternalContext().getRequest();
-        String teste = req.getParameter("hand");
-        
-        tbPaises = findTbPaises( Integer.parseInt(teste) );
-
     }
 
     public List<TbPaises> findPaises() {
@@ -137,17 +152,20 @@ public class TbPaisesJpaController implements Serializable {
         return pais.getResultList();
     }
 
-    public void save(ActionEvent actionEvent) {
+    public void incluirPais() {
+        this.getPaises().add(this.getTbPaises());
+        this.setTbPaises(new TbPaises());
+        tbPaises.setHand(1);
+    }
 
+    public void save(ActionEvent actionEvent) {
         try {
             this.create();
             mensagem = "Registro salvo com sucesso";
         } catch (Exception ex) {
             mensagem = "Problemas ao Salvar o registro";
         }
-
         FacesContext context = FacesContext.getCurrentInstance();
-
         context.addMessage(null, new FacesMessage("Atenção", mensagem));
     }
 }
