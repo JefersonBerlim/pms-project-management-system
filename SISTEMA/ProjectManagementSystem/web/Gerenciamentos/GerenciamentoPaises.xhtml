@@ -50,6 +50,9 @@
                             <h:outputText value="Ação" />  
                         </f:facet>  
                         <div style="font-size: 10px">
+                            <p:button value="Incluir" outcome="/Cadastros/CadastroPaises.xhtml">  
+                                <f:param name="hand" value="0"/>
+                            </p:button> 
                             <p:button value="Alterar" outcome="/Cadastros/CadastroPaises.xhtml">  
                                 <f:param name="hand" value="#{ pais.hand }"/>
                             </p:button> 

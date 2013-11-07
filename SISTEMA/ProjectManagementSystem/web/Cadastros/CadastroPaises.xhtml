@@ -13,10 +13,10 @@
         </style> 
 
         <f:metadata>
-            <f:viewParam name="hand" value="#{ TbPaisesJpaController.tbPaises }"/>
+            <f:event listener="#{TbPaisesJpaController.findPaisHand()}" type="preRenderView" />
         </f:metadata>
 
-    </h:head>
+    </h:head>    
     <h:body>
         <h:form>  
 
@@ -39,7 +39,7 @@
                 <br/>
 
                 <p:commandButton value="Salvar" icon="ui-icon-disk" 
-                                 action="#{TbPaisesJpaController.save(actionEvent)}"/>
+                                 action="#{TbPaisesJpaController.save()}"/>
             </p:panel>  
 
         </h:form>
