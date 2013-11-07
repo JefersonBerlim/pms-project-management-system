@@ -13,31 +13,33 @@
         </style> 
 
         <f:metadata>
-            <f:viewParam name="hand" value="#{TbPaisesJpaController.findTbPaisesPage()}" />
+            <f:viewParam name="hand" value="#{ TbPaisesJpaController.tbPaises }"/>
         </f:metadata>
 
     </h:head>
     <h:body>
         <h:form>  
 
-            <p:growl id="growl" showDetail="true" sticky="true" /> 
+            <p:growl id="growl" showDetail="true"/> 
 
             <p:panel header="Cadastro de Paises">  
 
                 <h:panelGrid columns="3">  
                     <h:outputLabel value="Código:"/>  
-                    <p:inputText disabled="true" />
+                    <p:inputText disabled="true" value="#{TbPaisesJpaController.tbPaises.hand}"/>
                     <br/>
                     <br/>
-                    <h:outputLabel value="Descrição: *"/>  
-                    <p:inputText required="true" label="Descrição"
-                                 value="#{ TbPaisesJpaController.tbPaises.pais }"/>  
+                    <h:outputLabel value="Descrição:"/>  
+                    <p:inputText label="Descrição"
+                                 value="#{ TbPaisesJpaController.tbPaises.pais }"
+                                 required="true"
+                                 requiredMessage="Campo Obrigatório" />  
                     <br/>
                 </h:panelGrid>  
                 <br/>
 
                 <p:commandButton value="Salvar" icon="ui-icon-disk" 
-                                 actionListener="#{TbPaisesJpaController.save(actionEvent)}" update="growl"/>
+                                 action="#{TbPaisesJpaController.save(actionEvent)}"/>
             </p:panel>  
 
         </h:form>
