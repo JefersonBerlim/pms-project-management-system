@@ -20,10 +20,11 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class TbPaisesJpaController implements Serializable {
 
     private TbPaises tbPaises;
@@ -172,15 +173,14 @@ public class TbPaisesJpaController implements Serializable {
 
     public Integer preparaAlteracao() {
         EntityManager em = getEntityManager();
-        Integer proxCod = null;
+        Integer proxCod = 0;
         List<TbPaises> listaPaises = new ArrayList<TbPaises>();
         
         listaPaises = findPaises();
         
-        for (Integer i = 1; i <= listaPaises.size(); i++) {
-            Integer teste = listaPaises.get(i).getHand();
+        for (Integer i = 0; i < listaPaises.size(); i++) {
             if ( listaPaises.get(i).getHand() > proxCod ) {
-                proxCod = listaPaises.get(1).getHand();
+                proxCod = listaPaises.get(i).getHand();
             }
         }
         

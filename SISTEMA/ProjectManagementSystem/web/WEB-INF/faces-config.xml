@@ -7,7 +7,7 @@
     <managed-bean>  
         <managed-bean-name>TbPaisesJpaController</managed-bean-name> <!--nome do bean-->  
         <managed-bean-class>Controle.TbPaisesJpaController</managed-bean-class><!--tipo-->           
-        <managed-bean-scope>session</managed-bean-scope>
+        <managed-bean-scope>view</managed-bean-scope>
     </managed-bean> 
     
 </faces-config>
