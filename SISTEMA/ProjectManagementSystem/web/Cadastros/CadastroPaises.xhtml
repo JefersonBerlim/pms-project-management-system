@@ -38,8 +38,8 @@
                 </h:panelGrid>  
                 <br/>
 
-                <p:commandButton value="Salvar" icon="ui-icon-disk" 
-                                 onclick="#{TbPaisesJpaController.save()}"/>
+                <h:commandButton value="Salvar"
+                                 actionListener="#{TbPaisesJpaController.save()}"/>
             </p:panel>  
 
         </h:form>

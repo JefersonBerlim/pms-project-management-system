@@ -19,8 +19,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import static javax.faces.component.UIInput.isEmpty;
 import javax.faces.context.FacesContext;
 
 @ManagedBean
@@ -84,7 +84,7 @@ public class TbPaisesJpaController implements Serializable {
                 .getExternalContext().getRequestParameterMap();
         String hand = params.get("hand");
 
-        if (!"0".equals(hand)) {
+        if ( !isEmpty(hand)) {
             tbPaises = findTbPaises(Integer.parseInt(hand));
         }
 
@@ -152,12 +152,6 @@ public class TbPaisesJpaController implements Serializable {
         EntityManager em = getEntityManager();
         Query pais = em.createNamedQuery("TbPaises.findAll");
         return pais.getResultList();
-    }
-
-    public void incluirPais() {
-        this.getPaises().add(this.getTbPaises());
-        this.setTbPaises(new TbPaises());
-        tbPaises.setHand(1);
     }
 
     public void save() {
