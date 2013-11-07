@@ -8,7 +8,6 @@ package Controle;
 import Controle.exceptions.IllegalOrphanException;
 import Controle.exceptions.NonexistentEntityException;
 import Entidades.TbPaises;
-import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +19,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.servlet.http.HttpServletRequest;
 
 @ManagedBean
 @SessionScoped
@@ -38,6 +34,7 @@ public class TbPaisesJpaController implements Serializable {
 
     public TbPaisesJpaController() {
         emf = Persistence.createEntityManagerFactory("ProjectManagementSystemPU");
+        tbPaises = new TbPaises();
     }
 
     public EntityManager getEntityManager() {
@@ -46,8 +43,8 @@ public class TbPaisesJpaController implements Serializable {
 
     public TbPaises getTbPaises() {
         tbPaises = findPaisHand();
-        if (tbPaises.getHand() == null) {           
-            tbPaises = new TbPaises();
+        if (tbPaises.getHand() == null) {
+            tbPaises.setHand(preparaAlteracao());
         }
         return tbPaises;
     }
@@ -85,7 +82,11 @@ public class TbPaisesJpaController implements Serializable {
         Map< String, String> params = FacesContext.getCurrentInstance()
                 .getExternalContext().getRequestParameterMap();
         String hand = params.get("hand");
-        tbPaises = findTbPaises(Integer.parseInt(hand));
+
+        if (!"0".equals(hand)) {
+            tbPaises = findTbPaises(Integer.parseInt(hand));
+        }
+
         return tbPaises;
     }
 
@@ -158,7 +159,7 @@ public class TbPaisesJpaController implements Serializable {
         tbPaises.setHand(1);
     }
 
-    public void save(ActionEvent actionEvent) {
+    public void save() {
         try {
             this.create();
             mensagem = "Registro salvo com sucesso";
@@ -167,5 +168,22 @@ public class TbPaisesJpaController implements Serializable {
         }
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Atenção", mensagem));
+    }
+
+    public Integer preparaAlteracao() {
+        EntityManager em = getEntityManager();
+        Integer proxCod = null;
+        List<TbPaises> listaPaises = new ArrayList<TbPaises>();
+        
+        listaPaises = findPaises();
+        
+        for (Integer i = 1; i <= listaPaises.size(); i++) {
+            Integer teste = listaPaises.get(i).getHand();
+            if ( listaPaises.get(i).getHand() > proxCod ) {
+                proxCod = listaPaises.get(1).getHand();
+            }
+        }
+        
+        return proxCod + 1;
     }
 }
