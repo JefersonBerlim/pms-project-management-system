@@ -1,10 +1,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html" 
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <title>Facelet Title</title>
-        
+
         <style type="text/css">  
             .ui-widget {  
                 font-size: 12px !important;  
@@ -12,18 +13,16 @@
         </style> 
 
     </h:head>
-
-
     <h:body>
         <h:form>
             <div id="menu">
                 <p:panelMenu>  
                     <p:submenu label="Países"> 
-                        <p:menuitem value="Cadastro de Países" icon="ui-icon-plus" url="Gerenciamentos/GerenciamentoPaises.xhtml" target="corpo" />  
+                        <p:menuitem value="Cadastro de Países" icon="ui-icon-plus" outcome="/Gerenciamentos/GerenciamentoPaises.xhtml" target="corpo" />  
                     </p:submenu> 
                     <p:separator />
                     <p:submenu label="Estados">  
-                        <p:menuitem value="Delete"  icon="ui-icon-close"/>  
+                        <p:menuitem value="Cadastro de Estados" icon="ui-icon-plus" outcome="/Gerenciamentos/GerenciamentoEstados.xhtml" target="corpo" />  
                     </p:submenu>  
                     <p:separator />
                     <p:submenu label="Cidades">

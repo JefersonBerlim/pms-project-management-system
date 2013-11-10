@@ -10,4 +10,10 @@
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean> 
     
+    <managed-bean>  
+        <managed-bean-name>TbEstadosJpaController</managed-bean-name> <!--nome do bean-->  
+        <managed-bean-class>Controle.TbEstadosJpaController</managed-bean-class><!--tipo-->           
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    
 </faces-config>
