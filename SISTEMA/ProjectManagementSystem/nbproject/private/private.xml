@@ -3,9 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/PMS/SISTEMA/ProjectManagementSystem/web/Cadastros/CadastroPaises.xhtml</file>
-            <file>file:/C:/PMS/SISTEMA/ProjectManagementSystem/src/java/Controle/TbEstadosJpaController.java</file>
-            <file>file:/C:/PMS/SISTEMA/ProjectManagementSystem/web/Cadastros/CadastroEstados.xhtml</file>
+            <file>file:/C:/PMS/SISTEMA/ProjectManagementSystem/src/java/Controle/TbPessoaJpaController.java</file>
+            <file>file:/C:/PMS/SISTEMA/ProjectManagementSystem/web/Gerenciamentos/GerenciamentoPessoas.xhtml</file>
+            <file>file:/C:/PMS/SISTEMA/ProjectManagementSystem/web/Cadastros/CadastroPessoas.xhtml</file>
         </group>
     </open-files>
 </project-private>

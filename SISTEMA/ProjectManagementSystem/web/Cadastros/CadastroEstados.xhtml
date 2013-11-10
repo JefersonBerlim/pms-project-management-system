@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Cadastro de Estados</title>
+
+        <style type="text/css">  
+            .ui-widget {  
+                font-size: 14px !important;  
+            }  
+        </style>
+
+        <f:metadata>
+            <f:event listener="#{TbEstadosJpaController.findEstadosHand()}" type="preRenderView" />
+        </f:metadata>
+
+    </h:head>    
+    <h:body>
+        <h:form>  
+
+            <p:growl id="mensagem" showDetail="true" sticky="true" /> 
+
+            <p:panel header="Cadastro de Estados">  
+
+                <h:panelGrid columns="3">  
+                    <h:outputLabel value="Código:"/>  
+                    <p:inputText disabled="true" value="#{TbEstadosJpaController.tbEstados.hand}"/>
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="País:"/>  
+                    <h:selectOneMenu value="#{TbEstadosJpaController.paisSelecionado}" 
+                                     required="true"
+                                     requiredMessage="Campo País obrigatório!" >  
+                        <f:selectItem itemLabel="Selecione um país"/>  
+                        <f:selectItems value="#{TbPaisesJpaController.paisesLista}" var="pais" 
+                                       itemLabel="#{pais.pais}" 
+                                       itemValue="#{pais.hand}"/>
+                    </h:selectOneMenu>
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Sigla:"/>  
+                    <p:inputText value="#{TbEstadosJpaController.tbEstados.sigla}"
+                                 required="true"
+                                 size="2"
+                                 maxlength="2"
+                                 requiredMessage="Campo Sigla obrigatório!">
+                    </p:inputText>
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Descrição:"/>  
+                    <p:inputText label="Descrição"
+                                 required="true"
+                                 requiredMessage="Campo Descrição obrigatório!" 
+                                 value="#{TbEstadosJpaController.tbEstados.estado}" />  
+                    <br/>
+                </h:panelGrid>  
+                <br/>
+                <p:commandButton value="Salvar" icon="ui-icon-disk" ajax="true" update="mensagem"
+                                 actionListener="#{ TbEstadosJpaController.save() }"/>
+            </p:panel>  
+        </h:form>
+    </h:body>
+</html>
+

@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Cadastro de Pessoas</title>
+
+        <style type="text/css">  
+            .ui-widget {  
+                font-size: 14px !important;  
+            }  
+        </style> 
+
+        <f:metadata>
+            <f:event listener="#{TbPessoaJpaController.findPessoaHand()}" type="preRenderView" />
+        </f:metadata>
+
+    </h:head>    
+    <h:body>
+        <h:form>  
+
+            <p:growl id="mensagem" showDetail="true" sticky="true" /> 
+
+            <p:panel header="Cadastro de Pessoas">  
+
+                <h:panelGrid columns="3">  
+                    <h:outputLabel value="Código:"/>  
+                    <p:inputText disabled="true" value="#{TbPessoaJpaController.tbPessoa.hand}"/>
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Descrição:"/>  
+                    <p:inputText label="Descrição"
+                                 value="#{ TbPaisesJpaController.tbPaises.pais }"
+                                 required="true"
+                                 requiredMessage="Campo Descrição obrigatório!" />  
+                    <br/>
+                </h:panelGrid>  
+                <br/>
+                <p:commandButton value="Salvar" icon="ui-icon-disk" ajax="true" update="mensagem"
+                                 actionListener="#{TbPaisesJpaController.save()}"/>
+            </p:panel>  
+
+        </h:form>
+    </h:body>
+</html>
+
