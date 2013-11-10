@@ -30,8 +30,8 @@ public class TbPaisesJpaController implements Serializable {
     private TbPaises tbPaises;
     private final EntityManagerFactory emf;
     private String mensagem;
-
     private List<TbPaises> paises;
+    private boolean inclusao;
 
     public TbPaisesJpaController() {
         emf = Persistence.createEntityManagerFactory("ProjectManagementSystemPU");
@@ -43,9 +43,9 @@ public class TbPaisesJpaController implements Serializable {
     }
 
     public TbPaises getTbPaises() {
-        tbPaises = findPaisHand();
         if (tbPaises.getHand() == null) {
-            tbPaises.setHand(preparaAlteracao());
+            tbPaises.setHand(preparaInclusao());
+            inclusao = true;
         }
         return tbPaises;
     }
@@ -71,7 +71,7 @@ public class TbPaisesJpaController implements Serializable {
     }
 
     // Método Usado para Popular a Grid de Países
-    public List<TbPaises> getPaisesGrid() {
+    public List<TbPaises> getPaisesLista() {
         paises = findPaises();
         return paises;
     }
@@ -86,6 +86,8 @@ public class TbPaisesJpaController implements Serializable {
 
         if ( !isEmpty(hand)) {
             tbPaises = findTbPaises(Integer.parseInt(hand));
+            this.setTbPaises(tbPaises);
+            inclusao = false;
         }
 
         return tbPaises;
@@ -97,7 +99,7 @@ public class TbPaisesJpaController implements Serializable {
         try {
             //inicia o processo de transacao
             em.getTransaction().begin();
-            if (tbPaises.getHand() == null) {
+            if (tbPaises.getHand() == null || inclusao ) {
                 //faz a persistencia
                 em.persist(tbPaises);
             } else {
@@ -118,8 +120,8 @@ public class TbPaisesJpaController implements Serializable {
     }
 
     public void destroy() throws IllegalOrphanException, NonexistentEntityException {
-        EntityManager em = null;
-        Integer id = null;
+        EntityManager em = getEntityManager();
+        Integer id;
         id = tbPaises.getHand();
 
         try {
@@ -165,7 +167,7 @@ public class TbPaisesJpaController implements Serializable {
         context.addMessage(null, new FacesMessage("Atenção", mensagem));
     }
 
-    public Integer preparaAlteracao() {
+    public Integer preparaInclusao() {
         EntityManager em = getEntityManager();
         Integer proxCod = 0;
         List<TbPaises> listaPaises = new ArrayList<TbPaises>();

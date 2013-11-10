@@ -4,7 +4,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
-        <title>Facelet Title</title>
+        <title>Cadastro de Países</title>
 
         <style type="text/css">  
             .ui-widget {  
@@ -20,7 +20,7 @@
     <h:body>
         <h:form>  
 
-            <p:growl id="growl" showDetail="true"/> 
+            <p:growl id="mensagem" showDetail="true" sticky="true" /> 
 
             <p:panel header="Cadastro de Paises">  
 
@@ -33,12 +33,11 @@
                     <p:inputText label="Descrição"
                                  value="#{ TbPaisesJpaController.tbPaises.pais }"
                                  required="true"
-                                 requiredMessage="Campo Obrigatório" />  
+                                 requiredMessage="Campo Descrição obrigatório!" />  
                     <br/>
                 </h:panelGrid>  
                 <br/>
-
-                <h:commandButton value="Salvar"
+                <p:commandButton value="Salvar" icon="ui-icon-disk" ajax="true" update="mensagem"
                                  actionListener="#{TbPaisesJpaController.save()}"/>
             </p:panel>  
 

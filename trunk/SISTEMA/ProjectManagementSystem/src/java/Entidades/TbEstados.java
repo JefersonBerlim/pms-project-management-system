@@ -46,7 +46,7 @@ public class TbEstados implements Serializable {
     private String sigla;
     @JoinColumn(name = "TB_PAISES_HAND", referencedColumnName = "HAND")
     @ManyToOne(optional = false)
-    private TbPaises tbPaisesHand;
+    public TbPaises tbPaisesHand;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tbEstadosHand")
     private Collection<TbCidades> tbCidadesCollection;
 

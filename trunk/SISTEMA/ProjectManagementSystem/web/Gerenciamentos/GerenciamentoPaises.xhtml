@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Gerenciamento de Países</title>
 
         <style type="text/css">  
             .ui-widget {  
@@ -18,49 +18,52 @@
 
     <h:body>
         <h:form>  
-            <p:panel header="Gerenciamento de Paises">
+            <p:toolbar>
+                <p:toolbarGroup align="left" >
+                    <p:outputLabel value="Cadastro de Paises" />    
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:commandButton value="Incluir" action="/Cadastros/CadastroPaises.xhtml" 
+                                     icon="ui-icon-document" ajax="false"/>                    
+                </p:toolbarGroup>
+            </p:toolbar>
 
-                <p:dataTable var="pais" value="#{TbPaisesJpaController.paisesGrid}"
-                             paginator="true" rows="15"  
-                             paginatorTemplate="{CurrentPageReport}  
-                             {FirstPageLink} 
-                             {PreviousPageLink} 
-                             {PageLinks} 
-                             {NextPageLink} 
-                             {LastPageLink} 
-                             {RowsPerPageDropdown}"  
-                             rowsPerPageTemplate="5,10,15">  
-
-                    <p:column resizable="true" style="width: 5%" filterBy="#{pais.hand}">  
-                        <f:facet name="header">  
-                            <h:outputText value="Código" />
-                        </f:facet>  
-                        <h:outputText value="#{pais.hand}"/>  
-                    </p:column>  
-
-                    <p:column resizable="true" filterBy="#{pais.pais}">  
-                        <f:facet name="header">  
-                            <h:outputText value="Pais" />  
-                        </f:facet>  
-                        <h:outputText value="#{pais.pais}"/>  
-                    </p:column>  
-
-                    <p:column resizable="true" style="width: 18%">  
-                        <f:facet name="header">  
-                            <h:outputText value="Ação" />  
-                        </f:facet>  
-                        <div style="font-size: 10px">
-                            <p:button value="Incluir" outcome="/Cadastros/CadastroPaises.xhtml"/>  
-                            <p:button value="Alterar" outcome="/Cadastros/CadastroPaises.xhtml">  
-                                <f:param name="hand" value="#{ pais.hand }"/>
-                            </p:button> 
-                        </div>
-                    </p:column>  
-
-                </p:dataTable>  
-
-            </p:panel>
-
+            <p:dataTable var="pais" value="#{TbPaisesJpaController.paisesLista}"
+                         paginator="true" rows="15"  
+                         paginatorTemplate="{CurrentPageReport}  
+                         {FirstPageLink} 
+                         {PreviousPageLink} 
+                         {PageLinks} 
+                         {NextPageLink} 
+                         {LastPageLink} 
+                         {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,15">  
+                <p:column resizable="true" style="width: 5%" filterBy="#{pais.hand}">  
+                    <f:facet name="header">  
+                        <h:outputText value="Código" />
+                    </f:facet>  
+                    <h:outputText value="#{pais.hand}"/>  
+                </p:column>  
+                <p:column resizable="true" filterBy="#{pais.pais}">  
+                    <f:facet name="header">  
+                        <h:outputText value="Pais" />  
+                    </f:facet>  
+                    <h:outputText value="#{pais.pais}"/>  
+                </p:column>  
+                <p:column resizable="true" style="width: 16%">  
+                    <f:facet name="header">  
+                        <h:outputText value="Ação" />  
+                    </f:facet>  
+                    <div style="font-size: 10px">
+                        <p:commandButton value="Alterar" action="/Cadastros/CadastroPaises.xhtml" icon="ui-icon-folder-open">
+                            <f:param name="hand" value="#{ pais.hand }"/>
+                        </p:commandButton>
+                        <p:commandButton value="Excluir" action="/Cadastros/CadastroPaises.xhtml" icon="ui-icon-trash">
+                            <f:param name="hand" value="#{ pais.hand }"/>
+                        </p:commandButton>
+                    </div>
+                </p:column>  
+            </p:dataTable>  
         </h:form>  
     </h:body>
 </html>
