@@ -43,6 +43,7 @@
                     <h:outputLabel value="Descrição:"/>  
                     <p:inputText label="Descrição"
                                  required="true"
+                                 maxlength="150" 
                                  requiredMessage="Campo Descrição obrigatório!" 
                                  value="#{TbCidadesJpaController.tbCidades.cidade}" />  
                     <br/>
@@ -50,6 +51,7 @@
                 <br/>
                 <p:commandButton value="Salvar" icon="ui-icon-disk" ajax="true" update="mensagem"
                                  actionListener="#{ TbCidadesJpaController.save() }"/>
+
             </p:panel>  
         </h:form>
     </h:body>
