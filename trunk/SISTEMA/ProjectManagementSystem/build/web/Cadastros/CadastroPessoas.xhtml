@@ -1,0 +1,149 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title>Cadastro de Pessoas</title>
+
+        <style type="text/css">  
+            .ui-widget {  
+                font-size: 14px !important;  
+            }  
+        </style> 
+
+        <f:metadata>
+            <f:event listener="#{TbPessoaJpaController.findPessoaHand()}" type="preRenderView" />
+        </f:metadata>
+
+    </h:head>    
+    <h:body>
+        <h:form>  
+
+            <p:growl id="mensagem" showDetail="true" sticky="true" /> 
+
+            <p:panel header="Cadastro de Pessoas">  
+
+                <h:panelGrid columns="9" >  
+                    <h:outputLabel value="Código:"/>  
+                    <p:inputText disabled="true" value="#{TbPessoaJpaController.tbPessoa.hand}"/>  
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Cidade"/>  
+                    <h:selectOneMenu value="#{ TbPessoaJpaController.cidadeSelecionado }" 
+                                     required="true"
+                                     requiredMessage="Campo Cidade obrigatório!" >  
+                        <f:selectItem itemLabel="Selecione uma Cidade"/>  
+                        <f:selectItems value="#{ TbCidadesJpaController.cidadesLista}" var="cidade" 
+                                       itemLabel="#{cidade.cidade} - #{cidade.tbEstadosHand.sigla}" 
+                                       itemValue="#{cidade.hand}"/>
+                    </h:selectOneMenu>
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Tipo Pessoa"/>  
+                    
+                        <h:selectOneMenu value="#{ TbPessoaJpaController.tipoPessoaSelecionado }" 
+                                         required="true"
+                                         requiredMessage="Campo Tipo Pessoa obrigatório!" >  
+                            <f:selectItem itemLabel="Selecione um Tipo de Pessoa"/>  
+                            <f:selectItems value="#{ TbTipopessoaJpaController.tipoPessoaLista }" var="tipopessoa" 
+                                           itemLabel="#{tipopessoa.descricao}" 
+                                           itemValue="#{tipopessoa.hand}"/>
+                            <p:ajax event="change" update="txtDocumento"/>
+                        </h:selectOneMenu>
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Nome Fantasia"/>  
+                    <p:inputText label="Nome Fantasia"
+                                 required="true"
+                                 maxlength="150" 
+                                 requiredMessage="Campo Nome Fantasia obrigatório!" 
+                                 value="#{ TbPessoaJpaController.tbPessoa.nomeFantasia }" />  
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Razão Social"/>  
+                    <p:inputText label="Razão Social"
+                                 required="true"
+                                 maxlength="150" 
+                                 requiredMessage="Campo Razão Social obrigatório!" 
+                                 value="#{ TbPessoaJpaController.tbPessoa.razaoSocial }" />  
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Telefone"/>  
+                    <p:inputMask label="Telefone"
+                                 required="true"
+                                 requiredMessage="Campo Razão Social obrigatório!" 
+                                 mask="(99) 9999-9999?"
+                                 value="#{ TbPessoaJpaController.tbPessoa.telefone }" /> 
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Endereço"/>  
+                    <p:inputText label="Endereço"
+                                 required="true"
+                                 maxlength="150" 
+                                 requiredMessage="Campo Endereço obrigatório!" 
+                                 value="#{ TbPessoaJpaController.tbPessoa.endereco }" />  
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Número"/>  
+                    <p:inputText label="Número"
+                                 required="true"
+                                 maxlength="10" 
+                                 requiredMessage="Campo Número obrigatório!" 
+                                 value="#{ TbPessoaJpaController.tbPessoa.numero }" />  
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Complemento"/>  
+                    <p:inputText label="Complemento"
+                                 required="true"
+                                 maxlength="50" 
+                                 requiredMessage="Campo Complemento obrigatório!" 
+                                 value="#{ TbPessoaJpaController.tbPessoa.complemento }" />  
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Bairro"/>  
+                    <p:inputText label="Bairro"
+                                 required="true"
+                                 maxlength="50" 
+                                 requiredMessage="Campo Bairro obrigatório!" 
+                                 value="#{ TbPessoaJpaController.tbPessoa.bairro }" />  
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="CPF/CNPJ"/>  
+                    <p:inputMask label="CPF/CNPJ"
+                                 required="true"
+                                 maxlength="18" 
+                                 id="txtDocumento"
+                                 requiredMessage="Campo CPF/CNPJ obrigatório!" 
+                                 mask="#{ TbPessoaJpaController.tipoPessoaSelecionado == 2? '99.999.999/9999-99' : '999.999.999-99'}"
+                                 value="#{ TbPessoaJpaController.tbPessoa.cpfCnpj }" />  
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Endereço Web"/>  
+                    <p:inputText label="Endereço Web"
+                                 maxlength="50" 
+                                 value="#{ TbPessoaJpaController.tbPessoa.enderecoWeb }" />  
+                    <br/>
+                    <br/>
+                    <h:outputLabel value="Observações"/>
+                    <p:inputTextarea value="#{ TbPessoaJpaController.tbPessoa.observacoes }" 
+                                     rows="5" cols="30" maxlength="255" autoResize="false"/> 
+                    <br/>
+                    <br/> 
+                    <h:outputText value="Cliente" />  
+                    <p:selectBooleanCheckbox value="#{ TbPessoaJpaController.ehCliente}"/>
+                    <br/>
+                    <h:outputText value="Fornecedor" />  
+                    <p:selectBooleanCheckbox label="Fornecedor" value="#{ TbPessoaJpaController.ehFornecedor}"/>
+                    <br/>
+                    <h:outputText value="Inativo" />  
+                    <p:selectBooleanCheckbox label="Inativo" value="#{ TbPessoaJpaController.ehInativo }"/>   
+                </h:panelGrid>  
+                <br/>
+                <p:commandButton value="Salvar" icon="ui-icon-disk" ajax="true" update="mensagem"
+                                 actionListener="#{TbPessoaJpaController.save()}"/>               
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
