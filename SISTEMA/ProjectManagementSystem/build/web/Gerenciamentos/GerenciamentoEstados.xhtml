@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Gerenciamento de Estados</title>
+
+        <style type="text/css">  
+            .ui-widget {  
+                font-size: 14px;  
+            }  
+
+        </style> 
+
+    </h:head>
+
+    <h:body>
+        <h:form>  
+            <p:toolbar>
+                <p:toolbarGroup align="left" >
+                    <p:outputLabel value="Cadastro de Estados" />    
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <p:commandButton value="Incluir" action="/Cadastros/CadastroEstados.xhtml" 
+                                     icon="ui-icon-document" ajax="false"/>                    
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable var="estado" value="#{ TbEstadosJpaController.estadosLista}"
+                         paginator="true" rows="15"  
+                         paginatorTemplate="{CurrentPageReport}  
+                         {FirstPageLink} 
+                         {PreviousPageLink} 
+                         {PageLinks} 
+                         {NextPageLink} 
+                         {LastPageLink} 
+                         {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,15">  
+                <p:column resizable="true" style="width: 5%" filterBy="#{estado.hand}">  
+                    <f:facet name="header">  
+                        <h:outputText value="Código" />
+                    </f:facet>  
+                    <h:outputText value="#{estado.hand}"/>  
+                </p:column>
+                <p:column resizable="true" style="width: 5%" filterBy="#{estado.tbPaisesHand.pais}">  
+                    <f:facet name="header">  
+                        <h:outputText value="País" />
+                    </f:facet>  
+                    <h:outputText value="#{estado.tbPaisesHand.pais}"/>  
+                </p:column> 
+                <p:column resizable="true" filterBy="#{estado.estado}">  
+                    <f:facet name="header">  
+                        <h:outputText value="Estado" />  
+                    </f:facet>  
+                    <h:outputText value="#{estado.estado} - #{estado.sigla}"/>  
+                </p:column>  
+
+                <p:column resizable="true" style="width: 16%">  
+                    <f:facet name="header">  
+                        <h:outputText value="Ação" />  
+                    </f:facet>  
+                    <div style="font-size: 10px">
+                        <p:commandButton value="Alterar" action="/Cadastros/CadastroEstados.xhtml" icon="ui-icon-folder-open">
+                            <f:param name="hand" value="#{ estado.hand }"/>
+                        </p:commandButton>
+                        <p:commandButton value="Excluir" action="/Cadastros/CadastroEstados.xhtml" icon="ui-icon-trash">
+                            <f:param name="hand" value="#{ estado.hand }"/>
+                        </p:commandButton>
+                    </div>
+                </p:column>  
+            </p:dataTable>  
+        </h:form>  
+    </h:body>
+</html>
+
