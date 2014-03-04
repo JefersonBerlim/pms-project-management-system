@@ -548,6 +548,26 @@ CREATE TABLE TB_APONTAMENTOS_FUNCIONARIOS (
       REFERENCES TB_APONTAMENTOS_RECURSOS ( HAND )
          ON DELETE NO ACTION
          ON UPDATE NO ACTION ) ;
+         
+         
+-- -----------------------------------------------------
+-- Table TB_MATERIAL_MARCO_SVC
+-- -----------------------------------------------------
+CREATE TABLE TB_MATERIAL_MARCO_SVC (
+  HAND INT NOT NULL ,
+  TB_MATERIAIS_HAND INT NOT NULL ,
+  TB_MARCOS_SERVICOS_HAND INT NOT NULL ,
+  AUTOMATIZA_PROCESSO VARCHAR(1) ,
+  PRIMARY KEY ( HAND ),
+   FOREIGN KEY( TB_MATERIAIS_HAND )
+      REFERENCES TB_MATERIAIS ( HAND )
+         ON DELETE NO ACTION
+         ON UPDATE NO ACTION,
+   FOREIGN KEY( TB_MARCOS_SERVICOS_HAND )
+      REFERENCES TB_MARCOS_SERVICOS ( HAND )
+         ON DELETE NO ACTION
+         ON UPDATE NO ACTION ) ;
+         
 
 -- -----------------------------------------------------
 -- Table TB_OS_MATERIAIS_TOTAL
