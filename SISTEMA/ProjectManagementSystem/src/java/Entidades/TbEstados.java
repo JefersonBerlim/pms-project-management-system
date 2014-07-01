@@ -46,7 +46,6 @@ public class TbEstados implements Serializable {
     private String estado;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 2)
     @Column(name = "SIGLA")
     private String sigla;
     @JoinColumn(name = "TB_PAISES_HAND", referencedColumnName = "HAND")
