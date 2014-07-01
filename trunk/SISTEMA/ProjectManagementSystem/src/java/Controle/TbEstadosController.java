@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -20,6 +21,8 @@ import javax.persistence.Persistence;
 @ViewScoped
 public class TbEstadosController implements Serializable {
 
+    private final TbPaisesController controlePais = new TbPaisesController();
+    
     private EntityManagerFactory emf = null;
     private TbEstados tbEstados;
     private TbPaises tbPaises;
@@ -76,10 +79,10 @@ public class TbEstadosController implements Serializable {
 
     // ************************ Fim Métodos da Classe ***********************
     // ************************ Início Métodos Gerais ***********************
-    public void create( boolean ehAlteracao) throws PreexistingEntityException, Exception {
+    public void create(boolean ehAlteracao) throws PreexistingEntityException, Exception {
         EntityManager em = null;
-        TbPaisesController controle = new TbPaisesController();
-        tbPaises = controle.findTbPaises(handPais);
+        
+        tbPaises = controlePais.findTbPaises(handPais);
         tbEstados.setTbPaisesHand(tbPaises);
         try {
             em = getEntityManager();
@@ -116,7 +119,6 @@ public class TbEstadosController implements Serializable {
 
     public List<TbPaises> listaPaises() {
         List<TbPaises> lista = new ArrayList<>();
-        TbPaisesController controlePais = new TbPaisesController();
 
         lista = controlePais.TbPaisesfindAll();
         return lista;
