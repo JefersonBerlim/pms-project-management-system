@@ -2,6 +2,7 @@ package Controle;
 
 import Controle.exceptions.PreexistingEntityException;
 import Entidades.TbPaises;
+import Utilitarios.Mensagens;
 
 import java.io.Serializable;
 import java.util.List;
@@ -54,10 +55,10 @@ public class TbPaisesController implements Serializable {
             }
 
             em.getTransaction().commit();
-            this.mensagemGravacao();
+            Mensagens.mensagemGravacao();
 
         } catch (Exception ex) {
-            this.mensagemErroGravacao();
+            Mensagens.mensagemErroGravacao();
             throw ex;
         } finally {
             if (em != null) {
@@ -80,16 +81,6 @@ public class TbPaisesController implements Serializable {
         EntityManager em = getEntityManager();
         Query pais = em.createNamedQuery("TbPaises.findAll");
         return pais.getResultList();
-    }
-
-    public void mensagemGravacao() {
-        FacesMessage mensagem = new FacesMessage(" País salvo com sucesso! ");
-        FacesContext.getCurrentInstance().addMessage(null, mensagem);
-    }
-
-    public void mensagemErroGravacao() {
-        FacesMessage mensagem = new FacesMessage(" Problemas ao gravar o registro! ");
-        FacesContext.getCurrentInstance().addMessage(null, mensagem);
     }
 
 }
