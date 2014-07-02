@@ -3,26 +3,26 @@ package Controle;
 import Controle.exceptions.PreexistingEntityException;
 import Entidades.TbEstados;
 import Entidades.TbPaises;
+import Utilitarios.Mensagens;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 @Named("tbEstadosController")
 @ViewScoped
 public class TbEstadosController implements Serializable {
 
     private final TbPaisesController controlePais = new TbPaisesController();
-    
+
     private EntityManagerFactory emf = null;
     private TbEstados tbEstados;
     private TbPaises tbPaises;
@@ -32,8 +32,8 @@ public class TbEstadosController implements Serializable {
     // ************************ Início Métodos da Classe ***********************
     public TbEstadosController() {
         this.emf = Persistence.createEntityManagerFactory("ProjectManagementSystemPU");
-        this.tbEstados = new TbEstados();
-        this.tbPaises = new TbPaises();
+        tbEstados = new TbEstados();
+        tbPaises = new TbPaises();
     }
 
     @PostConstruct
@@ -81,7 +81,7 @@ public class TbEstadosController implements Serializable {
     // ************************ Início Métodos Gerais ***********************
     public void create(boolean ehAlteracao) throws PreexistingEntityException, Exception {
         EntityManager em = null;
-        
+
         tbPaises = controlePais.findTbPaises(handPais);
         tbEstados.setTbPaisesHand(tbPaises);
         try {
@@ -95,10 +95,10 @@ public class TbEstadosController implements Serializable {
             }
 
             em.getTransaction().commit();
-            this.mensagemGravacao();
+            Mensagens.mensagemGravacao();
 
         } catch (Exception ex) {
-            this.mensagemErroGravacao();
+            Mensagens.mensagemErroGravacao();
             throw ex;
         } finally {
             if (em != null) {
@@ -107,20 +107,25 @@ public class TbEstadosController implements Serializable {
         }
     }
 
-    public void mensagemGravacao() {
-        FacesMessage mensagem = new FacesMessage(" Estado salvo com sucesso! ");
-        FacesContext.getCurrentInstance().addMessage(null, mensagem);
-    }
-
-    public void mensagemErroGravacao() {
-        FacesMessage mensagem = new FacesMessage(" Problemas ao gravar o registro! ");
-        FacesContext.getCurrentInstance().addMessage(null, mensagem);
-    }
-
     public List<TbPaises> listaPaises() {
-        List<TbPaises> lista = new ArrayList<>();
+        List<TbPaises> lista;
 
         lista = controlePais.TbPaisesfindAll();
         return lista;
+    }
+
+    public List<TbEstados> TbEstadosfindAll() {
+        EntityManager em = getEntityManager();
+        Query estado = em.createNamedQuery("TbEstados.findAll");
+        return estado.getResultList();
+    }
+
+    public TbEstados findEstados(Integer id) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(TbEstados.class, id);
+        } finally {
+            em.close();
+        }
     }
 }
