@@ -23,6 +23,7 @@ import java.util.Collection;
 import Model.TbOrdemServico;
 import Model.TbProjetos;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
@@ -31,6 +32,7 @@ import javax.transaction.UserTransaction;
  *
  * @author BERLIM
  */
+@ManagedBean
 public class TbProjetosJpaController implements Serializable {
 
     public TbProjetosJpaController(UserTransaction utx, EntityManagerFactory emf) {

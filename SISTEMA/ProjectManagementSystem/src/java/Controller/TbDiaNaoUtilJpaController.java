@@ -11,6 +11,7 @@ import Controller.exceptions.RollbackFailureException;
 import Model.TbDiaNaoUtil;
 import java.io.Serializable;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -23,6 +24,7 @@ import javax.transaction.UserTransaction;
  *
  * @author BERLIM
  */
+@ManagedBean
 public class TbDiaNaoUtilJpaController implements Serializable {
 
     public TbDiaNaoUtilJpaController(UserTransaction utx, EntityManagerFactory emf) {

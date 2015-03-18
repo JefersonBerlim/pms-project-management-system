@@ -18,6 +18,7 @@ import Model.TbFuncionarios;
 import Model.TbMateriais;
 import Model.TbOsServico;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
@@ -26,6 +27,7 @@ import javax.transaction.UserTransaction;
  *
  * @author BERLIM
  */
+@ManagedBean
 public class TbApontamentosMateriaisJpaController implements Serializable {
 
     public TbApontamentosMateriaisJpaController(UserTransaction utx, EntityManagerFactory emf) {

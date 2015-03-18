@@ -22,6 +22,7 @@ import Model.TbProjetosRecursos;
 import Model.TbRecursos;
 import Model.TbRecursosServicos;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
@@ -30,6 +31,7 @@ import javax.transaction.UserTransaction;
  *
  * @author BERLIM
  */
+@ManagedBean
 public class TbRecursosJpaController implements Serializable {
 
     public TbRecursosJpaController(UserTransaction utx, EntityManagerFactory emf) {

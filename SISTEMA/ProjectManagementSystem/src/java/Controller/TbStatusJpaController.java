@@ -20,6 +20,7 @@ import java.util.Collection;
 import Model.TbProjetos;
 import Model.TbStatus;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
@@ -28,6 +29,7 @@ import javax.transaction.UserTransaction;
  *
  * @author BERLIM
  */
+@ManagedBean
 public class TbStatusJpaController implements Serializable {
 
     public TbStatusJpaController(UserTransaction utx, EntityManagerFactory emf) {

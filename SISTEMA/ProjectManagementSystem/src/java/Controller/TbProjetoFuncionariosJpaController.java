@@ -21,6 +21,7 @@ import Model.TbProjetoFuncionarios;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
@@ -29,6 +30,7 @@ import javax.transaction.UserTransaction;
  *
  * @author BERLIM
  */
+@ManagedBean
 public class TbProjetoFuncionariosJpaController implements Serializable {
 
     public TbProjetoFuncionariosJpaController(UserTransaction utx, EntityManagerFactory emf) {

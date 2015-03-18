@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import Model.TbApontamentosRecursos;
 import Model.TbFuncionarios;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
@@ -25,6 +26,7 @@ import javax.transaction.UserTransaction;
  *
  * @author BERLIM
  */
+@ManagedBean
 public class TbApontamentosFuncionariosJpaController implements Serializable {
 
     public TbApontamentosFuncionariosJpaController(UserTransaction utx, EntityManagerFactory emf) {

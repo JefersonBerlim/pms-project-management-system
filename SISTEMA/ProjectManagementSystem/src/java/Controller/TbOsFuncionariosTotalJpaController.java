@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import Model.TbOsRecursosTotal;
 import Model.TbProjetoFuncionarios;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
@@ -25,6 +26,7 @@ import javax.transaction.UserTransaction;
  *
  * @author BERLIM
  */
+@ManagedBean
 public class TbOsFuncionariosTotalJpaController implements Serializable {
 
     public TbOsFuncionariosTotalJpaController(UserTransaction utx, EntityManagerFactory emf) {
