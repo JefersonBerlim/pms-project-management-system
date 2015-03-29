@@ -2,6 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/GitHub/pms-project-management-system/SISTEMA/ProjectManagementSystem/web/index.xhtml</file>
+            <file>file:/C:/GitHub/pms-project-management-system/SISTEMA/ProjectManagementSystem/src/java/Contoladores/TbPaisesJpaController.java</file>
+            <file>file:/C:/GitHub/pms-project-management-system/SISTEMA/ProjectManagementSystem/web/Cadastros/CadPais.xhtml</file>
+            <file>file:/C:/GitHub/pms-project-management-system/SISTEMA/ProjectManagementSystem/src/java/Modelos/TbPaises.java</file>
+        </group>
     </open-files>
 </project-private>
