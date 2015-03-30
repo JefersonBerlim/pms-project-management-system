@@ -22,8 +22,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,14 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_PROJETO_MARCOS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbProjetoMarcos.findAll", query = "SELECT t FROM TbProjetoMarcos t"),
-    @NamedQuery(name = "TbProjetoMarcos.findByHand", query = "SELECT t FROM TbProjetoMarcos t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbProjetoMarcos.findByDataInicio", query = "SELECT t FROM TbProjetoMarcos t WHERE t.dataInicio = :dataInicio"),
-    @NamedQuery(name = "TbProjetoMarcos.findByHoraInicio", query = "SELECT t FROM TbProjetoMarcos t WHERE t.horaInicio = :horaInicio"),
-    @NamedQuery(name = "TbProjetoMarcos.findByDataFim", query = "SELECT t FROM TbProjetoMarcos t WHERE t.dataFim = :dataFim"),
-    @NamedQuery(name = "TbProjetoMarcos.findByHoraFim", query = "SELECT t FROM TbProjetoMarcos t WHERE t.horaFim = :horaFim")})
+    @NamedQuery(name = "TbProjetoMarcos.findAll", query = "SELECT t FROM TbProjetoMarcos t")})
 public class TbProjetoMarcos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -114,7 +106,6 @@ public class TbProjetoMarcos implements Serializable {
         this.horaFim = horaFim;
     }
 
-    @XmlTransient
     public Collection<TbProjetosServicos> getTbProjetosServicosCollection() {
         return tbProjetosServicosCollection;
     }

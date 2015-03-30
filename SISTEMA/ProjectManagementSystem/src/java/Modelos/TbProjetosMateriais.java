@@ -21,8 +21,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,12 +28,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_PROJETOS_MATERIAIS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbProjetosMateriais.findAll", query = "SELECT t FROM TbProjetosMateriais t"),
-    @NamedQuery(name = "TbProjetosMateriais.findByHand", query = "SELECT t FROM TbProjetosMateriais t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbProjetosMateriais.findByQuantidade", query = "SELECT t FROM TbProjetosMateriais t WHERE t.quantidade = :quantidade"),
-    @NamedQuery(name = "TbProjetosMateriais.findByInformacaoComplementar", query = "SELECT t FROM TbProjetosMateriais t WHERE t.informacaoComplementar = :informacaoComplementar")})
+    @NamedQuery(name = "TbProjetosMateriais.findAll", query = "SELECT t FROM TbProjetosMateriais t")})
 public class TbProjetosMateriais implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -105,7 +99,6 @@ public class TbProjetosMateriais implements Serializable {
         this.tbMateriaisHand = tbMateriaisHand;
     }
 
-    @XmlTransient
     public Collection<TbOsMateriaisTotal> getTbOsMateriaisTotalCollection() {
         return tbOsMateriaisTotalCollection;
     }

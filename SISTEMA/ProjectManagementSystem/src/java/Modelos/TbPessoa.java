@@ -20,8 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,23 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_PESSOA")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbPessoa.findAll", query = "SELECT t FROM TbPessoa t"),
-    @NamedQuery(name = "TbPessoa.findByHand", query = "SELECT t FROM TbPessoa t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbPessoa.findByNomeFantasia", query = "SELECT t FROM TbPessoa t WHERE t.nomeFantasia = :nomeFantasia"),
-    @NamedQuery(name = "TbPessoa.findByRazaoSocial", query = "SELECT t FROM TbPessoa t WHERE t.razaoSocial = :razaoSocial"),
-    @NamedQuery(name = "TbPessoa.findByTelefone", query = "SELECT t FROM TbPessoa t WHERE t.telefone = :telefone"),
-    @NamedQuery(name = "TbPessoa.findByEndereco", query = "SELECT t FROM TbPessoa t WHERE t.endereco = :endereco"),
-    @NamedQuery(name = "TbPessoa.findByNumero", query = "SELECT t FROM TbPessoa t WHERE t.numero = :numero"),
-    @NamedQuery(name = "TbPessoa.findByComplemento", query = "SELECT t FROM TbPessoa t WHERE t.complemento = :complemento"),
-    @NamedQuery(name = "TbPessoa.findByBairro", query = "SELECT t FROM TbPessoa t WHERE t.bairro = :bairro"),
-    @NamedQuery(name = "TbPessoa.findByCpfCnpj", query = "SELECT t FROM TbPessoa t WHERE t.cpfCnpj = :cpfCnpj"),
-    @NamedQuery(name = "TbPessoa.findByEhfornecedor", query = "SELECT t FROM TbPessoa t WHERE t.ehfornecedor = :ehfornecedor"),
-    @NamedQuery(name = "TbPessoa.findByEhcliente", query = "SELECT t FROM TbPessoa t WHERE t.ehcliente = :ehcliente"),
-    @NamedQuery(name = "TbPessoa.findByObservacoes", query = "SELECT t FROM TbPessoa t WHERE t.observacoes = :observacoes"),
-    @NamedQuery(name = "TbPessoa.findByEnderecoWeb", query = "SELECT t FROM TbPessoa t WHERE t.enderecoWeb = :enderecoWeb"),
-    @NamedQuery(name = "TbPessoa.findByEhInativo", query = "SELECT t FROM TbPessoa t WHERE t.ehInativo = :ehInativo")})
+    @NamedQuery(name = "TbPessoa.findAll", query = "SELECT t FROM TbPessoa t")})
 public class TbPessoa implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -246,7 +229,6 @@ public class TbPessoa implements Serializable {
         this.tbCidadesHand = tbCidadesHand;
     }
 
-    @XmlTransient
     public Collection<TbProjetos> getTbProjetosCollection() {
         return tbProjetosCollection;
     }

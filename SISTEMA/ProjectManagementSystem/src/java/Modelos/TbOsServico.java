@@ -19,8 +19,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,10 +26,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_OS_SERVICO")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbOsServico.findAll", query = "SELECT t FROM TbOsServico t"),
-    @NamedQuery(name = "TbOsServico.findByHand", query = "SELECT t FROM TbOsServico t WHERE t.hand = :hand")})
+    @NamedQuery(name = "TbOsServico.findAll", query = "SELECT t FROM TbOsServico t")})
 public class TbOsServico implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -72,7 +68,6 @@ public class TbOsServico implements Serializable {
         this.hand = hand;
     }
 
-    @XmlTransient
     public Collection<TbApontamentosRecursos> getTbApontamentosRecursosCollection() {
         return tbApontamentosRecursosCollection;
     }
@@ -105,7 +100,6 @@ public class TbOsServico implements Serializable {
         this.tbOrdemServicoHand = tbOrdemServicoHand;
     }
 
-    @XmlTransient
     public Collection<TbApontamentosMateriais> getTbApontamentosMateriaisCollection() {
         return tbApontamentosMateriaisCollection;
     }
@@ -114,7 +108,6 @@ public class TbOsServico implements Serializable {
         this.tbApontamentosMateriaisCollection = tbApontamentosMateriaisCollection;
     }
 
-    @XmlTransient
     public Collection<TbOsRecursosTotal> getTbOsRecursosTotalCollection() {
         return tbOsRecursosTotalCollection;
     }
@@ -123,7 +116,6 @@ public class TbOsServico implements Serializable {
         this.tbOsRecursosTotalCollection = tbOsRecursosTotalCollection;
     }
 
-    @XmlTransient
     public Collection<TbOsMateriaisTotal> getTbOsMateriaisTotalCollection() {
         return tbOsMateriaisTotalCollection;
     }

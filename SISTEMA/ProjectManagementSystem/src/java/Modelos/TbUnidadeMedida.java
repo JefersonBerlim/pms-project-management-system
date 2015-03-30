@@ -18,8 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,12 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_UNIDADE_MEDIDA")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbUnidadeMedida.findAll", query = "SELECT t FROM TbUnidadeMedida t"),
-    @NamedQuery(name = "TbUnidadeMedida.findByHand", query = "SELECT t FROM TbUnidadeMedida t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbUnidadeMedida.findBySigla", query = "SELECT t FROM TbUnidadeMedida t WHERE t.sigla = :sigla"),
-    @NamedQuery(name = "TbUnidadeMedida.findByDescricao", query = "SELECT t FROM TbUnidadeMedida t WHERE t.descricao = :descricao")})
+    @NamedQuery(name = "TbUnidadeMedida.findAll", query = "SELECT t FROM TbUnidadeMedida t")})
 public class TbUnidadeMedida implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -80,7 +74,6 @@ public class TbUnidadeMedida implements Serializable {
         this.descricao = descricao;
     }
 
-    @XmlTransient
     public Collection<TbMateriais> getTbMateriaisCollection() {
         return tbMateriaisCollection;
     }

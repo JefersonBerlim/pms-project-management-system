@@ -15,7 +15,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -23,12 +22,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "TB_USUARIO")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbUsuario.findAll", query = "SELECT t FROM TbUsuario t"),
-    @NamedQuery(name = "TbUsuario.findByHand", query = "SELECT t FROM TbUsuario t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbUsuario.findByNome", query = "SELECT t FROM TbUsuario t WHERE t.nome = :nome"),
-    @NamedQuery(name = "TbUsuario.findBySenha", query = "SELECT t FROM TbUsuario t WHERE t.senha = :senha")})
+    @NamedQuery(name = "TbUsuario.findAll", query = "SELECT t FROM TbUsuario t")})
 public class TbUsuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

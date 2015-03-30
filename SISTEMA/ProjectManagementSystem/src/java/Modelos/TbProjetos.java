@@ -24,8 +24,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,24 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_PROJETOS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbProjetos.findAll", query = "SELECT t FROM TbProjetos t"),
-    @NamedQuery(name = "TbProjetos.findByHand", query = "SELECT t FROM TbProjetos t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbProjetos.findByVersaoProjeto", query = "SELECT t FROM TbProjetos t WHERE t.versaoProjeto = :versaoProjeto"),
-    @NamedQuery(name = "TbProjetos.findByDecsricao", query = "SELECT t FROM TbProjetos t WHERE t.decsricao = :decsricao"),
-    @NamedQuery(name = "TbProjetos.findByDataAbertura", query = "SELECT t FROM TbProjetos t WHERE t.dataAbertura = :dataAbertura"),
-    @NamedQuery(name = "TbProjetos.findByHoraAbertura", query = "SELECT t FROM TbProjetos t WHERE t.horaAbertura = :horaAbertura"),
-    @NamedQuery(name = "TbProjetos.findByDataInicio", query = "SELECT t FROM TbProjetos t WHERE t.dataInicio = :dataInicio"),
-    @NamedQuery(name = "TbProjetos.findByHoraInicio", query = "SELECT t FROM TbProjetos t WHERE t.horaInicio = :horaInicio"),
-    @NamedQuery(name = "TbProjetos.findByDataFim", query = "SELECT t FROM TbProjetos t WHERE t.dataFim = :dataFim"),
-    @NamedQuery(name = "TbProjetos.findByHoraFim", query = "SELECT t FROM TbProjetos t WHERE t.horaFim = :horaFim"),
-    @NamedQuery(name = "TbProjetos.findByDataFechamento", query = "SELECT t FROM TbProjetos t WHERE t.dataFechamento = :dataFechamento"),
-    @NamedQuery(name = "TbProjetos.findByHoraFechamento", query = "SELECT t FROM TbProjetos t WHERE t.horaFechamento = :horaFechamento"),
-    @NamedQuery(name = "TbProjetos.findByQtdHoras", query = "SELECT t FROM TbProjetos t WHERE t.qtdHoras = :qtdHoras"),
-    @NamedQuery(name = "TbProjetos.findByDataCriacao", query = "SELECT t FROM TbProjetos t WHERE t.dataCriacao = :dataCriacao"),
-    @NamedQuery(name = "TbProjetos.findByHoraCriacao", query = "SELECT t FROM TbProjetos t WHERE t.horaCriacao = :horaCriacao"),
-    @NamedQuery(name = "TbProjetos.findByEhInativo", query = "SELECT t FROM TbProjetos t WHERE t.ehInativo = :ehInativo")})
+    @NamedQuery(name = "TbProjetos.findAll", query = "SELECT t FROM TbProjetos t")})
 public class TbProjetos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -248,7 +230,6 @@ public class TbProjetos implements Serializable {
         this.ehInativo = ehInativo;
     }
 
-    @XmlTransient
     public Collection<TbOrdemServico> getTbOrdemServicoCollection() {
         return tbOrdemServicoCollection;
     }
@@ -257,7 +238,6 @@ public class TbProjetos implements Serializable {
         this.tbOrdemServicoCollection = tbOrdemServicoCollection;
     }
 
-    @XmlTransient
     public Collection<TbProjetoMarcos> getTbProjetoMarcosCollection() {
         return tbProjetoMarcosCollection;
     }

@@ -20,8 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,11 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_CIDADES")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbCidades.findAll", query = "SELECT t FROM TbCidades t"),
-    @NamedQuery(name = "TbCidades.findByHand", query = "SELECT t FROM TbCidades t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbCidades.findByCidade", query = "SELECT t FROM TbCidades t WHERE t.cidade = :cidade")})
+    @NamedQuery(name = "TbCidades.findAll", query = "SELECT t FROM TbCidades t")})
 public class TbCidades implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -80,7 +75,6 @@ public class TbCidades implements Serializable {
         this.cidade = cidade;
     }
 
-    @XmlTransient
     public Collection<TbPessoa> getTbPessoaCollection() {
         return tbPessoaCollection;
     }

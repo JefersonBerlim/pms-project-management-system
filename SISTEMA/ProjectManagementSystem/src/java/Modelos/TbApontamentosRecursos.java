@@ -19,8 +19,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,10 +26,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_APONTAMENTOS_RECURSOS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbApontamentosRecursos.findAll", query = "SELECT t FROM TbApontamentosRecursos t"),
-    @NamedQuery(name = "TbApontamentosRecursos.findByHand", query = "SELECT t FROM TbApontamentosRecursos t WHERE t.hand = :hand")})
+    @NamedQuery(name = "TbApontamentosRecursos.findAll", query = "SELECT t FROM TbApontamentosRecursos t")})
 public class TbApontamentosRecursos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -63,7 +59,6 @@ public class TbApontamentosRecursos implements Serializable {
         this.hand = hand;
     }
 
-    @XmlTransient
     public Collection<TbApontamentosFuncionarios> getTbApontamentosFuncionariosCollection() {
         return tbApontamentosFuncionariosCollection;
     }

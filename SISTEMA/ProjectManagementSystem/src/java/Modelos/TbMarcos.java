@@ -18,8 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,12 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_MARCOS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbMarcos.findAll", query = "SELECT t FROM TbMarcos t"),
-    @NamedQuery(name = "TbMarcos.findByHand", query = "SELECT t FROM TbMarcos t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbMarcos.findByDescricao", query = "SELECT t FROM TbMarcos t WHERE t.descricao = :descricao"),
-    @NamedQuery(name = "TbMarcos.findByEhInativo", query = "SELECT t FROM TbMarcos t WHERE t.ehInativo = :ehInativo")})
+    @NamedQuery(name = "TbMarcos.findAll", query = "SELECT t FROM TbMarcos t")})
 public class TbMarcos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -82,7 +76,6 @@ public class TbMarcos implements Serializable {
         this.ehInativo = ehInativo;
     }
 
-    @XmlTransient
     public Collection<TbMarcosServicos> getTbMarcosServicosCollection() {
         return tbMarcosServicosCollection;
     }
@@ -91,7 +84,6 @@ public class TbMarcos implements Serializable {
         this.tbMarcosServicosCollection = tbMarcosServicosCollection;
     }
 
-    @XmlTransient
     public Collection<TbProjetoMarcos> getTbProjetoMarcosCollection() {
         return tbProjetoMarcosCollection;
     }

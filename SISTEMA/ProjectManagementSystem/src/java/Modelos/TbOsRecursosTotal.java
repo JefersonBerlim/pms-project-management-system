@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package Modelos;
 
 import java.io.Serializable;
@@ -20,8 +21,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,11 +28,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_OS_RECURSOS_TOTAL")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbOsRecursosTotal.findAll", query = "SELECT t FROM TbOsRecursosTotal t"),
-    @NamedQuery(name = "TbOsRecursosTotal.findByHand", query = "SELECT t FROM TbOsRecursosTotal t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbOsRecursosTotal.findByQuantidadeHoras", query = "SELECT t FROM TbOsRecursosTotal t WHERE t.quantidadeHoras = :quantidadeHoras")})
+    @NamedQuery(name = "TbOsRecursosTotal.findAll", query = "SELECT t FROM TbOsRecursosTotal t")})
 public class TbOsRecursosTotal implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -76,7 +72,6 @@ public class TbOsRecursosTotal implements Serializable {
         this.quantidadeHoras = quantidadeHoras;
     }
 
-    @XmlTransient
     public Collection<TbOsFuncionariosTotal> getTbOsFuncionariosTotalCollection() {
         return tbOsFuncionariosTotalCollection;
     }
@@ -125,5 +120,5 @@ public class TbOsRecursosTotal implements Serializable {
     public String toString() {
         return "Modelos.TbOsRecursosTotal[ hand=" + hand + " ]";
     }
-    
+
 }

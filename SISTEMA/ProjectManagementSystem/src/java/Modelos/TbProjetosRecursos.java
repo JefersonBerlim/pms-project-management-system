@@ -20,8 +20,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,11 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_PROJETOS_RECURSOS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbProjetosRecursos.findAll", query = "SELECT t FROM TbProjetosRecursos t"),
-    @NamedQuery(name = "TbProjetosRecursos.findByHand", query = "SELECT t FROM TbProjetosRecursos t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbProjetosRecursos.findByQuantidadeHoras", query = "SELECT t FROM TbProjetosRecursos t WHERE t.quantidadeHoras = :quantidadeHoras")})
+    @NamedQuery(name = "TbProjetosRecursos.findAll", query = "SELECT t FROM TbProjetosRecursos t")})
 public class TbProjetosRecursos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -94,7 +89,6 @@ public class TbProjetosRecursos implements Serializable {
         this.tbProjetosServicosHand = tbProjetosServicosHand;
     }
 
-    @XmlTransient
     public Collection<TbProjetoFuncionarios> getTbProjetoFuncionariosCollection() {
         return tbProjetoFuncionariosCollection;
     }
@@ -103,7 +97,6 @@ public class TbProjetosRecursos implements Serializable {
         this.tbProjetoFuncionariosCollection = tbProjetoFuncionariosCollection;
     }
 
-    @XmlTransient
     public Collection<TbOsRecursosTotal> getTbOsRecursosTotalCollection() {
         return tbOsRecursosTotalCollection;
     }

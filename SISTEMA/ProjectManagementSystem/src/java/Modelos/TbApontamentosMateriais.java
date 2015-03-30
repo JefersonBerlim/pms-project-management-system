@@ -17,7 +17,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -25,11 +24,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "TB_APONTAMENTOS_MATERIAIS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbApontamentosMateriais.findAll", query = "SELECT t FROM TbApontamentosMateriais t"),
-    @NamedQuery(name = "TbApontamentosMateriais.findByHand", query = "SELECT t FROM TbApontamentosMateriais t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbApontamentosMateriais.findByQuantidaeUtilizada", query = "SELECT t FROM TbApontamentosMateriais t WHERE t.quantidaeUtilizada = :quantidaeUtilizada")})
+    @NamedQuery(name = "TbApontamentosMateriais.findAll", query = "SELECT t FROM TbApontamentosMateriais t")})
 public class TbApontamentosMateriais implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

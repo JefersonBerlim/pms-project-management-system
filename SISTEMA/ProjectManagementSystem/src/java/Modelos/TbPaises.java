@@ -18,8 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,11 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_PAISES")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbPaises.findAll", query = "SELECT t FROM TbPaises t"),
-    @NamedQuery(name = "TbPaises.findByHand", query = "SELECT t FROM TbPaises t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbPaises.findByPais", query = "SELECT t FROM TbPaises t WHERE t.pais = :pais")})
+    @NamedQuery(name = "TbPaises.findAll", query = "SELECT t FROM TbPaises t")})
 public class TbPaises implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -75,7 +70,6 @@ public class TbPaises implements Serializable {
         this.pais = pais;
     }
 
-    @XmlTransient
     public Collection<TbEstados> getTbEstadosCollection() {
         return tbEstadosCollection;
     }
@@ -106,7 +100,7 @@ public class TbPaises implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelos.TbPaises[ hand=" + hand + " ]";
+        return getPais();
     }
     
 }

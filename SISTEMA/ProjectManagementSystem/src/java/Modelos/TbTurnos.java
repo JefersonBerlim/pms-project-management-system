@@ -21,8 +21,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,15 +28,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_TURNOS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbTurnos.findAll", query = "SELECT t FROM TbTurnos t"),
-    @NamedQuery(name = "TbTurnos.findByHand", query = "SELECT t FROM TbTurnos t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbTurnos.findByDescricao", query = "SELECT t FROM TbTurnos t WHERE t.descricao = :descricao"),
-    @NamedQuery(name = "TbTurnos.findByHorarioInicial", query = "SELECT t FROM TbTurnos t WHERE t.horarioInicial = :horarioInicial"),
-    @NamedQuery(name = "TbTurnos.findByHorarioFinal", query = "SELECT t FROM TbTurnos t WHERE t.horarioFinal = :horarioFinal"),
-    @NamedQuery(name = "TbTurnos.findByAlmocoInicio", query = "SELECT t FROM TbTurnos t WHERE t.almocoInicio = :almocoInicio"),
-    @NamedQuery(name = "TbTurnos.findByAlmocoFim", query = "SELECT t FROM TbTurnos t WHERE t.almocoFim = :almocoFim")})
+    @NamedQuery(name = "TbTurnos.findAll", query = "SELECT t FROM TbTurnos t")})
 public class TbTurnos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -126,7 +117,6 @@ public class TbTurnos implements Serializable {
         this.almocoFim = almocoFim;
     }
 
-    @XmlTransient
     public Collection<TbFuncionarioTurnoSemana> getTbFuncionarioTurnoSemanaCollection() {
         return tbFuncionarioTurnoSemanaCollection;
     }

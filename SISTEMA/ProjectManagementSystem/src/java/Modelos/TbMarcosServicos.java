@@ -20,8 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,11 +27,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_MARCOS_SERVICOS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbMarcosServicos.findAll", query = "SELECT t FROM TbMarcosServicos t"),
-    @NamedQuery(name = "TbMarcosServicos.findByHand", query = "SELECT t FROM TbMarcosServicos t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbMarcosServicos.findByAutomatizaProcesso", query = "SELECT t FROM TbMarcosServicos t WHERE t.automatizaProcesso = :automatizaProcesso")})
+    @NamedQuery(name = "TbMarcosServicos.findAll", query = "SELECT t FROM TbMarcosServicos t")})
 public class TbMarcosServicos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -92,7 +87,6 @@ public class TbMarcosServicos implements Serializable {
         this.tbMarcosHand = tbMarcosHand;
     }
 
-    @XmlTransient
     public Collection<TbMaterialMarcoSvc> getTbMaterialMarcoSvcCollection() {
         return tbMaterialMarcoSvcCollection;
     }

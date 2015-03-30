@@ -20,7 +20,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -28,15 +27,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "TB_APONTAMENTOS_FUNCIONARIOS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbApontamentosFuncionarios.findAll", query = "SELECT t FROM TbApontamentosFuncionarios t"),
-    @NamedQuery(name = "TbApontamentosFuncionarios.findByHand", query = "SELECT t FROM TbApontamentosFuncionarios t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbApontamentosFuncionarios.findByDataInicio", query = "SELECT t FROM TbApontamentosFuncionarios t WHERE t.dataInicio = :dataInicio"),
-    @NamedQuery(name = "TbApontamentosFuncionarios.findByDataFim", query = "SELECT t FROM TbApontamentosFuncionarios t WHERE t.dataFim = :dataFim"),
-    @NamedQuery(name = "TbApontamentosFuncionarios.findByHoraInicio", query = "SELECT t FROM TbApontamentosFuncionarios t WHERE t.horaInicio = :horaInicio"),
-    @NamedQuery(name = "TbApontamentosFuncionarios.findByHoraFim", query = "SELECT t FROM TbApontamentosFuncionarios t WHERE t.horaFim = :horaFim"),
-    @NamedQuery(name = "TbApontamentosFuncionarios.findByFinalizaApontamento", query = "SELECT t FROM TbApontamentosFuncionarios t WHERE t.finalizaApontamento = :finalizaApontamento")})
+    @NamedQuery(name = "TbApontamentosFuncionarios.findAll", query = "SELECT t FROM TbApontamentosFuncionarios t")})
 public class TbApontamentosFuncionarios implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

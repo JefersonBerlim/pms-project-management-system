@@ -19,8 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,14 +26,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_RECURSOS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbRecursos.findAll", query = "SELECT t FROM TbRecursos t"),
-    @NamedQuery(name = "TbRecursos.findByHand", query = "SELECT t FROM TbRecursos t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbRecursos.findByDescricao", query = "SELECT t FROM TbRecursos t WHERE t.descricao = :descricao"),
-    @NamedQuery(name = "TbRecursos.findByValorHora", query = "SELECT t FROM TbRecursos t WHERE t.valorHora = :valorHora"),
-    @NamedQuery(name = "TbRecursos.findByEhInativo", query = "SELECT t FROM TbRecursos t WHERE t.ehInativo = :ehInativo"),
-    @NamedQuery(name = "TbRecursos.findByFuncionarioSimultaneo", query = "SELECT t FROM TbRecursos t WHERE t.funcionarioSimultaneo = :funcionarioSimultaneo")})
+    @NamedQuery(name = "TbRecursos.findAll", query = "SELECT t FROM TbRecursos t")})
 public class TbRecursos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -111,7 +103,6 @@ public class TbRecursos implements Serializable {
         this.funcionarioSimultaneo = funcionarioSimultaneo;
     }
 
-    @XmlTransient
     public Collection<TbProjetosRecursos> getTbProjetosRecursosCollection() {
         return tbProjetosRecursosCollection;
     }
@@ -120,7 +111,6 @@ public class TbRecursos implements Serializable {
         this.tbProjetosRecursosCollection = tbProjetosRecursosCollection;
     }
 
-    @XmlTransient
     public Collection<TbRecursosServicos> getTbRecursosServicosCollection() {
         return tbRecursosServicosCollection;
     }
@@ -129,7 +119,6 @@ public class TbRecursos implements Serializable {
         this.tbRecursosServicosCollection = tbRecursosServicosCollection;
     }
 
-    @XmlTransient
     public Collection<TbApontamentosRecursos> getTbApontamentosRecursosCollection() {
         return tbApontamentosRecursosCollection;
     }
@@ -138,7 +127,6 @@ public class TbRecursos implements Serializable {
         this.tbApontamentosRecursosCollection = tbApontamentosRecursosCollection;
     }
 
-    @XmlTransient
     public Collection<TbFuncionariosRecursos> getTbFuncionariosRecursosCollection() {
         return tbFuncionariosRecursosCollection;
     }

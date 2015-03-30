@@ -19,7 +19,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -27,21 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "TB_PARAMETROS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbParametros.findAll", query = "SELECT t FROM TbParametros t"),
-    @NamedQuery(name = "TbParametros.findByHand", query = "SELECT t FROM TbParametros t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbParametros.findByHoraInicioNoturno", query = "SELECT t FROM TbParametros t WHERE t.horaInicioNoturno = :horaInicioNoturno"),
-    @NamedQuery(name = "TbParametros.findByHoraFimNoturno", query = "SELECT t FROM TbParametros t WHERE t.horaFimNoturno = :horaFimNoturno"),
-    @NamedQuery(name = "TbParametros.findByPercentAdicionalNoturno", query = "SELECT t FROM TbParametros t WHERE t.percentAdicionalNoturno = :percentAdicionalNoturno"),
-    @NamedQuery(name = "TbParametros.findByPercentHrExtraNoturna", query = "SELECT t FROM TbParametros t WHERE t.percentHrExtraNoturna = :percentHrExtraNoturna"),
-    @NamedQuery(name = "TbParametros.findByPercentHrExtraDiurna", query = "SELECT t FROM TbParametros t WHERE t.percentHrExtraDiurna = :percentHrExtraDiurna"),
-    @NamedQuery(name = "TbParametros.findByPrefixoVersao", query = "SELECT t FROM TbParametros t WHERE t.prefixoVersao = :prefixoVersao"),
-    @NamedQuery(name = "TbParametros.findByPrefixoOrdemServico", query = "SELECT t FROM TbParametros t WHERE t.prefixoOrdemServico = :prefixoOrdemServico"),
-    @NamedQuery(name = "TbParametros.findByPrefixoProjeto", query = "SELECT t FROM TbParametros t WHERE t.prefixoProjeto = :prefixoProjeto"),
-    @NamedQuery(name = "TbParametros.findBySequenciaOs", query = "SELECT t FROM TbParametros t WHERE t.sequenciaOs = :sequenciaOs"),
-    @NamedQuery(name = "TbParametros.findBySequenciaVersao", query = "SELECT t FROM TbParametros t WHERE t.sequenciaVersao = :sequenciaVersao"),
-    @NamedQuery(name = "TbParametros.findBySequenciaProjeto", query = "SELECT t FROM TbParametros t WHERE t.sequenciaProjeto = :sequenciaProjeto")})
+    @NamedQuery(name = "TbParametros.findAll", query = "SELECT t FROM TbParametros t")})
 public class TbParametros implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

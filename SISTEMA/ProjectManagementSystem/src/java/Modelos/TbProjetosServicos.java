@@ -24,8 +24,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,17 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_PROJETOS_SERVICOS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbProjetosServicos.findAll", query = "SELECT t FROM TbProjetosServicos t"),
-    @NamedQuery(name = "TbProjetosServicos.findByHand", query = "SELECT t FROM TbProjetosServicos t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbProjetosServicos.findByDataInicio", query = "SELECT t FROM TbProjetosServicos t WHERE t.dataInicio = :dataInicio"),
-    @NamedQuery(name = "TbProjetosServicos.findByHoraInicio", query = "SELECT t FROM TbProjetosServicos t WHERE t.horaInicio = :horaInicio"),
-    @NamedQuery(name = "TbProjetosServicos.findByDataFim", query = "SELECT t FROM TbProjetosServicos t WHERE t.dataFim = :dataFim"),
-    @NamedQuery(name = "TbProjetosServicos.findByHoraFim", query = "SELECT t FROM TbProjetosServicos t WHERE t.horaFim = :horaFim"),
-    @NamedQuery(name = "TbProjetosServicos.findByObservacao", query = "SELECT t FROM TbProjetosServicos t WHERE t.observacao = :observacao"),
-    @NamedQuery(name = "TbProjetosServicos.findByArquivos", query = "SELECT t FROM TbProjetosServicos t WHERE t.arquivos = :arquivos"),
-    @NamedQuery(name = "TbProjetosServicos.findByQtdHoras", query = "SELECT t FROM TbProjetosServicos t WHERE t.qtdHoras = :qtdHoras")})
+    @NamedQuery(name = "TbProjetosServicos.findAll", query = "SELECT t FROM TbProjetosServicos t")})
 public class TbProjetosServicos implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -159,7 +148,6 @@ public class TbProjetosServicos implements Serializable {
         this.qtdHoras = qtdHoras;
     }
 
-    @XmlTransient
     public Collection<TbProjetosRecursos> getTbProjetosRecursosCollection() {
         return tbProjetosRecursosCollection;
     }
@@ -192,7 +180,6 @@ public class TbProjetosServicos implements Serializable {
         this.tbProjetoMarcosHand = tbProjetoMarcosHand;
     }
 
-    @XmlTransient
     public Collection<TbOsServico> getTbOsServicoCollection() {
         return tbOsServicoCollection;
     }
@@ -201,7 +188,6 @@ public class TbProjetosServicos implements Serializable {
         this.tbOsServicoCollection = tbOsServicoCollection;
     }
 
-    @XmlTransient
     public Collection<TbProjetosMateriais> getTbProjetosMateriaisCollection() {
         return tbProjetosMateriaisCollection;
     }

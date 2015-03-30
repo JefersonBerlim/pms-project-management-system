@@ -18,8 +18,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,12 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_STATUS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbStatus.findAll", query = "SELECT t FROM TbStatus t"),
-    @NamedQuery(name = "TbStatus.findByHand", query = "SELECT t FROM TbStatus t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbStatus.findByStatus", query = "SELECT t FROM TbStatus t WHERE t.status = :status"),
-    @NamedQuery(name = "TbStatus.findByDescricao", query = "SELECT t FROM TbStatus t WHERE t.descricao = :descricao")})
+    @NamedQuery(name = "TbStatus.findAll", query = "SELECT t FROM TbStatus t")})
 public class TbStatus implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -92,7 +86,6 @@ public class TbStatus implements Serializable {
         this.descricao = descricao;
     }
 
-    @XmlTransient
     public Collection<TbOsServico> getTbOsServicoCollection() {
         return tbOsServicoCollection;
     }
@@ -101,7 +94,6 @@ public class TbStatus implements Serializable {
         this.tbOsServicoCollection = tbOsServicoCollection;
     }
 
-    @XmlTransient
     public Collection<TbProjetos> getTbProjetosCollection() {
         return tbProjetosCollection;
     }

@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Contoladores;
+package Controladores;
 
-import Contoladores.exceptions.IllegalOrphanException;
-import Contoladores.exceptions.NonexistentEntityException;
-import Contoladores.exceptions.RollbackFailureException;
+import Controladores.exceptions.IllegalOrphanException;
+import Controladores.exceptions.NonexistentEntityException;
+import Controladores.exceptions.PreexistingEntityException;
+import Controladores.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -18,7 +19,7 @@ import Modelos.TbPaises;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import javax.annotation.ManagedBean;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -32,6 +33,7 @@ public class TbPaisesJpaController implements Serializable {
 
     private EntityManagerFactory emf = null;
     private EntityManager em = null;
+    public TbPaises tbPais;
 
     public TbPaisesJpaController() {
         emf = Persistence.createEntityManagerFactory("ProjectManagementSystemPU");
@@ -41,7 +43,15 @@ public class TbPaisesJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(TbPaises tbPaises) throws Exception {
+    public TbPaises getTbPais() {
+        return tbPais;
+    }
+
+    public void setTbPais(TbPaises tbPais) {
+        this.tbPais = tbPais;
+    }
+
+    public void create(TbPaises tbPaises) throws PreexistingEntityException, RollbackFailureException, Exception {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -51,9 +61,11 @@ public class TbPaisesJpaController implements Serializable {
             } else {
                 em.merge(tbPaises);
             }
+
             em.getTransaction().commit();
+
         } catch (Exception ex) {
-            em.getTransaction().rollback();
+            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -62,23 +74,24 @@ public class TbPaisesJpaController implements Serializable {
     }
 
     public void remove(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+
         try {
-            em = getEntityManager();
             em.getTransaction().begin();
+            em = getEntityManager();
             TbPaises tbPaises;
             try {
                 tbPaises = em.getReference(TbPaises.class, id);
                 tbPaises.getHand();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("Este pais não existe mais!", enfe);
+                throw new NonexistentEntityException("Este registro não existe.", enfe);
             }
             List<String> illegalOrphanMessages = null;
             Collection<TbEstados> tbEstadosCollectionOrphanCheck = tbPaises.getTbEstadosCollection();
             for (TbEstados tbEstadosCollectionOrphanCheckTbEstados : tbEstadosCollectionOrphanCheck) {
                 if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<>();
+                    illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("Este país (" + tbPaises.toString() + ") não pode ser excluída pois está sendo usado no estado " + tbEstadosCollectionOrphanCheckTbEstados.getEstado() + ".");
+                illegalOrphanMessages.add("O País (" + tbPaises + ") não pode ser excluído pois esta sendo usado no estado " + tbEstadosCollectionOrphanCheckTbEstados.getEstado() + ".");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -89,7 +102,7 @@ public class TbPaisesJpaController implements Serializable {
             try {
                 em.getTransaction().rollback();
             } catch (Exception re) {
-                throw new RollbackFailureException("Ocorreu um erro ao tentar reverter a transação.", re);
+                throw new RollbackFailureException("Um erro ocorreu ao tentar rverter a transação.", re);
             }
             throw ex;
         } finally {
@@ -100,7 +113,7 @@ public class TbPaisesJpaController implements Serializable {
     }
 
     public TbPaises findTbPaises(Integer id) {
-
+        EntityManager em = getEntityManager();
         try {
             return em.find(TbPaises.class, id);
         } finally {
@@ -109,6 +122,7 @@ public class TbPaisesJpaController implements Serializable {
     }
 
     public int getTbPaisesCount() {
+        EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<TbPaises> rt = cq.from(TbPaises.class);

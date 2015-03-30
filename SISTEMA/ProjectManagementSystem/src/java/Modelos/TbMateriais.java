@@ -21,8 +21,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,14 +28,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_MATERIAIS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbMateriais.findAll", query = "SELECT t FROM TbMateriais t"),
-    @NamedQuery(name = "TbMateriais.findByHand", query = "SELECT t FROM TbMateriais t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbMateriais.findByDescricao", query = "SELECT t FROM TbMateriais t WHERE t.descricao = :descricao"),
-    @NamedQuery(name = "TbMateriais.findByObservacao", query = "SELECT t FROM TbMateriais t WHERE t.observacao = :observacao"),
-    @NamedQuery(name = "TbMateriais.findByValor", query = "SELECT t FROM TbMateriais t WHERE t.valor = :valor"),
-    @NamedQuery(name = "TbMateriais.findByEhInativo", query = "SELECT t FROM TbMateriais t WHERE t.ehInativo = :ehInativo")})
+    @NamedQuery(name = "TbMateriais.findAll", query = "SELECT t FROM TbMateriais t")})
 public class TbMateriais implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -116,7 +108,6 @@ public class TbMateriais implements Serializable {
         this.ehInativo = ehInativo;
     }
 
-    @XmlTransient
     public Collection<TbMaterialMarcoSvc> getTbMaterialMarcoSvcCollection() {
         return tbMaterialMarcoSvcCollection;
     }
@@ -125,7 +116,6 @@ public class TbMateriais implements Serializable {
         this.tbMaterialMarcoSvcCollection = tbMaterialMarcoSvcCollection;
     }
 
-    @XmlTransient
     public Collection<TbApontamentosMateriais> getTbApontamentosMateriaisCollection() {
         return tbApontamentosMateriaisCollection;
     }
@@ -142,7 +132,6 @@ public class TbMateriais implements Serializable {
         this.tbUnidadeMedidaHand = tbUnidadeMedidaHand;
     }
 
-    @XmlTransient
     public Collection<TbProjetosMateriais> getTbProjetosMateriaisCollection() {
         return tbProjetosMateriaisCollection;
     }
@@ -151,7 +140,6 @@ public class TbMateriais implements Serializable {
         this.tbProjetosMateriaisCollection = tbProjetosMateriaisCollection;
     }
 
-    @XmlTransient
     public Collection<TbOsMateriaisTotal> getTbOsMateriaisTotalCollection() {
         return tbOsMateriaisTotalCollection;
     }

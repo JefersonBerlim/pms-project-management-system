@@ -22,8 +22,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,22 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "TB_FUNCIONARIOS")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TbFuncionarios.findAll", query = "SELECT t FROM TbFuncionarios t"),
-    @NamedQuery(name = "TbFuncionarios.findByHand", query = "SELECT t FROM TbFuncionarios t WHERE t.hand = :hand"),
-    @NamedQuery(name = "TbFuncionarios.findByNome", query = "SELECT t FROM TbFuncionarios t WHERE t.nome = :nome"),
-    @NamedQuery(name = "TbFuncionarios.findByNumeroMatricula", query = "SELECT t FROM TbFuncionarios t WHERE t.numeroMatricula = :numeroMatricula"),
-    @NamedQuery(name = "TbFuncionarios.findByDataAdmissao", query = "SELECT t FROM TbFuncionarios t WHERE t.dataAdmissao = :dataAdmissao"),
-    @NamedQuery(name = "TbFuncionarios.findByCpf", query = "SELECT t FROM TbFuncionarios t WHERE t.cpf = :cpf"),
-    @NamedQuery(name = "TbFuncionarios.findByTelefone", query = "SELECT t FROM TbFuncionarios t WHERE t.telefone = :telefone"),
-    @NamedQuery(name = "TbFuncionarios.findByTelefone2", query = "SELECT t FROM TbFuncionarios t WHERE t.telefone2 = :telefone2"),
-    @NamedQuery(name = "TbFuncionarios.findByValorHora", query = "SELECT t FROM TbFuncionarios t WHERE t.valorHora = :valorHora"),
-    @NamedQuery(name = "TbFuncionarios.findByNumeroIdentidade", query = "SELECT t FROM TbFuncionarios t WHERE t.numeroIdentidade = :numeroIdentidade"),
-    @NamedQuery(name = "TbFuncionarios.findByEmail", query = "SELECT t FROM TbFuncionarios t WHERE t.email = :email"),
-    @NamedQuery(name = "TbFuncionarios.findByDataNascimento", query = "SELECT t FROM TbFuncionarios t WHERE t.dataNascimento = :dataNascimento"),
-    @NamedQuery(name = "TbFuncionarios.findByEhPlanejador", query = "SELECT t FROM TbFuncionarios t WHERE t.ehPlanejador = :ehPlanejador"),
-    @NamedQuery(name = "TbFuncionarios.findByEhInativo", query = "SELECT t FROM TbFuncionarios t WHERE t.ehInativo = :ehInativo")})
+    @NamedQuery(name = "TbFuncionarios.findAll", query = "SELECT t FROM TbFuncionarios t")})
 public class TbFuncionarios implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -215,7 +199,6 @@ public class TbFuncionarios implements Serializable {
         this.ehInativo = ehInativo;
     }
 
-    @XmlTransient
     public Collection<TbApontamentosFuncionarios> getTbApontamentosFuncionariosCollection() {
         return tbApontamentosFuncionariosCollection;
     }
@@ -224,7 +207,6 @@ public class TbFuncionarios implements Serializable {
         this.tbApontamentosFuncionariosCollection = tbApontamentosFuncionariosCollection;
     }
 
-    @XmlTransient
     public Collection<TbProjetoFuncionarios> getTbProjetoFuncionariosCollection() {
         return tbProjetoFuncionariosCollection;
     }
@@ -233,7 +215,6 @@ public class TbFuncionarios implements Serializable {
         this.tbProjetoFuncionariosCollection = tbProjetoFuncionariosCollection;
     }
 
-    @XmlTransient
     public Collection<TbApontamentosMateriais> getTbApontamentosMateriaisCollection() {
         return tbApontamentosMateriaisCollection;
     }
@@ -242,7 +223,6 @@ public class TbFuncionarios implements Serializable {
         this.tbApontamentosMateriaisCollection = tbApontamentosMateriaisCollection;
     }
 
-    @XmlTransient
     public Collection<TbProjetos> getTbProjetosCollection() {
         return tbProjetosCollection;
     }
@@ -251,7 +231,6 @@ public class TbFuncionarios implements Serializable {
         this.tbProjetosCollection = tbProjetosCollection;
     }
 
-    @XmlTransient
     public Collection<TbFuncionariosRecursos> getTbFuncionariosRecursosCollection() {
         return tbFuncionariosRecursosCollection;
     }
@@ -260,7 +239,6 @@ public class TbFuncionarios implements Serializable {
         this.tbFuncionariosRecursosCollection = tbFuncionariosRecursosCollection;
     }
 
-    @XmlTransient
     public Collection<TbFuncionarioTurnoSemana> getTbFuncionarioTurnoSemanaCollection() {
         return tbFuncionarioTurnoSemanaCollection;
     }
