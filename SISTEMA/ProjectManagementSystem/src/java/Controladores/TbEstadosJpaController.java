@@ -14,9 +14,11 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import Modelos.TbEstados;
 import Modelos.TbPaises;
+import Modelos.TbCidades;
+import Modelos.TbEstados;
 import Utilitarios.Util;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +26,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.FacesConverter;
+import javax.persistence.Converter;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -34,13 +38,15 @@ import javax.persistence.Persistence;
  */
 @ManagedBean
 @ViewScoped
-public class TbPaisesJpaController implements Serializable {
+public class TbEstadosJpaController implements Serializable {
 
     private EntityManagerFactory emf = null;
     private EntityManager em = null;
-    private TbPaises tbPais = new TbPaises();
+    private TbEstados tbEstado = new TbEstados();
 
-    public TbPaisesJpaController() {
+    private List<TbPaises> listTbPaises = new ArrayList<>();
+
+    public TbEstadosJpaController() {
         emf = Persistence.createEntityManagerFactory("ProjectManagementSystemPU");
     }
 
@@ -48,12 +54,21 @@ public class TbPaisesJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public TbPaises getTbPais() {
-        return tbPais;
+    public TbEstados getTbEstado() {
+        return tbEstado;
     }
 
-    public void setTbPais(TbPaises tbPais) {
-        this.tbPais = tbPais;
+    public void setTbEstado(TbEstados tbEstado) {
+        this.tbEstado = tbEstado;
+    }
+
+    public List<TbPaises> getListTbPaises() {
+
+        List<TbPaises> pais = new ArrayList<>();
+        TbPaisesJpaController controle = new TbPaisesJpaController();
+        this.listTbPaises = controle.retornaCollectionPaises();
+
+        return listTbPaises;
     }
 
     public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
@@ -61,14 +76,14 @@ public class TbPaisesJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            if (this.tbPais.getHand() == null) {
+            if (this.tbEstado.getHand() == null) {
                 Util utilitarios = new Util();
-                this.tbPais.setHand(utilitarios.contadorObjetos("TbPaises"));
-                em.persist(this.tbPais);
+                this.tbEstado.setHand(utilitarios.contadorObjetos("TbEstado"));
+                em.persist(this.tbEstado);
                 FacesMessage fm = new FacesMessage("Registro salvo com sucesso!");
                 FacesContext.getCurrentInstance().addMessage(null, fm);
             } else {
-                em.merge(this.tbPais);
+                em.merge(this.tbEstado);
                 FacesMessage fm = new FacesMessage("Registro atualizado com sucesso!");
                 FacesContext.getCurrentInstance().addMessage(null, fm);
             }
@@ -86,30 +101,35 @@ public class TbPaisesJpaController implements Serializable {
         }
     }
 
-    public void remove(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
 
         try {
             em.getTransaction().begin();
             em = getEntityManager();
-            TbPaises tbPaises;
+            TbEstados tbEstados;
             try {
-                tbPaises = em.getReference(TbPaises.class, id);
-                tbPaises.getHand();
+                tbEstados = em.getReference(TbEstados.class, id);
+                tbEstados.getHand();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("Este registro não existe.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<TbEstados> tbEstadosCollectionOrphanCheck = tbPaises.getTbEstadosCollection();
-            for (TbEstados tbEstadosCollectionOrphanCheckTbEstados : tbEstadosCollectionOrphanCheck) {
+            Collection<TbCidades> tbCidadesCollectionOrphanCheck = tbEstados.getTbCidadesCollection();
+            for (TbCidades tbCidadesCollectionOrphanCheckTbCidades : tbCidadesCollectionOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<>();
                 }
-                illegalOrphanMessages.add("O País (" + tbPaises + ") não pode ser excluído pois esta sendo usado no Estado " + tbEstadosCollectionOrphanCheckTbEstados.getEstado() + ".");
+                illegalOrphanMessages.add("O Estado (" + tbEstado + ") não pode ser excluído pois esta sendo usado na Cidade " + tbCidadesCollectionOrphanCheckTbCidades.getCidade() + ".");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            em.remove(tbPaises);
+            TbPaises tbPaisesHand = tbEstados.getTbPaisesHand();
+            if (tbPaisesHand != null) {
+                tbPaisesHand.getTbEstadosCollection().remove(tbEstados);
+                tbPaisesHand = em.merge(tbPaisesHand);
+            }
+            em.remove(tbEstados);
             em.getTransaction().commit();
         } catch (NonexistentEntityException | IllegalOrphanException ex) {
             try {
@@ -125,32 +145,24 @@ public class TbPaisesJpaController implements Serializable {
         }
     }
 
-    public TbPaises findTbPaises(Integer id) {
+    public TbEstados findTbEstados(Integer id) {
         try {
-            return em.find(TbPaises.class, id);
+            return em.find(TbEstados.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getTbPaisesCount() {
+    public int getTbEstadosCount() {
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<TbPaises> rt = cq.from(TbPaises.class);
+            Root<TbEstados> rt = cq.from(TbEstados.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
         }
-    }
-
-    public List<TbPaises> retornaCollectionPaises() {
-
-        em = getEntityManager();
-        Query query = em.createNamedQuery("TbPaises.findAll");        
-        return query.getResultList();
-
     }
 
 }
