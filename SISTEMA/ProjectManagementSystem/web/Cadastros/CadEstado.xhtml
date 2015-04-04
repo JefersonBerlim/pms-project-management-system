@@ -21,7 +21,9 @@
                         itemLabel="Selecione um País"/>                        
 
                     <f:selectItems
-                        value ="${tbEstadosJpaController.listTbPaises}"/>
+                        value ="${tbEstadosJpaController.listTbPaises}"
+                        var="pais"
+                        itemLabel="${pais.pais}"/>
 
                 </h:selectOneMenu>
 
