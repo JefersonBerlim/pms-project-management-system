@@ -12,7 +12,6 @@
             <h:panelGrid columns ="2">
                 <h:outputLabel value="País: " for="pais"/>
                 <h:selectOneMenu 
-                    id="pais"
                     value="${tbEstadosJpaController.tbEstado.tbPaisesHand}"
                     required="true"
                     requiredMessage="O campo País é obrigatório!"
@@ -22,10 +21,7 @@
                         itemLabel="Selecione um País"/>                        
 
                     <f:selectItems
-                        var="pais"
-                        value ="${tbEstadosJpaController.listTbPaises}"
-                        itemValue ="${pais.hand}"
-                        itemLabel ="${pais.pais}"/>
+                        value ="${tbEstadosJpaController.listTbPaises}"/>
 
                 </h:selectOneMenu>
 

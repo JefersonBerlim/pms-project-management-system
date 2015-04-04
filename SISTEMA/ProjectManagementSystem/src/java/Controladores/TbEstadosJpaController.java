@@ -18,7 +18,6 @@ import Modelos.TbPaises;
 import Modelos.TbCidades;
 import Modelos.TbEstados;
 import Utilitarios.Util;
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,8 +25,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.FacesConverter;
-import javax.persistence.Converter;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -78,7 +75,7 @@ public class TbEstadosJpaController implements Serializable {
 
             if (this.tbEstado.getHand() == null) {
                 Util utilitarios = new Util();
-                this.tbEstado.setHand(utilitarios.contadorObjetos("TbEstado"));
+                this.tbEstado.setHand(utilitarios.contadorObjetos("TbEstados"));
                 em.persist(this.tbEstado);
                 FacesMessage fm = new FacesMessage("Registro salvo com sucesso!");
                 FacesContext.getCurrentInstance().addMessage(null, fm);
