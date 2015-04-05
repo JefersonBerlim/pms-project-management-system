@@ -35,14 +35,15 @@
                 <p:inputText id="estado"
                              required="true" 
                              requiredMessage = "O campo Estado é origatório!"
+                             maxlength="150"
                              value="${tbEstadosJpaController.tbEstado.estado}"/>
 
                 <p:outputLabel value="Sigla " for="sigla"/>
                 <p:inputText id="sigla"
                              required="true" 
                              requiredMessage = "O campo Sigla é origatório!"
-                             value="${tbEstadosJpaController.tbEstado.sigla}"
-                             maxlength="2"/>
+                             maxlength="2"
+                             value="${tbEstadosJpaController.tbEstado.sigla}"/>
 
                 <p:commandButton value="Gravar"                                 
                                  icon="ui-icon-disk" 

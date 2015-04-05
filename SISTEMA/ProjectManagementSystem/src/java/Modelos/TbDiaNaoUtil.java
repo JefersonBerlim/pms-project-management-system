@@ -27,6 +27,7 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "TbDiaNaoUtil.findAll", query = "SELECT t FROM TbDiaNaoUtil t")})
 public class TbDiaNaoUtil implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -84,5 +85,5 @@ public class TbDiaNaoUtil implements Serializable {
     public String toString() {
         return "Modelos.TbDiaNaoUtil[ hand=" + hand + " ]";
     }
-    
+
 }

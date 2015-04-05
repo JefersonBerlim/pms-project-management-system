@@ -27,6 +27,7 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "TbOsMateriaisTotal.findAll", query = "SELECT t FROM TbOsMateriaisTotal t")})
 public class TbOsMateriaisTotal implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -117,5 +118,5 @@ public class TbOsMateriaisTotal implements Serializable {
     public String toString() {
         return "Modelos.TbOsMateriaisTotal[ hand=" + hand + " ]";
     }
-    
+
 }

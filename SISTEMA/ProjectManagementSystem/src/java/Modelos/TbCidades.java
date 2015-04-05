@@ -30,6 +30,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "TbCidades.findAll", query = "SELECT t FROM TbCidades t")})
 public class TbCidades implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -115,5 +116,5 @@ public class TbCidades implements Serializable {
     public String toString() {
         return getCidade();
     }
-    
+
 }

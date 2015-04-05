@@ -27,6 +27,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "TbFuncionariosRecursos.findAll", query = "SELECT t FROM TbFuncionariosRecursos t")})
 public class TbFuncionariosRecursos implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -106,5 +107,5 @@ public class TbFuncionariosRecursos implements Serializable {
     public String toString() {
         return "Modelos.TbFuncionariosRecursos[ hand=" + hand + " ]";
     }
-    
+
 }

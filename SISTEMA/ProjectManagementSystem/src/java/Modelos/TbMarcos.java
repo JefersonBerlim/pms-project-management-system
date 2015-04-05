@@ -28,6 +28,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "TbMarcos.findAll", query = "SELECT t FROM TbMarcos t")})
 public class TbMarcos implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -116,5 +117,5 @@ public class TbMarcos implements Serializable {
     public String toString() {
         return "Modelos.TbMarcos[ hand=" + hand + " ]";
     }
-    
+
 }

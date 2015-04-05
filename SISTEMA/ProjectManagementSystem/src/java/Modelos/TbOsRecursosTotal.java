@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Modelos;
 
 import java.io.Serializable;
@@ -31,6 +30,7 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "TbOsRecursosTotal.findAll", query = "SELECT t FROM TbOsRecursosTotal t")})
 public class TbOsRecursosTotal implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)

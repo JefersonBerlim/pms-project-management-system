@@ -64,8 +64,8 @@ public class TbPaisesJpaController implements Serializable {
             if (this.tbPais.getHand() == null) {
                 Util utilitarios = new Util();
                 this.tbPais.setHand(utilitarios.contadorObjetos("TbPaises"));
-                em.persist(this.tbPais);               
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));                
+                em.persist(this.tbPais);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
             } else {
                 em.merge(this.tbPais);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
@@ -101,7 +101,7 @@ public class TbPaisesJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<>();
                 }
-                illegalOrphanMessages.add("O País (" + tbPaises + ") não pode ser excluído pois esta sendo usado no Estado " + tbEstadosCollectionOrphanCheckTbEstados.getEstado() + ".");                
+                illegalOrphanMessages.add("O País (" + tbPaises + ") não pode ser excluído pois esta sendo usado no Estado " + tbEstadosCollectionOrphanCheckTbEstados.getEstado() + ".");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
@@ -123,6 +123,7 @@ public class TbPaisesJpaController implements Serializable {
     }
 
     public TbPaises findTbPaises(Integer id) {
+        em = getEntityManager();
         try {
             return em.find(TbPaises.class, id);
         } finally {
@@ -131,6 +132,7 @@ public class TbPaisesJpaController implements Serializable {
     }
 
     public int getTbPaisesCount() {
+        em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<TbPaises> rt = cq.from(TbPaises.class);

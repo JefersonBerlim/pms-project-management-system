@@ -7,9 +7,9 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        
+
         <title>Cadastro de Cidades</title>
-        
+
     </h:head>
 
     <h:body>
@@ -18,25 +18,11 @@
 
             <h:panelGrid columns ="2">
 
-                <p:outputLabel value="Estado: " for="estado"/>
-                <p:selectOneMenu 
-                    id="estado"
-                    value="${tbCidadesJpaController.tbCidade.tbEstadosHand}"
-                    required="true"
-                    requiredMessage="O campo Estado é obrigatório!"
-                    converter="tbEstadoConverter">
-                    <f:selectItem
-                        itemLabel="Selecione um Estado"/>                        
-                    <f:selectItems
-                        value ="${tbCidadesJpaController.listTbEstados}"
-                        var="estado"
-                        itemLabel="${estado.estado}, ${estado.sigla} - ${estado.tbPaisesHand.pais}"/>
-                </p:selectOneMenu>
-
                 <p:outputLabel value="Cidade: " for="cidade"/>
                 <p:inputText id="cidade"
                              required="true" 
                              requiredMessage = "O campo Cidade é origatório!"
+                             maxlength="150"
                              value="${tbCidadesJpaController.tbCidade.cidade}"/>
 
                 <p:commandButton value="Gravar"                                 

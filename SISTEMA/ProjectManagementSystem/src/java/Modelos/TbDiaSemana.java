@@ -28,6 +28,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "TbDiaSemana.findAll", query = "SELECT t FROM TbDiaSemana t")})
 public class TbDiaSemana implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -102,5 +103,5 @@ public class TbDiaSemana implements Serializable {
     public String toString() {
         return "Modelos.TbDiaSemana[ hand=" + hand + " ]";
     }
-    
+
 }

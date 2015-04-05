@@ -16,7 +16,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import Modelos.TbEstados;
-import Modelos.TbPaises;
 import Modelos.TbPessoa;
 import Utilitarios.Util;
 import java.util.ArrayList;
@@ -142,7 +141,7 @@ public class TbCidadesJpaController implements Serializable {
     }
 
     public TbCidades findTbCidades(Integer id) {
-        EntityManager em = getEntityManager();
+        em = getEntityManager();
         try {
             return em.find(TbCidades.class, id);
         } finally {
@@ -151,7 +150,7 @@ public class TbCidadesJpaController implements Serializable {
     }
 
     public int getTbCidadesCount() {
-        EntityManager em = getEntityManager();
+        em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<TbCidades> rt = cq.from(TbCidades.class);
@@ -164,7 +163,6 @@ public class TbCidadesJpaController implements Serializable {
     }
 
     public List<TbCidades> retornaCollectionCidades() {
-
         em = getEntityManager();
         Query query = em.createNamedQuery("TbCidades.findAll");
         return query.getResultList();

@@ -30,6 +30,7 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "TbProjetosRecursos.findAll", query = "SELECT t FROM TbProjetosRecursos t")})
 public class TbProjetosRecursos implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -129,5 +130,5 @@ public class TbProjetosRecursos implements Serializable {
     public String toString() {
         return "Modelos.TbProjetosRecursos[ hand=" + hand + " ]";
     }
-    
+
 }

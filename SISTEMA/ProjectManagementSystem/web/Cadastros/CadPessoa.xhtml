@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+
+        <title>Cadastro de Pessoas</title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <h:panelGrid columns ="4">
+
+                <p:outputLabel value="Cidade " for="cidade"/>
+                <p:selectOneMenu 
+                    id="cidade"
+                    value="${tbPessoaJpaController.tbPessoa.tbCidadesHand}"
+                    required="true"
+                    requiredMessage="O campo Cidade é obrigatório!"
+                    converter="tbCidadeConverter">
+                    <f:selectItem
+                        itemLabel="Selecione uma Cidade"/>                        
+                    <f:selectItems
+                        value ="${tbPessoaJpaController.listTbCidades}"
+                        var="cidade"
+                        itemLabel="${cidade.cidade}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Tipo Pessoa " for="tipoPessoa"/>
+                <p:selectOneMenu 
+                    id="tipoPessoa"
+                    value="${tbPessoaJpaController.tbPessoa.tbTipopessoaHand}"
+                    required="true"
+                    requiredMessage="O campo Tipo Pessoa é obrigatório!"
+                    converter="tbTipoPessoaConverter">
+                    <f:selectItem
+                        itemLabel="Selecione um Tipo de Pessoa"/>                        
+                    <f:selectItems
+                        value ="${tbPessoaJpaController.listTbTipoPessoa}"
+                        var="tppessoa"
+                        itemLabel="${tppessoa.descricao}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Razão Social" for="razao"/>
+                <p:inputText id="razao"
+                             required="true"
+                             requiredMessage = "O campo Razão Social é origatório!"
+                             maxlength="150"
+                             value="${tbPessoaJpaController.tbPessoa.razaoSocial}"/>
+
+                <p:outputLabel value="Nome Fantasia" for="nome"/>
+                <p:inputText id="nome"
+                             maxlength="150"
+                             value="${tbPessoaJpaController.tbPessoa.nomeFantasia}"/>
+
+            </h:panelGrid>
+
+        </h:form>
+
+    </h:body>
+
+</html>
+
