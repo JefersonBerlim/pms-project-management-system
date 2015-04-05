@@ -1,21 +1,26 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f ="http://java.sun.com/jsf/core">
-    
+      xmlns:ui="http://java.sun.com/jsf/facelets"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
     <h:head>
-        <title>Cadastro de Cidades</title>
-    </h:head>
-    
-    <h:body>
         
+        <title>Cadastro de Cidades</title>
+        
+    </h:head>
+
+    <h:body>
+
         <h:form>
 
             <h:panelGrid columns ="2">
-                
-                <h:outputLabel value="Estado: " for="estado"/>
-                <h:selectOneMenu 
+
+                <p:outputLabel value="Estado: " for="estado"/>
+                <p:selectOneMenu 
+                    id="estado"
                     value="${tbCidadesJpaController.tbCidade.tbEstadosHand}"
                     required="true"
                     requiredMessage="O campo Estado é obrigatório!"
@@ -26,23 +31,26 @@
                         value ="${tbCidadesJpaController.listTbEstados}"
                         var="estado"
                         itemLabel="${estado.estado}, ${estado.sigla} - ${estado.tbPaisesHand.pais}"/>
-                </h:selectOneMenu>
+                </p:selectOneMenu>
 
-                <h:outputLabel value="Cidade: " for="cidade"/>
-                <h:inputText id="cidade"
+                <p:outputLabel value="Cidade: " for="cidade"/>
+                <p:inputText id="cidade"
                              required="true" 
                              requiredMessage = "O campo Cidade é origatório!"
                              value="${tbCidadesJpaController.tbCidade.cidade}"/>
 
-                <h:commandButton value="Gravar" actionListener="${tbCidadesJpaController.create}"/>
+                <p:commandButton value="Gravar"                                 
+                                 icon="ui-icon-disk" 
+                                 id="Gravar"
+                                 actionListener="${tbCidadesJpaController.create}"/>
 
             </h:panelGrid>
 
-            <h:messages/>
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
         </h:form>
-        
+
     </h:body>
-    
+
 </html>
 

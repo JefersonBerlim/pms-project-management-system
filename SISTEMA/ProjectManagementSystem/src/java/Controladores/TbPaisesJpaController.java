@@ -64,20 +64,17 @@ public class TbPaisesJpaController implements Serializable {
             if (this.tbPais.getHand() == null) {
                 Util utilitarios = new Util();
                 this.tbPais.setHand(utilitarios.contadorObjetos("TbPaises"));
-                em.persist(this.tbPais);
-                FacesMessage fm = new FacesMessage("Registro salvo com sucesso!");
-                FacesContext.getCurrentInstance().addMessage(null, fm);
+                em.persist(this.tbPais);               
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));                
             } else {
                 em.merge(this.tbPais);
-                FacesMessage fm = new FacesMessage("Registro atualizado com sucesso!");
-                FacesContext.getCurrentInstance().addMessage(null, fm);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
             }
 
             em.getTransaction().commit();
 
         } catch (Exception ex) {
-            FacesMessage fm = new FacesMessage("Problemas ao persistir o regitsto.");
-            FacesContext.getCurrentInstance().addMessage(null, fm);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
             throw ex;
         } finally {
             if (em != null) {
@@ -104,7 +101,7 @@ public class TbPaisesJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<>();
                 }
-                illegalOrphanMessages.add("O País (" + tbPaises + ") não pode ser excluído pois esta sendo usado no Estado " + tbEstadosCollectionOrphanCheckTbEstados.getEstado() + ".");
+                illegalOrphanMessages.add("O País (" + tbPaises + ") não pode ser excluído pois esta sendo usado no Estado " + tbEstadosCollectionOrphanCheckTbEstados.getEstado() + ".");                
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

@@ -80,19 +80,16 @@ public class TbCidadesJpaController implements Serializable {
                 Util utilitarios = new Util();
                 this.tbCidade.setHand(utilitarios.contadorObjetos("TbCidades"));
                 em.persist(this.tbCidade);
-                FacesMessage fm = new FacesMessage("Registro salvo com sucesso!");
-                FacesContext.getCurrentInstance().addMessage(null, fm);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
             } else {
                 em.merge(this.tbCidade);
-                FacesMessage fm = new FacesMessage("Registro atualizado com sucesso!");
-                FacesContext.getCurrentInstance().addMessage(null, fm);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
             }
 
             em.getTransaction().commit();
 
         } catch (Exception ex) {
-            FacesMessage fm = new FacesMessage("Problemas ao persistir o regitsto.");
-            FacesContext.getCurrentInstance().addMessage(null, fm);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
             throw ex;
         } finally {
             if (em != null) {
