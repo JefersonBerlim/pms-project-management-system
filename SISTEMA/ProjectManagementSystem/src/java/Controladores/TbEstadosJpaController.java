@@ -40,7 +40,6 @@ public class TbEstadosJpaController implements Serializable {
     private EntityManagerFactory emf = null;
     private EntityManager em = null;
     private TbEstados tbEstado = new TbEstados();
-
     private List<TbPaises> listTbPaises = new ArrayList<>();
 
     public TbEstadosJpaController() {
@@ -61,7 +60,6 @@ public class TbEstadosJpaController implements Serializable {
 
     public List<TbPaises> getListTbPaises() {
 
-        List<TbPaises> pais = new ArrayList<>();
         TbPaisesJpaController controle = new TbPaisesJpaController();
         this.listTbPaises = controle.retornaCollectionPaises();
 
@@ -101,8 +99,8 @@ public class TbEstadosJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
 
         try {
-            em.getTransaction().begin();
             em = getEntityManager();
+            em.getTransaction().begin();
             TbEstados tbEstados;
             try {
                 tbEstados = em.getReference(TbEstados.class, id);
@@ -132,7 +130,7 @@ public class TbEstadosJpaController implements Serializable {
             try {
                 em.getTransaction().rollback();
             } catch (Exception re) {
-                throw new RollbackFailureException("Um erro ocorreu ao tentar rverter a transação.", re);
+                throw new RollbackFailureException("Um erro ocorreu ao tentar reverter a transação.", re);
             }
             throw ex;
         } finally {
@@ -160,6 +158,13 @@ public class TbEstadosJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public List<TbEstados> retornaCollectionEstados() {
+
+        em = getEntityManager();
+        Query query = em.createNamedQuery("TbEstados.findAll");
+        return query.getResultList();
     }
 
 }

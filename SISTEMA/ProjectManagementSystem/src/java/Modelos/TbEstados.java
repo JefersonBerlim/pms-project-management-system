@@ -127,7 +127,7 @@ public class TbEstados implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelos.TbEstados[ hand=" + hand + " ]";
+        return getEstado();
     }
     
 }

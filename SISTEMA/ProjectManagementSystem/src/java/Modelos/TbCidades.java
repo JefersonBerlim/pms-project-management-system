@@ -113,7 +113,7 @@ public class TbCidades implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelos.TbCidades[ hand=" + hand + " ]";
+        return getCidade();
     }
     
 }
