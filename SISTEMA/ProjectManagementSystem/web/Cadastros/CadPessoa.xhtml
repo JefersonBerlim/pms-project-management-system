@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"  
+<html xmlns="http://www.w3.org/1999/xhtml"  
       xmlns:f="http://java.sun.com/jsf/core"  
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
@@ -39,13 +38,12 @@
                     value="${tbPessoaJpaController.tbPessoa.tbTipopessoaHand}"
                     required="true"
                     requiredMessage="O campo Tipo Pessoa é obrigatório!"
-                    converter="tbTipoPessoaConverter">
-                    <f:selectItem
-                        itemLabel="Selecione um Tipo de Pessoa"/>                        
+                    converter="tbTipoPessoaConverter">                  
                     <f:selectItems
                         value ="${tbPessoaJpaController.listTbTipoPessoa}"
                         var="tppessoa"
                         itemLabel="${tppessoa.descricao}"/>
+                    <f:ajax event="change" execute="@this" render="documento"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel value="Razão Social" for="razao"/>
@@ -57,10 +55,101 @@
 
                 <p:outputLabel value="Nome Fantasia" for="nome"/>
                 <p:inputText id="nome"
+                             required="true"
+                             requiredMessage = "O campo Nome Fantasia é origatório!"
                              maxlength="150"
                              value="${tbPessoaJpaController.tbPessoa.nomeFantasia}"/>
 
+                <p:outputLabel value="Telefone" for="telefone"/>
+                <p:inputMask id="telefone" 
+                             mask="(999) 999-9999?"
+                             value="#{tbPessoaJpaController.tbPessoa.telefone}" />
+
+                <p:outputLabel value="Endereço" for="endereco"/>
+                <p:inputText id="endereco"
+                             maxlength="150"
+                             value="${tbPessoaJpaController.tbPessoa.endereco}"/>
+
+                <p:outputLabel value="Número" for="numero"/>
+                <p:inputText id="numero"
+                             maxlength="10"
+                             value="${tbPessoaJpaController.tbPessoa.numero}"/>
+
+                <p:outputLabel value="Complemento" for="complemento"/>
+                <p:inputText id="complemento"
+                             maxlength="50"
+                             value="${tbPessoaJpaController.tbPessoa.complemento}"/>
+
+                <p:outputLabel value="Bairro" for="bairro"/>
+                <p:inputText id="bairro"
+                             maxlength="50"
+                             value="${tbPessoaJpaController.tbPessoa.bairro}"/>
+
+                <h:panelGroup id="documento">
+                    <p:outputLabel value="CPF" 
+                                   for="cpf" 
+                                   rendered="${tbPessoaJpaController.tbPessoa.tbTipopessoaHand.tipo eq 'F'
+                                               or tbPessoaJpaController.tbPessoa.tbTipopessoaHand.tipo == null}"/>
+                    <p:inputMask id="cpf"
+                                 required="${tbPessoaJpaController.tbPessoa.tbTipopessoaHand.tipo eq 'F'}"
+                                 requiredMessage = "O campo CPF é origatório!"
+                                 mask="999.999.999-99"
+                                 rendered="${tbPessoaJpaController.tbPessoa.tbTipopessoaHand.tipo eq 'F'
+                                             or tbPessoaJpaController.tbPessoa.tbTipopessoaHand.tipo == null}"
+                                 value="${tbPessoaJpaController.tbPessoa.cpfCnpj}"/>
+
+                    <p:outputLabel value="CNPJ" 
+                                   for="cnpj"
+                                   rendered="${tbPessoaJpaController.tbPessoa.tbTipopessoaHand.tipo eq 'J'}"/>
+                    <p:inputMask id="cnpj"
+                                 required="${tbPessoaJpaController.tbPessoa.tbTipopessoaHand.tipo eq 'J'}"
+                                 requiredMessage = "O campo CNPJ é origatório!"
+                                 mask="99.999.999/9999-9?"
+                                 rendered="${tbPessoaJpaController.tbPessoa.tbTipopessoaHand.tipo eq 'J'}"
+                                 value="${tbPessoaJpaController.tbPessoa.cpfCnpj}"/>
+
+                    <p:outputLabel value="Documento" 
+                                   for="dcto"
+                                   rendered="${tbPessoaJpaController.tbPessoa.tbTipopessoaHand.tipo eq 'E'}"/>
+                    <p:inputText id="dcto"
+                                 required="${tbPessoaJpaController.tbPessoa.tbTipopessoaHand.tipo eq 'E'}"
+                                 requiredMessage = "O campo Documento é origatório!"
+                                 maxlength="18"
+                                 rendered="${tbPessoaJpaController.tbPessoa.tbTipopessoaHand.tipo eq 'E'}"
+                                 value="${tbPessoaJpaController.tbPessoa.cpfCnpj}"/>
+                </h:panelGroup>
+
+                <p:outputLabel value="Endereço WEB" for="web"/>
+                <p:inputText id="web"
+                             maxlength="50"
+                             value="${tbPessoaJpaController.tbPessoa.cpfCnpj}"/>
+
+                <p:selectManyCheckbox id="cliente" value="#{tbPessoaJpaController.tbPessoa.ehcliente}">
+                    <f:selectItem itemLabel="Cliente"/>
+                </p:selectManyCheckbox>
+
+                <p:selectManyCheckbox id="fornecedor" value="#{tbPessoaJpaController.tbPessoa.ehfornecedor}">
+                    <f:selectItem itemLabel="Fornecedor"/>
+                </p:selectManyCheckbox>
+
+                <p:selectManyCheckbox id="inativo" value="#{tbPessoaJpaController.tbPessoa.ehInativo}">
+                    <f:selectItem itemLabel="Inativo"/>
+                </p:selectManyCheckbox>
+
+                <p:outputLabel value="Observações" for="observacao"/>
+                <p:inputTextarea id="observacao"
+                                 rows="6" 
+                                 cols="33" 
+                                 value="${tbPessoaJpaController.tbPessoa.observacoes}"/>
+
+                <p:commandButton value="Gravar"                                 
+                                 icon="ui-icon-disk" 
+                                 id="Gravar"
+                                 actionListener="${tbPessoaJpaController.create}"/>
+
             </h:panelGrid>
+
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
         </h:form>
 
