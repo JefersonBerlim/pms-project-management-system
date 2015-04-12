@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"    
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Cadastro de Usuários</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:outputLabel value="Usuário: " for="usuario"/>
+            <p:inputText id="usuário"
+                         required="true" 
+                         requiredMessage = "O campo Usuário é origatório!"
+                         maxlength="150"
+                         value="${tbUsuarioJpaController.tbUsuario.nome}" />
+
+            <p:outputLabel value="Senha: " for="senha"/>
+            <p:password id="senha"
+                        required="true" 
+                        requiredMessage = "O campo Senha é origatório!"
+                        maxlength="8"
+                        value="${tbUsuarioJpaController.tbUsuario.senha}" />
+
+            <p:commandButton value="Gravar"                                 
+                             icon="ui-icon-disk" 
+                             id="Gravar"
+                             actionListener="${tbUsuarioJpaController.create}"/>
+
+        </h:form>
+    </h:body>
+</html>
+
