@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 @Table(name = "TB_USUARIO")
 @NamedQueries({
     @NamedQuery(name = "TbUsuario.findAll", query = "SELECT t FROM TbUsuario t"),
-    @NamedQuery(name = "TbUsuario.findNome", query = "SELECT t FROM TbUsuario t WHERE t.nome = :nome"),})
+    @NamedQuery(name = "TbUsuario.findNome", query = "SELECT t FROM TbUsuario t WHERE Upper(t.nome ) = Upper( :nome )"),})
 public class TbUsuario implements Serializable {
 
     private static final long serialVersionUID = 1L;

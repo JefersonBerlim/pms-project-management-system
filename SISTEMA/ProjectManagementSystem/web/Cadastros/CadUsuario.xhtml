@@ -5,30 +5,43 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
+        
         <title>Cadastro de Usuários</title>
+        
     </h:head>
+
     <h:body>
+
         <h:form>
-            <p:outputLabel value="Usuário: " for="usuario"/>
-            <p:inputText id="usuário"
-                         required="true" 
-                         requiredMessage = "O campo Usuário é origatório!"
-                         maxlength="150"
-                         value="${tbUsuarioJpaController.tbUsuario.nome}" />
+            
+            <h:panelGrid columns ="2">
 
-            <p:outputLabel value="Senha: " for="senha"/>
-            <p:password id="senha"
-                        required="true" 
-                        requiredMessage = "O campo Senha é origatório!"
-                        maxlength="8"
-                        value="${tbUsuarioJpaController.tbUsuario.senha}" />
+                <p:outputLabel value="Usuário: " for="usuario"/>
+                <p:inputText id="usuario"
+                             required="true" 
+                             requiredMessage = "O campo Usuário é origatório!"
+                             maxlength="150"
+                             value="${tbUsuarioJpaController.tbUsuario.nome}" />
 
-            <p:commandButton value="Gravar"                                 
-                             icon="ui-icon-disk" 
-                             id="Gravar"
-                             actionListener="${tbUsuarioJpaController.create}"/>
+                <p:outputLabel value="Senha: " for="senha"/>
+                <p:password id="senha"
+                            required="true" 
+                            requiredMessage = "O campo Senha é origatório!"
+                            maxlength="8"
+                            value="${tbUsuarioJpaController.tbUsuario.senha}" />
+
+                <p:commandButton value="Gravar"                                 
+                                 icon="ui-icon-disk" 
+                                 id="Gravar"
+                                 actionListener="${tbUsuarioJpaController.create}"/>
+
+            </h:panelGrid>
+            
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
         </h:form>
+        
     </h:body>
+    
 </html>
 
