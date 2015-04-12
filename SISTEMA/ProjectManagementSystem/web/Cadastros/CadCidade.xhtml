@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        
+        <title>Cadastro de Cidades</title>
+        
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <h:panelGrid columns ="2">
+
+                <p:outputLabel value="Estado: " for="estado"/>
+                <p:selectOneMenu 
+                    id="estado"
+                    value="${tbCidadesJpaController.tbCidade.tbEstadosHand}"
+                    required="true"
+                    requiredMessage="O campo Estado é obrigatório!"
+                    converter="tbEstadoConverter">
+                    <f:selectItem
+                        itemLabel="Selecione um Estado"/>                        
+                    <f:selectItems
+                        value ="${tbCidadesJpaController.listTbEstados}"
+                        var="estado"
+                        itemLabel="${estado.estado}, ${estado.sigla} - ${estado.tbPaisesHand.pais}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Cidade: " for="cidade"/>
+                <p:inputText id="cidade"
+                             required="true" 
+                             requiredMessage = "O campo Cidade é origatório!"
+                             value="${tbCidadesJpaController.tbCidade.cidade}"/>
+
+                <p:commandButton value="Gravar"                                 
+                                 icon="ui-icon-disk" 
+                                 id="Gravar"
+                                 actionListener="${tbCidadesJpaController.create}"/>
+
+            </h:panelGrid>
+
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+        </h:form>
+
+    </h:body>
+
+</html>

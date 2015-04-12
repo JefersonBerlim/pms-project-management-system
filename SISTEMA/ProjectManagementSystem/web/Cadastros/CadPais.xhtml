@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"    
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+
+        <title>Cadastro de Países</title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <h:panelGrid columns ="2">
+
+                    <p:outputLabel value="País: " for="pais"/>
+                    <p:inputText id="pais"
+                                 required="true" 
+                                 requiredMessage = "O campo País é origatório!"
+                                 maxlength="150"
+                                 value="${tbPaisesJpaController.tbPais.pais}" />
+
+                    <p:commandButton value="Gravar"                                 
+                                     icon="ui-icon-disk" 
+                                     id="Gravar"
+                                     actionListener="${tbPaisesJpaController.create}"/>
+
+                </h:panelGrid>
+
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+        </h:form>
+
+    </h:body>
+
+</html>
+
