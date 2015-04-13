@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -88,6 +89,12 @@ public class TbPessoa implements Serializable {
     private TbCidades tbCidadesHand;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tbPessoaHand")
     private Collection<TbProjetos> tbProjetosCollection;
+    @Transient
+    private boolean tmpEhFornecedor;
+    @Transient
+    private boolean tmpEhCliente;
+    @Transient
+    private boolean tmpEhInativo;
 
     public TbPessoa() {
     }
@@ -236,6 +243,30 @@ public class TbPessoa implements Serializable {
 
     public void setTbProjetosCollection(Collection<TbProjetos> tbProjetosCollection) {
         this.tbProjetosCollection = tbProjetosCollection;
+    }
+
+    public boolean getTmpEhFornecedor() {
+        return tmpEhFornecedor;
+    }
+
+    public void setTmpEhFornecedor(boolean tmpEhFornecedor) {
+        this.tmpEhFornecedor = tmpEhFornecedor;
+    }
+
+    public boolean getTmpEhCliente() {
+        return tmpEhCliente;
+    }
+
+    public void setTmpEhCliente(boolean tmpEhCliente) {
+        this.tmpEhCliente = tmpEhCliente;
+    }
+
+    public boolean getTmpEhInativo() {
+        return tmpEhInativo;
+    }
+
+    public void setTmpEhInativo(boolean tmpEhInativo) {
+        this.tmpEhInativo = tmpEhInativo;
     }
 
     @Override

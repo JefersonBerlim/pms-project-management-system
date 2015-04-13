@@ -124,17 +124,20 @@
                              maxlength="50"
                              value="${tbPessoaJpaController.tbPessoa.cpfCnpj}"/>
 
-                <p:selectManyCheckbox id="cliente" value="#{tbPessoaJpaController.tbPessoa.ehcliente}">
-                    <f:selectItem itemLabel="Cliente"/>
-                </p:selectManyCheckbox>
+                <h:panelGroup id="ehcliente">
+                    <p:outputLabel value="Cliente:" for="cliente"/>
+                    <p:selectBooleanCheckbox id="cliente" value="#{tbPessoaJpaController.tbPessoa.tmpEhCliente}"/>
+                </h:panelGroup>
 
-                <p:selectManyCheckbox id="fornecedor" value="#{tbPessoaJpaController.tbPessoa.ehfornecedor}">
-                    <f:selectItem itemLabel="Fornecedor"/>
-                </p:selectManyCheckbox>
+                <h:panelGroup id="ehfornecedor">
+                    <p:outputLabel value="Fornecedor:" for="fornecedor"/>
+                    <p:selectBooleanCheckbox id="fornecedor" value="#{tbPessoaJpaController.tbPessoa.tmpEhFornecedor}"/>
+                </h:panelGroup>
 
-                <p:selectManyCheckbox id="inativo" value="#{tbPessoaJpaController.tbPessoa.ehInativo}">
-                    <f:selectItem itemLabel="Inativo"/>
-                </p:selectManyCheckbox>
+                <h:panelGroup id="ehinativo">
+                    <p:outputLabel value="Inativo:" for="inativo"/>
+                    <p:selectBooleanCheckbox id="inativo" value="#{tbPessoaJpaController.tbPessoa.tmpEhInativo}"/>
+                </h:panelGroup>
 
                 <p:outputLabel value="Observações" for="observacao"/>
                 <p:inputTextarea id="observacao"
