@@ -162,7 +162,7 @@ public class TbPessoaJpaController implements Serializable {
             }
             em.remove(tbPessoa);
             em.getTransaction().commit();
-        } catch (Exception ex) {
+        } catch (NonexistentEntityException | IllegalOrphanException ex) {
             try {
                 em.getTransaction().rollback();
             } catch (Exception re) {

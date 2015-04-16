@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"    
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+
+        <title>Cadastro de Turnos</title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <h:panelGrid columns ="2">
+
+                <p:outputLabel value="Descrição: " for="descricao"/>
+                <p:inputText id="descricao"
+                             required="true" 
+                             requiredMessage = "O campo Descrição é origatório!"
+                             maxlength="50"
+                             validator="validadorDeHoras"
+                             value="${tbTurnosJpaController.tbTurnos.descricao}"/>
+
+                <p:outputLabel value="Hora Início:" for="hora_inicial"/>
+                <p:inputMask id="hora_inicial" 
+                             required="true" 
+                             requiredMessage = "O campo Hora Início é origatório!"
+                             maxlength="5"
+                             validator="validadorDeHoras"
+                             value="#${tbTurnosJpaController.tbTurnos.horarioInicial}" mask="99:99"/>
+
+                <p:outputLabel value="Hora Fim:" for="hora_final"/>
+                <p:inputMask id="hora_final" 
+                             required="true" 
+                             requiredMessage = "O campo Hora Fim é origatório!"
+                             maxlength="5"
+                             validator="validadorDeHoras"
+                             value="${tbTurnosJpaController.tbTurnos.horarioFinal}" mask="99:99"/>
+
+                <p:outputLabel value="Início Almoço:" for="almoco_inicio"/>
+                <p:inputMask id="almoco_inicio" 
+                             required="true" 
+                             requiredMessage = "O campo Início Almoço é origatório!"
+                             maxlength="5"
+                             validator="validadorDeHoras"
+                             value="${tbTurnosJpaController.tbTurnos.almocoInicio}" mask="99:99"/>
+
+                <p:outputLabel value="Fim Almoço:" for="almoco_fim"/>
+                <p:inputMask id="almoco_fim" 
+                             required="true" 
+                             requiredMessage = "O campo Fim Almoço é origatório!"
+                             maxlength="5"
+                             validator="validadorDeHoras"
+                             value="${tbTurnosJpaController.tbTurnos.almocoFim}" mask="99:99"/>
+
+                <p:commandButton value="Gravar"                                 
+                                 icon="ui-icon-disk"
+                                 id="Gravar"
+                                 actionListener="${tbTurnosJpaController.create}"/>
+
+            </h:panelGrid>
+
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+        </h:form>
+
+    </h:body>
+
+</html>
+
