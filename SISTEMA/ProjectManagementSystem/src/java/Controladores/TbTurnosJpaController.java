@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import Modelos.TbFuncionarioTurnoSemana;
 import Modelos.TbTurnos;
 import Utilitarios.Util;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -53,30 +54,34 @@ public class TbTurnosJpaController implements Serializable {
     }
 
     public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
-        try {
-            em = getEntityManager();
-            em.getTransaction().begin();
 
-            if (this.tbTurnos.getHand() == null) {
-                Util utilitarios = new Util();
-                this.tbTurnos.setHand(utilitarios.contadorObjetos("TbTurnos"));
-                em.persist(this.tbTurnos);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
-            } else {
-                em.merge(this.tbTurnos);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
-            }
+        if (this.validaDatas()) {
+            try {
+                em = getEntityManager();
+                em.getTransaction().begin();
 
-            em.getTransaction().commit();
+                if (this.tbTurnos.getHand() == null) {
+                    Util utilitarios = new Util();
+                    this.tbTurnos.setHand(utilitarios.contadorObjetos("TbTurnos"));
+                    em.persist(this.tbTurnos);
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
+                } else {
+                    em.merge(this.tbTurnos);
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
+                }
 
-        } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
+                em.getTransaction().commit();
+
+            } catch (Exception ex) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
+                throw ex;
+            } finally {
+                if (em != null) {
+                    em.close();
+                }
             }
         }
+
     }
 
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
@@ -98,9 +103,9 @@ public class TbTurnosJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("O Turno (" + tbTurnos.getDescricao() + ") não pode ser excluído pois esta sendo usado no Projeto "
-                        + tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana.getHand()+" - "
-                        + tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana.getTbDiaSemanaHand().getDescricao()+" - "
-                        + tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana.getTbFuncionariosHand().getNome()+" - "
+                        + tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana.getHand() + " - "
+                        + tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana.getTbDiaSemanaHand().getDescricao() + " - "
+                        + tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana.getTbFuncionariosHand().getNome() + " - "
                         + tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana.getTbTurnosHand().getDescricao()
                         + ".");
             }
@@ -123,7 +128,7 @@ public class TbTurnosJpaController implements Serializable {
         }
     }
 
-       public TbTurnos findTbTurnos(Integer id) {
+    public TbTurnos findTbTurnos(Integer id) {
         em = getEntityManager();
         try {
             return em.find(TbTurnos.class, id);
@@ -143,6 +148,48 @@ public class TbTurnosJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public boolean validaDatas() {
+        boolean retorno = false;
+        String mensagem = null;
+        Util util = new Util();
+
+        try {
+            tbTurnos.setHorarioInicial(util.stringEmHora(tbTurnos.getHorarioInicial().toString()));
+        } catch (ParseException e) {
+            mensagem = "Problemas ao converter a Hora Início." + "\n";
+        }
+
+        try {
+            tbTurnos.setHorarioFinal(util.stringEmHora(tbTurnos.getHorarioFinal().toString()));
+        } catch (ParseException e) {
+            mensagem = "Problemas ao converter a Hora Final."+ "\n";
+        }
+
+        try {
+            tbTurnos.setAlmocoInicio(util.stringEmHora(tbTurnos.getAlmocoInicio().toString()));
+        } catch (ParseException e) {
+            mensagem = "Problemas ao converter o Início do Almoço."+ "\n";
+        }
+
+        try {
+            tbTurnos.setAlmocoFim(util.stringEmHora(tbTurnos.getAlmocoFim().toString()));
+        } catch (ParseException e) {
+            mensagem = "Problemas ao converter o Fim do Almoço."+ "\n";
+        }
+
+        if (mensagem != null) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error!", mensagem));
+        } else {
+            retorno = true;
+        }
+
+        return retorno;
+
     }
 
 }

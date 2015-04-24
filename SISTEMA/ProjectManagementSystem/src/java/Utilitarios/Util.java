@@ -6,6 +6,10 @@
 package Utilitarios;
 
 import java.io.Serializable;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -32,6 +36,22 @@ public class Util implements Serializable {
         em = getEntityManager();
         Query listagem = em.createNamedQuery(objeto + ".findAll");
         return (listagem.getResultList().size()) + 1;
+
+    }
+
+    /**
+     * Método para converter uma string
+     *
+     * @param hora
+     * @return long 
+     *
+     * @throws ParseException
+     */
+    public Date stringEmHora(String hora) throws ParseException {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        Date date = sdf.parse(hora);
+        return date;
 
     }
 
