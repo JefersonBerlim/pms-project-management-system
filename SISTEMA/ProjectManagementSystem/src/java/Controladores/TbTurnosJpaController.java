@@ -19,7 +19,9 @@ import Modelos.TbTurnos;
 import Utilitarios.Util;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -156,25 +158,25 @@ public class TbTurnosJpaController implements Serializable {
         Util util = new Util();
 
         try {
-            tbTurnos.setHorarioInicial(util.stringEmHora(tbTurnos.getHorarioInicial().toString()));
+            tbTurnos.setHorarioInicial(util.stringHoraEmDate(tbTurnos.getHorarioInicial().toString()));
         } catch (ParseException e) {
             mensagem = "Problemas ao converter a Hora Início." + "\n";
         }
 
         try {
-            tbTurnos.setHorarioFinal(util.stringEmHora(tbTurnos.getHorarioFinal().toString()));
+            tbTurnos.setHorarioFinal(util.stringHoraEmDate(tbTurnos.getHorarioFinal().toString()));
         } catch (ParseException e) {
             mensagem = "Problemas ao converter a Hora Final."+ "\n";
         }
 
         try {
-            tbTurnos.setAlmocoInicio(util.stringEmHora(tbTurnos.getAlmocoInicio().toString()));
+            tbTurnos.setAlmocoInicio(util.stringHoraEmDate(tbTurnos.getAlmocoInicio().toString()));
         } catch (ParseException e) {
             mensagem = "Problemas ao converter o Início do Almoço."+ "\n";
         }
 
         try {
-            tbTurnos.setAlmocoFim(util.stringEmHora(tbTurnos.getAlmocoFim().toString()));
+            tbTurnos.setAlmocoFim(util.stringHoraEmDate(tbTurnos.getAlmocoFim().toString()));
         } catch (ParseException e) {
             mensagem = "Problemas ao converter o Fim do Almoço."+ "\n";
         }

@@ -6,9 +6,8 @@
 package Utilitarios;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -39,19 +38,22 @@ public class Util implements Serializable {
 
     }
 
-    /**
-     * Método para converter uma string
-     *
-     * @param hora
-     * @return long 
-     *
-     * @throws ParseException
-     */
-    public Date stringEmHora(String hora) throws ParseException {
+    public Date stringHoraEmDate(String hora) throws ParseException {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        Date date = sdf.parse(hora);
-        return date;
+        Calendar calendario = Calendar.getInstance();
+        Date data = new Date();
+        int nHora;
+        int nMinuto;
+
+        nHora = Integer.parseInt(hora.substring(0, 2));
+        nMinuto = Integer.parseInt(hora.substring(3, 5));
+
+        calendario.setTime(data);
+        calendario.set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH, nHora, nMinuto);
+
+        data = calendario.getTime();
+
+        return data;
 
     }
 

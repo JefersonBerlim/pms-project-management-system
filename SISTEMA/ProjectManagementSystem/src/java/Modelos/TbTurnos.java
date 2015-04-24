@@ -5,6 +5,7 @@
  */
 package Modelos;
 
+import Modelos.TbFuncionarioTurnoSemana;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
