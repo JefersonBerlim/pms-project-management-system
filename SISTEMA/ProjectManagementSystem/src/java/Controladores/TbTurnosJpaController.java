@@ -17,11 +17,8 @@ import javax.persistence.criteria.Root;
 import Modelos.TbFuncionarioTurnoSemana;
 import Modelos.TbTurnos;
 import Utilitarios.Util;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -153,41 +150,120 @@ public class TbTurnosJpaController implements Serializable {
     }
 
     public boolean validaDatas() {
-        boolean retorno = false;
-        String mensagem = null;
+        boolean retorno = true;
+        String mensagem = "";
         Util util = new Util();
 
-        try {
-            tbTurnos.setHorarioInicial(util.stringHoraEmDate(tbTurnos.getHorarioInicial().toString()));
-        } catch (ParseException e) {
-            mensagem = "Problemas ao converter a Hora Início." + "\n";
-        }
-
-        try {
-            tbTurnos.setHorarioFinal(util.stringHoraEmDate(tbTurnos.getHorarioFinal().toString()));
-        } catch (ParseException e) {
-            mensagem = "Problemas ao converter a Hora Final."+ "\n";
-        }
-
-        try {
-            tbTurnos.setAlmocoInicio(util.stringHoraEmDate(tbTurnos.getAlmocoInicio().toString()));
-        } catch (ParseException e) {
-            mensagem = "Problemas ao converter o Início do Almoço."+ "\n";
-        }
-
-        try {
-            tbTurnos.setAlmocoFim(util.stringHoraEmDate(tbTurnos.getAlmocoFim().toString()));
-        } catch (ParseException e) {
-            mensagem = "Problemas ao converter o Fim do Almoço."+ "\n";
-        }
-
-        if (mensagem != null) {
+        //INICIO EXPEDIETE
+        if (tbTurnos.getHorarioInicial().getTime() > tbTurnos.getAlmocoInicio().getTime()) {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", mensagem));
-        } else {
-            retorno = true;
+                            FacesMessage.SEVERITY_ERROR, "Error!", "Início do Expediente não pode ser superior o Início do Almoço!"));
+
+            retorno = false;
+        }
+
+        if (tbTurnos.getHorarioInicial().getTime() > tbTurnos.getAlmocoFim().getTime()) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error!", "Início do Expediente não pode ser superior o Fim do Almoço!"));
+
+            retorno = false;
+        }
+
+        if (tbTurnos.getHorarioInicial().getTime() > tbTurnos.getHorarioFinal().getTime()) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error!", "Início do Expediente não pode ser superior o Fim do Expediente!"));
+
+            retorno = false;
+        }
+
+        // ALMOÇO INICIO
+        if (tbTurnos.getAlmocoInicio().getTime() < tbTurnos.getHorarioInicial().getTime()) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error!", "Início do Almoço não pode ser inferior o Início do Expediente!"));
+
+            retorno = false;
+        }
+
+        if (tbTurnos.getAlmocoInicio().getTime() > tbTurnos.getAlmocoFim().getTime()) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error!", "Início do Almoço não pode ser superior o Fim do Almoço!"));
+
+            retorno = false;
+        }
+
+        if (tbTurnos.getAlmocoInicio().getTime() > tbTurnos.getHorarioFinal().getTime()) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error!", "Início do Almoço não pode ser superior o Fim do Expediente!"));
+
+            retorno = false;
+        }
+
+        //FIM ALMOÇO
+        if (tbTurnos.getAlmocoFim().getTime() < tbTurnos.getHorarioInicial().getTime()) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error!", "Fim do Almoço não pode ser inferior o Início do Expediente!"));
+
+            retorno = false;
+        }
+
+        if (tbTurnos.getAlmocoFim().getTime() < tbTurnos.getAlmocoInicio().getTime()) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error!", "Fim do Almoço não pode ser inferior o Início do Almoço!"));
+
+            retorno = false;
+        }
+
+        if (tbTurnos.getAlmocoFim().getTime() > tbTurnos.getHorarioFinal().getTime()) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error!", "Fim do Almoço não pode ser superior o Fim do Expediente!"));
+
+            retorno = false;
+        }
+
+        //FIM EXPEDIENTE
+        if (tbTurnos.getHorarioFinal().getTime() < tbTurnos.getHorarioInicial().getTime()) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error!", "Fim do Expediente não pode ser inferior o Início do Expediente!"));
+
+            retorno = false;
+        }
+
+        if (tbTurnos.getHorarioFinal().getTime() < tbTurnos.getAlmocoInicio().getTime()) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error!", "Fim do Expediente não pode ser inferior o Início do Almoço!"));
+
+            retorno = false;
+        }
+
+        if (tbTurnos.getHorarioFinal().getTime() < tbTurnos.getAlmocoFim().getTime()) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(
+                            FacesMessage.SEVERITY_ERROR, "Error!", "Fim do Expediente não pode ser inferior o Fim do Almoço!"));
+
+            retorno = false;
         }
 
         return retorno;

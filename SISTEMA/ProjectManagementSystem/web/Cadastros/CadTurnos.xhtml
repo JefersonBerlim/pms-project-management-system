@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"    
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
 
@@ -24,32 +25,36 @@
                              value="${tbTurnosJpaController.tbTurnos.descricao}"/>
 
                 <p:outputLabel value="Hora Início:" for="hora_inicial"/>
-                <p:inputMask id="hora_inicial" 
+                <p:calendar id="hora_inicial" 
                              required="true" 
                              requiredMessage = "O campo Hora Início é origatório!"
-                             maxlength="5"
-                             value="#${tbTurnosJpaController.tbTurnos.horarioInicial}" mask="99:99"/>
+                             timeOnly="true"
+                             pattern="HH:mm a"
+                             value="${tbTurnosJpaController.tbTurnos.horarioInicial}" />
 
                 <p:outputLabel value="Hora Fim:" for="hora_final"/>
-                <p:inputMask id="hora_final" 
+                <p:calendar id="hora_final" 
                              required="true" 
                              requiredMessage = "O campo Hora Fim é origatório!"
-                             maxlength="5"
-                             value="${tbTurnosJpaController.tbTurnos.horarioFinal}" mask="99:99"/>
+                             timeOnly="true"
+                             pattern="HH:mm a"
+                             value="${tbTurnosJpaController.tbTurnos.horarioFinal}"/>
 
                 <p:outputLabel value="Início Almoço:" for="almoco_inicio"/>
-                <p:inputMask id="almoco_inicio" 
+                <p:calendar id="almoco_inicio" 
                              required="true" 
                              requiredMessage = "O campo Início Almoço é origatório!"
-                             maxlength="5"
-                             value="${tbTurnosJpaController.tbTurnos.almocoInicio}" mask="99:99"/>
+                             timeOnly="true"
+                             pattern="HH:mm a"
+                             value="${tbTurnosJpaController.tbTurnos.almocoInicio}"/>
 
                 <p:outputLabel value="Fim Almoço:" for="almoco_fim"/>
-                <p:inputMask id="almoco_fim" 
+                <p:calendar id="almoco_fim" 
                              required="true" 
                              requiredMessage = "O campo Fim Almoço é origatório!"
-                             maxlength="5"
-                             value="${tbTurnosJpaController.tbTurnos.almocoFim}" mask="99:99"/>
+                             timeOnly="true"
+                             pattern="HH:mm a"
+                             value="${tbTurnosJpaController.tbTurnos.almocoFim}"/>
 
                 <p:commandButton value="Gravar"                                 
                                  icon="ui-icon-disk"
