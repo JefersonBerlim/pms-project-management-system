@@ -149,7 +149,7 @@ public class TbTurnos implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelos.TbTurnos[ hand=" + hand + " ]";
+        return getDescricao();
     }
 
 }

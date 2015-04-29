@@ -270,4 +270,10 @@ public class TbTurnosJpaController implements Serializable {
 
     }
 
+    public List<TbTurnos> retornaCollectionTurnos() {
+        em = getEntityManager();
+        Query query = em.createNamedQuery("TbTurnos.findAll");
+        return query.getResultList();
+    }
+
 }

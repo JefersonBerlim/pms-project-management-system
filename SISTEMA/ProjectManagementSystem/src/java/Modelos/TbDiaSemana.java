@@ -101,7 +101,7 @@ public class TbDiaSemana implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelos.TbDiaSemana[ hand=" + hand + " ]";
+        return getDescricao();
     }
 
 }

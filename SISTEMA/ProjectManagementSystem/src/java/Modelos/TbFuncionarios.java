@@ -270,7 +270,7 @@ public class TbFuncionarios implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelos.TbFuncionarios[ hand=" + hand + " ]";
+        return getNome();
     }
 
 }

@@ -48,12 +48,10 @@ public class TbDiaSemanaJpaController implements Serializable {
         }
     }
 
-    public List<TbDiaSemana> retornaCollectionTipoPessoa() {
-
+    public List<TbDiaSemana> retornaCollectionDiaSemana() {
         em = getEntityManager();
         Query query = em.createNamedQuery("TbDiaSemana.findAll");
         return query.getResultList();
-
     }
 
 }

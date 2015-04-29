@@ -1,12 +1,76 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
     <h:head>
-        <title>Facelet Title</title>
+        <title>Cadastro de Turnos dos Funcionários</title>
     </h:head>
+
     <h:body>
-        Hello from Facelets
+
+        <h:form>
+
+            <h:panelGrid columns ="2">
+
+                <p:outputLabel value="Turno: " for="turno"/>
+                <p:selectOneMenu 
+                    id="turno"
+                    value="${tbFuncionarioTurnoSemanaJpaController.tbFuncionarioTurnoSemana.tbTurnosHand}"
+                    required="true"
+                    requiredMessage="O campo Turno é obrigatório!"
+                    converter="tbTurnosConverter">
+                    <f:selectItem
+                        itemLabel="Selecione um Turno"/>                        
+                    <f:selectItems
+                        value ="${tbFuncionarioTurnoSemanaJpaController.listTbTurnos}"
+                        var="turno"
+                        itemLabel="${turno.descricao}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Dia Semana: " for="diasemana"/>
+                <p:selectOneMenu 
+                    id="diasemana"
+                    value="${tbFuncionarioTurnoSemanaJpaController.tbFuncionarioTurnoSemana.tbDiaSemanaHand}"
+                    required="true"
+                    requiredMessage="O campo Dia Semana é obrigatório!"
+                    converter="tbDiaSemanaConverter">
+                    <f:selectItem
+                        itemLabel="Selecione um Dia da Semana"/>                        
+                    <f:selectItems
+                        value ="${tbFuncionarioTurnoSemanaJpaController.listTbDiaSemana}"
+                        var="dia"
+                        itemLabel="${dia.descricao}"/>
+                </p:selectOneMenu>
+
+                <p:outputLabel value="Funcionário: " for="funcionario"/>
+                <p:selectOneMenu 
+                    id="funcionario"
+                    value="${tbFuncionarioTurnoSemanaJpaController.tbFuncionarioTurnoSemana.tbFuncionariosHand}"
+                    required="true"
+                    requiredMessage="O campo Funcionário é obrigatório!"
+                    converter="tbFuncionariosConverter">
+                    <f:selectItem
+                        itemLabel="Selecione um Funcionário"/>                        
+                    <f:selectItems
+                        value ="${tbFuncionarioTurnoSemanaJpaController.listTbFuncionarios}"
+                        var="funcionario"
+                        itemLabel="${funcionario.nome}"/>
+                </p:selectOneMenu>
+
+                <p:commandButton value="Gravar"                                 
+                                 icon="ui-icon-disk" 
+                                 id="Gravar"
+                                 actionListener="${tbFuncionarioTurnoSemanaJpaController.create}"/>
+            </h:panelGrid>
+
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+        </h:form>
+
     </h:body>
+
 </html>
 
