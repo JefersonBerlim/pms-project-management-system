@@ -65,6 +65,19 @@ public class TbFuncionariosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+
+            if (this.tbFuncionarios.isTmpEhInativo()) {
+                this.tbFuncionarios.setEhInativo("S");
+            } else {
+                this.tbFuncionarios.setEhInativo(null);
+            }
+
+            if (this.tbFuncionarios.isTmpEhPlanejador()) {
+                this.tbFuncionarios.setEhPlanejador("S");
+            } else {
+                this.tbFuncionarios.setEhPlanejador(null);
+            }
+
             if (this.tbFuncionarios.getHand() == null) {
                 Util utilitarios = new Util();
                 this.tbFuncionarios.setHand(utilitarios.contadorObjetos("TbFuncionarios"));

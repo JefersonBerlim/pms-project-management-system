@@ -88,19 +88,19 @@ public class TbPessoaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            if (this.tbPessoa.getTmpEhCliente()) {
+            if (this.tbPessoa.isTmpEhCliente()) {
                 this.tbPessoa.setEhcliente("S");
             }else{
                 this.tbPessoa.setEhcliente(null);
             }
 
-            if (this.tbPessoa.getTmpEhFornecedor()) {
+            if (this.tbPessoa.isTmpEhFornecedor()) {
                 this.tbPessoa.setEhfornecedor("S");
             }else{
                 this.tbPessoa.setEhfornecedor(null);
             }
 
-            if (this.tbPessoa.getTmpEhInativo()) {
+            if (this.tbPessoa.isTmpEhInativo()) {
                 this.tbPessoa.setEhInativo("S");
             }else{
                 this.tbPessoa.setEhInativo(null);

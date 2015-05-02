@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -88,6 +89,12 @@ public class TbFuncionarios implements Serializable {
     private Collection<TbFuncionariosRecursos> tbFuncionariosRecursosCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tbFuncionariosHand")
     private Collection<TbFuncionarioTurnoSemana> tbFuncionarioTurnoSemanaCollection;
+
+    @Transient
+    private boolean tmpEhInativo;
+
+    @Transient
+    private boolean tmpEhPlanejador;
 
     public TbFuncionarios() {
     }
@@ -198,6 +205,22 @@ public class TbFuncionarios implements Serializable {
 
     public void setEhInativo(String ehInativo) {
         this.ehInativo = ehInativo;
+    }
+
+    public boolean isTmpEhInativo() {
+        return tmpEhInativo;
+    }
+
+    public void setTmpEhInativo(boolean tmpEhInativo) {
+        this.tmpEhInativo = tmpEhInativo;
+    }
+
+    public boolean isTmpEhPlanejador() {
+        return tmpEhPlanejador;
+    }
+
+    public void setTmpEhPlanejador(boolean tmpEhPlanejador) {
+        this.tmpEhPlanejador = tmpEhPlanejador;
     }
 
     public Collection<TbApontamentosFuncionarios> getTbApontamentosFuncionariosCollection() {

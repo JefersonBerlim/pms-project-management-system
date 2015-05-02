@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/GitHub/pms-project-management-system/SISTEMA/ProjectManagementSystem/src/java/Controladores/TbFuncionarioTurnoSemanaJpaController.java</file>
-            <file>file:/C:/GitHub/pms-project-management-system/SISTEMA/ProjectManagementSystem/web/Cadastros/CadFuncionarioTurnoSemana.xhtml</file>
+            <file>file:/C:/GitHub/pms-project-management-system/SISTEMA/ProjectManagementSystem/src/java/Controladores/TbFuncionariosJpaController.java</file>
+            <file>file:/C:/GitHub/pms-project-management-system/SISTEMA/ProjectManagementSystem/web/Cadastros/CadTbFuncionarios.xhtml</file>
+            <file>file:/C:/GitHub/pms-project-management-system/SISTEMA/ProjectManagementSystem/src/java/Modelos/TbFuncionarios.java</file>
         </group>
     </open-files>
 </project-private>

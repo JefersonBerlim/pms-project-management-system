@@ -30,9 +30,9 @@
                              value="${tbFuncionariosJpaController.tbFuncionarios.numeroMatricula}"/>
 
                 <p:outputLabel value="Data Admissão" for="data_admissao"/>
-                <p:inputMask id="data_admissao" 
-                             mask="99/99/9999"
-                             value="${tbFuncionariosJpaController.tbFuncionarios.dataAdmissao}" />
+                <p:calendar id="data_admissao" 
+                            pattern="dd/MM/yyyy" 
+                            value="${tbFuncionariosJpaController.tbFuncionarios.dataAdmissao}" />
 
                 <p:outputLabel value="CPF" for="cpf"/>
                 <p:inputMask id="cpf"
@@ -57,7 +57,7 @@
                 <p:outputLabel value="Valor Hora" for="valor_hora"/>
                 <p:inputText id="valor_hora"
                              value="${tbFuncionariosJpaController.tbFuncionarios.valorHora}">
-                    <f:convertNumber maxIntegerDigits="15" maxFractionDigits="2"/>
+                    <f:convertNumber maxIntegerDigits="15" maxFractionDigits="2" minFractionDigits="2"/>
                 </p:inputText>
 
                 <p:outputLabel value="Email" for="email"/>
@@ -65,21 +65,16 @@
                              maxlength="50"
                              value="${tbFuncionariosJpaController.tbFuncionarios.email}"/>
 
-
                 <p:outputLabel value="Data Nascimento" for="data_nascimento"/>
-                <p:inputMask id="data_nascimento" 
-                             mask="99/99/9999"
-                             value="${tbFuncionariosJpaController.tbFuncionarios.dataNascimento}" />
+                <p:calendar id="data_nascimento" 
+                            pattern="dd/MM/yyyy" 
+                            value="${tbFuncionariosJpaController.tbFuncionarios.dataNascimento}" />
 
-                <h:panelGroup id="pnehplanehador">
-                    <p:outputLabel value="Planejador" for="planejador"/>
-                    <p:selectBooleanCheckbox id="planejador" value="${tbFuncionariosJpaController.tbFuncionarios.ehPlanejador}"/>
-                </h:panelGroup>
+                <p:outputLabel value="Planejador" for="planejador"/>
+                <p:selectBooleanCheckbox id="planejador" value="${tbFuncionariosJpaController.tbFuncionarios.tmpEhPlanejador}"/>
 
-                <h:panelGroup id="pnehinativo">
-                    <p:outputLabel value="Inativo" for="ehinativo"/>
-                    <p:selectBooleanCheckbox id="ehinativo" value="${tbFuncionariosJpaController.tbFuncionarios.ehInativo}"/>
-                </h:panelGroup>
+                <p:outputLabel value="Inativo" for="ehinativo"/>
+                <p:selectBooleanCheckbox id="ehinativo" value="${tbFuncionariosJpaController.tbFuncionarios.tmpEhInativo}"/>
 
                 <p:commandButton value="Gravar"                                 
                                  icon="ui-icon-disk" 
@@ -95,4 +90,3 @@
     </h:body>
 
 </html>
-

@@ -245,7 +245,7 @@ public class TbPessoa implements Serializable {
         this.tbProjetosCollection = tbProjetosCollection;
     }
 
-    public boolean getTmpEhFornecedor() {
+    public boolean isTmpEhFornecedor() {
         return tmpEhFornecedor;
     }
 
@@ -253,7 +253,7 @@ public class TbPessoa implements Serializable {
         this.tmpEhFornecedor = tmpEhFornecedor;
     }
 
-    public boolean getTmpEhCliente() {
+    public boolean isTmpEhCliente() {
         return tmpEhCliente;
     }
 
@@ -261,7 +261,7 @@ public class TbPessoa implements Serializable {
         this.tmpEhCliente = tmpEhCliente;
     }
 
-    public boolean getTmpEhInativo() {
+    public boolean isTmpEhInativo() {
         return tmpEhInativo;
     }
 
