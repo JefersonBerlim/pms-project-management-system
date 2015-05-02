@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+
+        <title>Cadastro de Funcionários</title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <h:panelGrid columns ="4">
+
+                <p:outputLabel value="Nome" for="nome"/>
+                <p:inputText id="nome"
+                             required="true"
+                             requiredMessage = "O campo Nome é origatório!"
+                             maxlength="150"
+                             value="${tbFuncionariosJpaController.tbFuncionarios.nome}"/>
+
+                <p:outputLabel value="Matrícula" for="matricula"/>
+                <p:inputText id="matricula"
+                             maxlength="50"
+                             value="${tbFuncionariosJpaController.tbFuncionarios.numeroMatricula}"/>
+
+                <p:outputLabel value="Data Admissão" for="data_admissao"/>
+                <p:inputMask id="data_admissao" 
+                             mask="99/99/9999"
+                             value="${tbFuncionariosJpaController.tbFuncionarios.dataAdmissao}" />
+
+                <p:outputLabel value="CPF" for="cpf"/>
+                <p:inputMask id="cpf"
+                             mask="999.999.999-99"
+                             value="${tbFuncionariosJpaController.tbFuncionarios.cpf}"/>
+
+                <p:outputLabel value="Identidade" for="identidade"/>
+                <p:inputMask id="identidade"
+                             mask="9.999.999-9"
+                             value="${tbFuncionariosJpaController.tbFuncionarios.numeroIdentidade}"/>
+
+                <p:outputLabel value="Telefone 1" for="telefone1"/>
+                <p:inputMask id="telefone1" 
+                             mask="(999) 999-9999?"
+                             value="#{tbFuncionariosJpaController.tbFuncionarios.telefone}" />
+
+                <p:outputLabel value="Telefone 2" for="telefone2"/>
+                <p:inputMask id="telefone2" 
+                             mask="(999) 999-9999?"
+                             value="#{tbFuncionariosJpaController.tbFuncionarios.telefone2}"/>
+
+                <p:outputLabel value="Valor Hora" for="valor_hora"/>
+                <p:inputText id="valor_hora"
+                             value="${tbFuncionariosJpaController.tbFuncionarios.valorHora}">
+                    <f:convertNumber maxIntegerDigits="15" maxFractionDigits="2"/>
+                </p:inputText>
+
+                <p:outputLabel value="Email" for="email"/>
+                <p:inputText id="email"
+                             maxlength="50"
+                             value="${tbFuncionariosJpaController.tbFuncionarios.email}"/>
+
+
+                <p:outputLabel value="Data Nascimento" for="data_nascimento"/>
+                <p:inputMask id="data_nascimento" 
+                             mask="99/99/9999"
+                             value="${tbFuncionariosJpaController.tbFuncionarios.dataNascimento}" />
+
+                <h:panelGroup id="pnehplanehador">
+                    <p:outputLabel value="Planejador" for="planejador"/>
+                    <p:selectBooleanCheckbox id="planejador" value="${tbFuncionariosJpaController.tbFuncionarios.ehPlanejador}"/>
+                </h:panelGroup>
+
+                <h:panelGroup id="pnehinativo">
+                    <p:outputLabel value="Inativo" for="ehinativo"/>
+                    <p:selectBooleanCheckbox id="ehinativo" value="${tbFuncionariosJpaController.tbFuncionarios.ehInativo}"/>
+                </h:panelGroup>
+
+                <p:commandButton value="Gravar"                                 
+                                 icon="ui-icon-disk" 
+                                 id="Gravar"
+                                 actionListener="${tbFuncionariosJpaController.create}"/>
+
+            </h:panelGrid>
+
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+        </h:form>
+
+    </h:body>
+
+</html>
+

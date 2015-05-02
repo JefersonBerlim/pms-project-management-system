@@ -126,17 +126,17 @@
 
                 <h:panelGroup id="ehcliente">
                     <p:outputLabel value="Cliente:" for="cliente"/>
-                    <p:selectBooleanCheckbox id="cliente" value="#{tbPessoaJpaController.tbPessoa.tmpEhCliente}"/>
+                    <p:selectBooleanCheckbox id="cliente" value="${tbPessoaJpaController.tbPessoa.tmpEhCliente}"/>
                 </h:panelGroup>
 
                 <h:panelGroup id="ehfornecedor">
                     <p:outputLabel value="Fornecedor:" for="fornecedor"/>
-                    <p:selectBooleanCheckbox id="fornecedor" value="#{tbPessoaJpaController.tbPessoa.tmpEhFornecedor}"/>
+                    <p:selectBooleanCheckbox id="fornecedor" value="${tbPessoaJpaController.tbPessoa.tmpEhFornecedor}"/>
                 </h:panelGroup>
 
                 <h:panelGroup id="ehinativo">
                     <p:outputLabel value="Inativo:" for="inativo"/>
-                    <p:selectBooleanCheckbox id="inativo" value="#{tbPessoaJpaController.tbPessoa.tmpEhInativo}"/>
+                    <p:selectBooleanCheckbox id="inativo" value="${tbPessoaJpaController.tbPessoa.tmpEhInativo}"/>
                 </h:panelGroup>
 
                 <p:outputLabel value="Observações" for="observacao"/>

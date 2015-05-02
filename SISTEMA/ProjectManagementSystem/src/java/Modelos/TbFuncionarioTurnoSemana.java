@@ -5,7 +5,6 @@
  */
 package Modelos;
 
-import Modelos.TbTurnos;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;

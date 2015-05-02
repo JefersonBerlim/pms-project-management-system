@@ -26,16 +26,19 @@ import Modelos.TbFuncionarios;
 import Utilitarios.Util;
 import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.transaction.UserTransaction;
 
 /**
  *
  * @author BERLIM
  */
+@ManagedBean
+@ViewScoped
 public class TbFuncionariosJpaController implements Serializable {
 
     private EntityManagerFactory emf = null;
@@ -58,7 +61,7 @@ public class TbFuncionariosJpaController implements Serializable {
         this.tbFuncionarios = tbFuncionarios;
     }
 
-    public void create(TbFuncionarios tbFuncionarios) throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
