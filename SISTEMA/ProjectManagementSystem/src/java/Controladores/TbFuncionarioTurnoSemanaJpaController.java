@@ -94,6 +94,9 @@ public class TbFuncionarioTurnoSemanaJpaController implements Serializable {
 
     public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
 
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+                        "Este Funcionário já possui um turno neste dia da semana!"));
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -115,6 +118,7 @@ public class TbFuncionarioTurnoSemanaJpaController implements Serializable {
                 em.close();
             }
         }
+
     }
 
     public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
