@@ -19,169 +19,78 @@ import Modelos.TbMarcosServicos;
 import java.util.ArrayList;
 import java.util.Collection;
 import Modelos.TbProjetoMarcos;
+import Utilitarios.Util;
 import java.util.List;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.transaction.UserTransaction;
+import javax.persistence.Persistence;
 
 /**
  *
  * @author jeferson
  */
+@ManagedBean
+@ViewScoped
 public class TbMarcosJpaController implements Serializable {
 
-    public TbMarcosJpaController(UserTransaction utx, EntityManagerFactory emf) {
-        this.utx = utx;
-        this.emf = emf;
-    }
-    private UserTransaction utx = null;
     private EntityManagerFactory emf = null;
+    private EntityManager em = null;
+    private TbMarcos tbMarcos = new TbMarcos();
+    private List<TbMarcos> listTbMarcos = new ArrayList<>();
+
+    public TbMarcosJpaController() {
+        emf = Persistence.createEntityManagerFactory("ProjectManagementSystemPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(TbMarcos tbMarcos) throws PreexistingEntityException, RollbackFailureException, Exception {
-        if (tbMarcos.getTbMarcosServicosCollection() == null) {
-            tbMarcos.setTbMarcosServicosCollection(new ArrayList<TbMarcosServicos>());
-        }
-        if (tbMarcos.getTbProjetoMarcosCollection() == null) {
-            tbMarcos.setTbProjetoMarcosCollection(new ArrayList<TbProjetoMarcos>());
-        }
-        EntityManager em = null;
-        try {
-            utx.begin();
-            em = getEntityManager();
-            Collection<TbMarcosServicos> attachedTbMarcosServicosCollection = new ArrayList<TbMarcosServicos>();
-            for (TbMarcosServicos tbMarcosServicosCollectionTbMarcosServicosToAttach : tbMarcos.getTbMarcosServicosCollection()) {
-                tbMarcosServicosCollectionTbMarcosServicosToAttach = em.getReference(tbMarcosServicosCollectionTbMarcosServicosToAttach.getClass(), tbMarcosServicosCollectionTbMarcosServicosToAttach.getHand());
-                attachedTbMarcosServicosCollection.add(tbMarcosServicosCollectionTbMarcosServicosToAttach);
-            }
-            tbMarcos.setTbMarcosServicosCollection(attachedTbMarcosServicosCollection);
-            Collection<TbProjetoMarcos> attachedTbProjetoMarcosCollection = new ArrayList<TbProjetoMarcos>();
-            for (TbProjetoMarcos tbProjetoMarcosCollectionTbProjetoMarcosToAttach : tbMarcos.getTbProjetoMarcosCollection()) {
-                tbProjetoMarcosCollectionTbProjetoMarcosToAttach = em.getReference(tbProjetoMarcosCollectionTbProjetoMarcosToAttach.getClass(), tbProjetoMarcosCollectionTbProjetoMarcosToAttach.getHand());
-                attachedTbProjetoMarcosCollection.add(tbProjetoMarcosCollectionTbProjetoMarcosToAttach);
-            }
-            tbMarcos.setTbProjetoMarcosCollection(attachedTbProjetoMarcosCollection);
-            em.persist(tbMarcos);
-            for (TbMarcosServicos tbMarcosServicosCollectionTbMarcosServicos : tbMarcos.getTbMarcosServicosCollection()) {
-                TbMarcos oldTbMarcosHandOfTbMarcosServicosCollectionTbMarcosServicos = tbMarcosServicosCollectionTbMarcosServicos.getTbMarcosHand();
-                tbMarcosServicosCollectionTbMarcosServicos.setTbMarcosHand(tbMarcos);
-                tbMarcosServicosCollectionTbMarcosServicos = em.merge(tbMarcosServicosCollectionTbMarcosServicos);
-                if (oldTbMarcosHandOfTbMarcosServicosCollectionTbMarcosServicos != null) {
-                    oldTbMarcosHandOfTbMarcosServicosCollectionTbMarcosServicos.getTbMarcosServicosCollection().remove(tbMarcosServicosCollectionTbMarcosServicos);
-                    oldTbMarcosHandOfTbMarcosServicosCollectionTbMarcosServicos = em.merge(oldTbMarcosHandOfTbMarcosServicosCollectionTbMarcosServicos);
-                }
-            }
-            for (TbProjetoMarcos tbProjetoMarcosCollectionTbProjetoMarcos : tbMarcos.getTbProjetoMarcosCollection()) {
-                TbMarcos oldTbMarcosHandOfTbProjetoMarcosCollectionTbProjetoMarcos = tbProjetoMarcosCollectionTbProjetoMarcos.getTbMarcosHand();
-                tbProjetoMarcosCollectionTbProjetoMarcos.setTbMarcosHand(tbMarcos);
-                tbProjetoMarcosCollectionTbProjetoMarcos = em.merge(tbProjetoMarcosCollectionTbProjetoMarcos);
-                if (oldTbMarcosHandOfTbProjetoMarcosCollectionTbProjetoMarcos != null) {
-                    oldTbMarcosHandOfTbProjetoMarcosCollectionTbProjetoMarcos.getTbProjetoMarcosCollection().remove(tbProjetoMarcosCollectionTbProjetoMarcos);
-                    oldTbMarcosHandOfTbProjetoMarcosCollectionTbProjetoMarcos = em.merge(oldTbMarcosHandOfTbProjetoMarcosCollectionTbProjetoMarcos);
-                }
-            }
-            utx.commit();
-        } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            if (findTbMarcos(tbMarcos.getHand()) != null) {
-                throw new PreexistingEntityException("TbMarcos " + tbMarcos + " already exists.", ex);
-            }
-            throw ex;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+    public TbMarcos getTbMarcos() {
+        return tbMarcos;
     }
 
-    public void edit(TbMarcos tbMarcos) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
+    public void setTbMarcos(TbMarcos tbMarcos) {
+        this.tbMarcos = tbMarcos;
+    }
+
+    public List<TbMarcos> getListTbMarcos() {
+        return listTbMarcos;
+    }
+
+    public void setListTbMarcos(List<TbMarcos> listTbMarcos) {
+        this.listTbMarcos = listTbMarcos;
+    }
+
+    public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
         try {
-            utx.begin();
             em = getEntityManager();
-            TbMarcos persistentTbMarcos = em.find(TbMarcos.class, tbMarcos.getHand());
-            Collection<TbMarcosServicos> tbMarcosServicosCollectionOld = persistentTbMarcos.getTbMarcosServicosCollection();
-            Collection<TbMarcosServicos> tbMarcosServicosCollectionNew = tbMarcos.getTbMarcosServicosCollection();
-            Collection<TbProjetoMarcos> tbProjetoMarcosCollectionOld = persistentTbMarcos.getTbProjetoMarcosCollection();
-            Collection<TbProjetoMarcos> tbProjetoMarcosCollectionNew = tbMarcos.getTbProjetoMarcosCollection();
-            List<String> illegalOrphanMessages = null;
-            for (TbMarcosServicos tbMarcosServicosCollectionOldTbMarcosServicos : tbMarcosServicosCollectionOld) {
-                if (!tbMarcosServicosCollectionNew.contains(tbMarcosServicosCollectionOldTbMarcosServicos)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain TbMarcosServicos " + tbMarcosServicosCollectionOldTbMarcosServicos + " since its tbMarcosHand field is not nullable.");
-                }
+            em.getTransaction().begin();
+            
+            if (this.tbMarcos.isTmpEhInativo()) {
+                this.tbMarcos.setEhInativo("S");
+            }else{
+                this.tbMarcos.setEhInativo(null);
             }
-            for (TbProjetoMarcos tbProjetoMarcosCollectionOldTbProjetoMarcos : tbProjetoMarcosCollectionOld) {
-                if (!tbProjetoMarcosCollectionNew.contains(tbProjetoMarcosCollectionOldTbProjetoMarcos)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain TbProjetoMarcos " + tbProjetoMarcosCollectionOldTbProjetoMarcos + " since its tbMarcosHand field is not nullable.");
-                }
+
+            if (this.tbMarcos.getHand() == null) {
+                Util utilitarios = new Util();
+                this.tbMarcos.setHand(utilitarios.contadorObjetos("TbMarcos"));
+                em.persist(this.tbMarcos);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
+            } else {
+                em.merge(this.tbMarcos);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
             }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Collection<TbMarcosServicos> attachedTbMarcosServicosCollectionNew = new ArrayList<TbMarcosServicos>();
-            for (TbMarcosServicos tbMarcosServicosCollectionNewTbMarcosServicosToAttach : tbMarcosServicosCollectionNew) {
-                tbMarcosServicosCollectionNewTbMarcosServicosToAttach = em.getReference(tbMarcosServicosCollectionNewTbMarcosServicosToAttach.getClass(), tbMarcosServicosCollectionNewTbMarcosServicosToAttach.getHand());
-                attachedTbMarcosServicosCollectionNew.add(tbMarcosServicosCollectionNewTbMarcosServicosToAttach);
-            }
-            tbMarcosServicosCollectionNew = attachedTbMarcosServicosCollectionNew;
-            tbMarcos.setTbMarcosServicosCollection(tbMarcosServicosCollectionNew);
-            Collection<TbProjetoMarcos> attachedTbProjetoMarcosCollectionNew = new ArrayList<TbProjetoMarcos>();
-            for (TbProjetoMarcos tbProjetoMarcosCollectionNewTbProjetoMarcosToAttach : tbProjetoMarcosCollectionNew) {
-                tbProjetoMarcosCollectionNewTbProjetoMarcosToAttach = em.getReference(tbProjetoMarcosCollectionNewTbProjetoMarcosToAttach.getClass(), tbProjetoMarcosCollectionNewTbProjetoMarcosToAttach.getHand());
-                attachedTbProjetoMarcosCollectionNew.add(tbProjetoMarcosCollectionNewTbProjetoMarcosToAttach);
-            }
-            tbProjetoMarcosCollectionNew = attachedTbProjetoMarcosCollectionNew;
-            tbMarcos.setTbProjetoMarcosCollection(tbProjetoMarcosCollectionNew);
-            tbMarcos = em.merge(tbMarcos);
-            for (TbMarcosServicos tbMarcosServicosCollectionNewTbMarcosServicos : tbMarcosServicosCollectionNew) {
-                if (!tbMarcosServicosCollectionOld.contains(tbMarcosServicosCollectionNewTbMarcosServicos)) {
-                    TbMarcos oldTbMarcosHandOfTbMarcosServicosCollectionNewTbMarcosServicos = tbMarcosServicosCollectionNewTbMarcosServicos.getTbMarcosHand();
-                    tbMarcosServicosCollectionNewTbMarcosServicos.setTbMarcosHand(tbMarcos);
-                    tbMarcosServicosCollectionNewTbMarcosServicos = em.merge(tbMarcosServicosCollectionNewTbMarcosServicos);
-                    if (oldTbMarcosHandOfTbMarcosServicosCollectionNewTbMarcosServicos != null && !oldTbMarcosHandOfTbMarcosServicosCollectionNewTbMarcosServicos.equals(tbMarcos)) {
-                        oldTbMarcosHandOfTbMarcosServicosCollectionNewTbMarcosServicos.getTbMarcosServicosCollection().remove(tbMarcosServicosCollectionNewTbMarcosServicos);
-                        oldTbMarcosHandOfTbMarcosServicosCollectionNewTbMarcosServicos = em.merge(oldTbMarcosHandOfTbMarcosServicosCollectionNewTbMarcosServicos);
-                    }
-                }
-            }
-            for (TbProjetoMarcos tbProjetoMarcosCollectionNewTbProjetoMarcos : tbProjetoMarcosCollectionNew) {
-                if (!tbProjetoMarcosCollectionOld.contains(tbProjetoMarcosCollectionNewTbProjetoMarcos)) {
-                    TbMarcos oldTbMarcosHandOfTbProjetoMarcosCollectionNewTbProjetoMarcos = tbProjetoMarcosCollectionNewTbProjetoMarcos.getTbMarcosHand();
-                    tbProjetoMarcosCollectionNewTbProjetoMarcos.setTbMarcosHand(tbMarcos);
-                    tbProjetoMarcosCollectionNewTbProjetoMarcos = em.merge(tbProjetoMarcosCollectionNewTbProjetoMarcos);
-                    if (oldTbMarcosHandOfTbProjetoMarcosCollectionNewTbProjetoMarcos != null && !oldTbMarcosHandOfTbProjetoMarcosCollectionNewTbProjetoMarcos.equals(tbMarcos)) {
-                        oldTbMarcosHandOfTbProjetoMarcosCollectionNewTbProjetoMarcos.getTbProjetoMarcosCollection().remove(tbProjetoMarcosCollectionNewTbProjetoMarcos);
-                        oldTbMarcosHandOfTbProjetoMarcosCollectionNewTbProjetoMarcos = em.merge(oldTbMarcosHandOfTbProjetoMarcosCollectionNewTbProjetoMarcos);
-                    }
-                }
-            }
-            utx.commit();
+
+            em.getTransaction().commit();
+
         } catch (Exception ex) {
-            try {
-                utx.rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            String msg = ex.getLocalizedMessage();
-            if (msg == null || msg.length() == 0) {
-                Integer id = tbMarcos.getHand();
-                if (findTbMarcos(id) == null) {
-                    throw new NonexistentEntityException("The tbMarcos with id " + id + " no longer exists.");
-                }
-            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
             throw ex;
         } finally {
             if (em != null) {
@@ -191,16 +100,14 @@ public class TbMarcosJpaController implements Serializable {
     }
 
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
-        EntityManager em = null;
         try {
-            utx.begin();
             em = getEntityManager();
-            TbMarcos tbMarcos;
+            em.getTransaction().begin();
             try {
                 tbMarcos = em.getReference(TbMarcos.class, id);
                 tbMarcos.getHand();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The tbMarcos with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("Este registro não existe.", enfe);
             }
             List<String> illegalOrphanMessages = null;
             Collection<TbMarcosServicos> tbMarcosServicosCollectionOrphanCheck = tbMarcos.getTbMarcosServicosCollection();
@@ -208,25 +115,25 @@ public class TbMarcosJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This TbMarcos (" + tbMarcos + ") cannot be destroyed since the TbMarcosServicos " + tbMarcosServicosCollectionOrphanCheckTbMarcosServicos + " in its tbMarcosServicosCollection field has a non-nullable tbMarcosHand field.");
+                illegalOrphanMessages.add("O Marco (" + tbMarcos.getDescricao() + ") não pode ser excluído pois esta sendo usado no vinculo com o serviço " + tbMarcosServicosCollectionOrphanCheckTbMarcosServicos.getTbServicosHand().getDescricao() + ".");
             }
             Collection<TbProjetoMarcos> tbProjetoMarcosCollectionOrphanCheck = tbMarcos.getTbProjetoMarcosCollection();
             for (TbProjetoMarcos tbProjetoMarcosCollectionOrphanCheckTbProjetoMarcos : tbProjetoMarcosCollectionOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This TbMarcos (" + tbMarcos + ") cannot be destroyed since the TbProjetoMarcos " + tbProjetoMarcosCollectionOrphanCheckTbProjetoMarcos + " in its tbProjetoMarcosCollection field has a non-nullable tbMarcosHand field.");
+                illegalOrphanMessages.add("O Marco (" + tbMarcos.getDescricao() + ") não pode ser excluído pois esta sendo usado no vinculo com o Projeto " + tbProjetoMarcosCollectionOrphanCheckTbProjetoMarcos.getTbProjetoHand().getDecsricao() + ".");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(tbMarcos);
-            utx.commit();
-        } catch (Exception ex) {
+            em.getTransaction().commit();
+        } catch (NonexistentEntityException | IllegalOrphanException ex) {
             try {
-                utx.rollback();
+                em.getTransaction().rollback();
             } catch (Exception re) {
-                throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
+                throw new RollbackFailureException("Um erro ocorreu ao tentar reverter a transação.", re);
             }
             throw ex;
         } finally {
@@ -236,32 +143,8 @@ public class TbMarcosJpaController implements Serializable {
         }
     }
 
-    public List<TbMarcos> findTbMarcosEntities() {
-        return findTbMarcosEntities(true, -1, -1);
-    }
-
-    public List<TbMarcos> findTbMarcosEntities(int maxResults, int firstResult) {
-        return findTbMarcosEntities(false, maxResults, firstResult);
-    }
-
-    private List<TbMarcos> findTbMarcosEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(TbMarcos.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
     public TbMarcos findTbMarcos(Integer id) {
-        EntityManager em = getEntityManager();
+        em = getEntityManager();
         try {
             return em.find(TbMarcos.class, id);
         } finally {
@@ -270,7 +153,7 @@ public class TbMarcosJpaController implements Serializable {
     }
 
     public int getTbMarcosCount() {
-        EntityManager em = getEntityManager();
+        em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<TbMarcos> rt = cq.from(TbMarcos.class);
@@ -281,5 +164,11 @@ public class TbMarcosJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public List<TbMarcos> retornaCollectionMarcos() {
+        em = getEntityManager();
+        Query query = em.createNamedQuery("TbMarcos.findAll");
+        return query.getResultList();
+    }
+
 }

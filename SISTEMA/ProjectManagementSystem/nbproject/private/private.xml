@@ -2,10 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/GitHub/pms-project-management-system/SISTEMA/ProjectManagementSystem/src/java/Modelos/TbMarcos.java</file>
-            <file>file:/C:/GitHub/pms-project-management-system/SISTEMA/ProjectManagementSystem/web/Cadastros/CadMarcos.xhtml</file>
-            <file>file:/C:/GitHub/pms-project-management-system/SISTEMA/ProjectManagementSystem/src/java/Controladores/TbMarcosJpaController.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
