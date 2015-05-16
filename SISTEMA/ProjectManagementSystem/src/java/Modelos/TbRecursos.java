@@ -17,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -56,6 +57,12 @@ public class TbRecursos implements Serializable {
     private Collection<TbApontamentosRecursos> tbApontamentosRecursosCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tbRecursosHand")
     private Collection<TbFuncionariosRecursos> tbFuncionariosRecursosCollection;
+
+    @Transient
+    private boolean tmpEhInativo;
+
+    @Transient
+    private boolean tmpFuncionarioSimultaneo;
 
     public TbRecursos() {
     }
@@ -134,6 +141,22 @@ public class TbRecursos implements Serializable {
 
     public void setTbFuncionariosRecursosCollection(Collection<TbFuncionariosRecursos> tbFuncionariosRecursosCollection) {
         this.tbFuncionariosRecursosCollection = tbFuncionariosRecursosCollection;
+    }
+
+    public boolean isTmpEhInativo() {
+        return tmpEhInativo;
+    }
+
+    public void setTmpEhInativo(boolean tmpEhInativo) {
+        this.tmpEhInativo = tmpEhInativo;
+    }
+
+    public boolean isTmpFuncionarioSimultaneo() {
+        return tmpFuncionarioSimultaneo;
+    }
+
+    public void setTmpFuncionarioSimultaneo(boolean tmpFuncionarioSimultaneo) {
+        this.tmpFuncionarioSimultaneo = tmpFuncionarioSimultaneo;
     }
 
     @Override
