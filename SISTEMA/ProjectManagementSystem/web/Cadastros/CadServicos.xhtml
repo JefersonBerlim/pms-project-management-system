@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+
+        <title>Cadastro de Serviços</title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <h:panelGrid columns ="2">
+                <p:outputLabel value="Descrição: " for="descricao"/>
+                <p:inputText id="descricao"
+                             required="true" 
+                             requiredMessage = "O campo descrição é origatório!"
+                             maxlength="50"
+                             value="${tbServicosJpaController.tbServicos.descricao}" />
+
+                <p:outputLabel value="Valor Hora: " for="valor_hora"/>
+                <p:inputText id="valor_hora"
+                             value="${tbServicosJpaController.tbServicos.valorHora}" >
+                    <f:convertNumber maxIntegerDigits="15" maxFractionDigits="2" minFractionDigits="2"/>
+                </p:inputText>
+
+                <h:panelGroup id="ehInativo">
+                    <p:outputLabel value="Inativo:" for="inativo"/>
+                    <p:selectBooleanCheckbox id="inativo" value="${tbServicosJpaController.tbServicos.tmpEhInativo}"/>
+                </h:panelGroup>
+
+                <p:commandButton value="Gravar"                                 
+                                 icon="ui-icon-disk" 
+                                 id="Gravar"
+                                 actionListener="${tbServicosJpaController.create()}"/>
+
+            </h:panelGrid>
+
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+        </h:form>
+
+    </h:body>
+
+</html>
+

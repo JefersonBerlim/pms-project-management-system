@@ -17,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -53,6 +54,9 @@ public class TbServicos implements Serializable {
     private Collection<TbProjetosServicos> tbProjetosServicosCollection1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tbServicosHand")
     private Collection<TbRecursosServicos> tbRecursosServicosCollection;
+
+    @Transient
+    private boolean tmpEhInativo;
 
     public TbServicos() {
     }
@@ -123,6 +127,14 @@ public class TbServicos implements Serializable {
 
     public void setTbRecursosServicosCollection(Collection<TbRecursosServicos> tbRecursosServicosCollection) {
         this.tbRecursosServicosCollection = tbRecursosServicosCollection;
+    }
+
+    public boolean isTmpEhInativo() {
+        return tmpEhInativo;
+    }
+
+    public void setTmpEhInativo(boolean tmpEhInativo) {
+        this.tmpEhInativo = tmpEhInativo;
     }
 
     @Override
