@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"    
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+
+        <title>Cadastro de Unidades de Medida</title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <h:panelGrid columns ="2">
+
+                <p:outputLabel value="Sigla: " for="sigla"/>
+                <p:inputText id="sigla"
+                             required="true" 
+                             requiredMessage = "O campo Sigla é origatório!"
+                             maxlength="10"
+                             value="${tbUnidadeMedidaJpaController.tbUnidadeMedida.sigla}" />
+
+                <p:outputLabel value="Descrição: " for="descricao"/>
+                <p:inputText id="descricao"
+                             required="true" 
+                             requiredMessage = "O campo Descrição é origatório!"
+                             maxlength="10"
+                             value="${tbUnidadeMedidaJpaController.tbUnidadeMedida.descricao}" />
+
+
+                <p:commandButton value="Gravar"                                 
+                                 icon="ui-icon-disk" 
+                                 id="Gravar"
+                                 actionListener="${tbUnidadeMedidaJpaController.create}"/>
+
+            </h:panelGrid>
+
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+        </h:form>
+
+    </h:body>
+
+</html>
+

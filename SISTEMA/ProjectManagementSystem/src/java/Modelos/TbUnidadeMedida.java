@@ -105,7 +105,7 @@ public class TbUnidadeMedida implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelos.TbUnidadeMedida[ hand=" + hand + " ]";
+        return descricao;
     }
 
 }
