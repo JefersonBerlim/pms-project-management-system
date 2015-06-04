@@ -52,7 +52,7 @@ public class TbTurnosJpaController implements Serializable {
         this.tbTurnos = tbTurnos;
     }
 
-    public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create() throws Exception {
 
         if (this.validaDatas()) {
             try {
@@ -72,8 +72,8 @@ public class TbTurnosJpaController implements Serializable {
                 em.getTransaction().commit();
 
             } catch (Exception ex) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
-                throw ex;
+                em.getTransaction().rollback();
+                FacesContext.getCurrentInstance().addMessage(ex.toString(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
             } finally {
                 if (em != null) {
                     em.close();
@@ -83,43 +83,50 @@ public class TbTurnosJpaController implements Serializable {
 
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, Exception {
 
         try {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            try {
-                tbTurnos = em.getReference(TbTurnos.class, id);
-                tbTurnos.getHand();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("Este registro não existe.", enfe);
-            }
+            tbTurnos = em.getReference(TbTurnos.class, id);
+            tbTurnos.getHand();
+
             List<String> illegalOrphanMessages = null;
-            Collection<TbFuncionarioTurnoSemana> tbFuncionarioTurnoSemanaCollectionOrphanCheck = tbTurnos.getTbFuncionarioTurnoSemanaCollection();
-            for (TbFuncionarioTurnoSemana tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana : tbFuncionarioTurnoSemanaCollectionOrphanCheck) {
+            
+            Collection<TbFuncionarioTurnoSemana> tbFuncionarioTurnoSemanaCollection = tbTurnos.getTbFuncionarioTurnoSemanaCollection();
+            for (TbFuncionarioTurnoSemana tbFuncionarioTurnoSemana : tbFuncionarioTurnoSemanaCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<>();
                 }
                 illegalOrphanMessages.add("O Turno (" + tbTurnos.getDescricao() + ") não pode ser excluído pois esta sendo usado no Projeto "
-                        + tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana.getHand() + " - "
-                        + tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana.getTbDiaSemanaHand().getDescricao() + " - "
-                        + tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana.getTbFuncionariosHand().getNome() + " - "
-                        + tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana.getTbTurnosHand().getDescricao()
+                        + tbFuncionarioTurnoSemana.getHand() + " - "
+                        + tbFuncionarioTurnoSemana.getTbDiaSemanaHand().getDescricao() + " - "
+                        + tbFuncionarioTurnoSemana.getTbFuncionariosHand().getNome() + " - "
+                        + tbFuncionarioTurnoSemana.getTbTurnosHand().getDescricao()
                         + ".");
             }
+            
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            
             em.remove(tbTurnos);
-            em.getTransaction().commit();
-        } catch (NonexistentEntityException | IllegalOrphanException ex) {
-            try {
-                em.getTransaction().rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("Um erro ocorreu ao tentar reverter a transação.", re);
-            }
-            throw ex;
+        } catch (IllegalOrphanException ex) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(ex.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Registro sendo utilizado por outros cadastros."));
+        } catch (EntityNotFoundException enfe) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(enfe.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Este registro não existe."));
+        } catch (Exception re) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(re.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Um erro ocorreu ao tentar reverter a transação."));
         } finally {
             if (em != null) {
                 em.close();

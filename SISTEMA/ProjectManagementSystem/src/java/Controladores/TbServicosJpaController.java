@@ -67,7 +67,7 @@ public class TbServicosJpaController implements Serializable {
         this.listTbServicos = listTbServicos;
     }
 
-    public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create() throws Exception {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -91,8 +91,8 @@ public class TbServicosJpaController implements Serializable {
             em.getTransaction().commit();
 
         } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
-            throw ex;
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(ex.toString(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
         } finally {
             if (em != null) {
                 em.close();
@@ -100,55 +100,60 @@ public class TbServicosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, Exception {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            try {
-                tbServicos = em.getReference(TbServicos.class, id);
-                tbServicos.getHand();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("Este registro não existe.", enfe);
-            }
+
+            tbServicos = em.getReference(TbServicos.class, id);
+            tbServicos.getHand();
+
             List<String> illegalOrphanMessages = null;
-            Collection<TbMarcosServicos> tbMarcosServicosCollectionOrphanCheck = tbServicos.getTbMarcosServicosCollection();
-            for (TbMarcosServicos tbMarcosServicosCollectionOrphanCheckTbMarcosServicos : tbMarcosServicosCollectionOrphanCheck) {
+            
+            Collection<TbMarcosServicos> tbMarcosServicosCollection = tbServicos.getTbMarcosServicosCollection();
+            for (TbMarcosServicos tbMarcosServicos : tbMarcosServicosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("O Serviço (" + tbServicos.getDescricao() + ") não pode ser excluído pois esta vinculado ao Marco " + tbMarcosServicosCollectionOrphanCheckTbMarcosServicos.getTbMarcosHand().getDescricao() + ".");
+                illegalOrphanMessages.add("O Serviço (" + tbServicos.getDescricao() + ") não pode ser excluído pois esta vinculado ao Marco " + tbMarcosServicos.getTbMarcosHand().getDescricao() + ".");
             }
-            Collection<TbProjetosServicos> tbProjetosServicosCollection1OrphanCheck = tbServicos.getTbProjetosServicosCollection1();
-            for (TbProjetosServicos tbProjetosServicosCollection1OrphanCheckTbProjetosServicos : tbProjetosServicosCollection1OrphanCheck) {
+            
+            Collection<TbProjetosServicos> tbProjetosServicosCollection = tbServicos.getTbProjetosServicosCollection1();
+            for (TbProjetosServicos tbProjetosServicos : tbProjetosServicosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("O Serviço (" + tbServicos.getDescricao() + ") não pode ser excluído pois esta vinculado ao Projeto " + tbProjetosServicosCollection1OrphanCheckTbProjetosServicos.getObservacao() + ".");
+                illegalOrphanMessages.add("O Serviço (" + tbServicos.getDescricao() + ") não pode ser excluído pois esta vinculado ao Projeto " + tbProjetosServicos.getObservacao() + ".");
             }
-            Collection<TbRecursosServicos> tbRecursosServicosCollectionOrphanCheck = tbServicos.getTbRecursosServicosCollection();
-            for (TbRecursosServicos tbRecursosServicosCollectionOrphanCheckTbRecursosServicos : tbRecursosServicosCollectionOrphanCheck) {
+            
+            Collection<TbRecursosServicos> tbRecursosServicosCollection = tbServicos.getTbRecursosServicosCollection();
+            for (TbRecursosServicos tbRecursosServicos : tbRecursosServicosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("O Serviço (" + tbServicos.getDescricao() + ") não pode ser excluído pois esta vinculado ao Recurso " + tbRecursosServicosCollectionOrphanCheckTbRecursosServicos.getTbServicosHand().getDescricao() + ".");
+                illegalOrphanMessages.add("O Serviço (" + tbServicos.getDescricao() + ") não pode ser excluído pois esta vinculado ao Recurso " + tbRecursosServicos.getTbServicosHand().getDescricao() + ".");
             }
+            
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            Collection<TbProjetosServicos> tbProjetosServicosCollection = tbServicos.getTbProjetosServicosCollection();
-            for (TbProjetosServicos tbProjetosServicosCollectionTbProjetosServicos : tbProjetosServicosCollection) {
-                tbProjetosServicosCollectionTbProjetosServicos.setServicoDependente(null);
-                tbProjetosServicosCollectionTbProjetosServicos = em.merge(tbProjetosServicosCollectionTbProjetosServicos);
-            }
+            }          
+            
             em.remove(tbServicos);
-            em.getTransaction().commit();
-        } catch (NonexistentEntityException | IllegalOrphanException ex) {
-            try {
-                em.getTransaction().rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("Um erro ocorreu ao tentar reverter a transação.", re);
-            }
-            throw ex;
+        } catch (IllegalOrphanException ex) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(ex.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Registro sendo utilizado por outros cadastros."));
+        } catch (EntityNotFoundException enfe) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(enfe.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Este registro não existe."));
+        } catch (Exception re) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(re.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Um erro ocorreu ao tentar reverter a transação."));
         } finally {
             if (em != null) {
                 em.close();

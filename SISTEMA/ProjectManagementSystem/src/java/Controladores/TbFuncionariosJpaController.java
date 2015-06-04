@@ -7,8 +7,6 @@ package Controladores;
 
 import Controladores.exceptions.IllegalOrphanException;
 import Controladores.exceptions.NonexistentEntityException;
-import Controladores.exceptions.PreexistingEntityException;
-import Controladores.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -61,7 +59,7 @@ public class TbFuncionariosJpaController implements Serializable {
         this.tbFuncionarios = tbFuncionarios;
     }
 
-    public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create() throws Exception {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -79,18 +77,21 @@ public class TbFuncionariosJpaController implements Serializable {
             }
 
             if (this.tbFuncionarios.getHand() == null) {
+                
                 Util utilitarios = new Util();
                 this.tbFuncionarios.setHand(utilitarios.contadorObjetos("TbFuncionarios"));
                 em.persist(this.tbFuncionarios);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
             } else {
+                
                 em.merge(this.tbFuncionarios);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
             }
+            
             em.getTransaction().commit();
         } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
-            throw ex;
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(ex.toString(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
         } finally {
             if (em != null) {
                 em.close();
@@ -98,72 +99,84 @@ public class TbFuncionariosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, Exception {
 
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            try {
-                tbFuncionarios = em.getReference(TbFuncionarios.class, id);
-                tbFuncionarios.getHand();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("Este registro não existe.", enfe);
-            }
+            tbFuncionarios = em.getReference(TbFuncionarios.class, id);
+            tbFuncionarios.getHand();
+
             List<String> illegalOrphanMessages = null;
-            Collection<TbApontamentosFuncionarios> tbApontamentosFuncionariosCollectionOrphanCheck = tbFuncionarios.getTbApontamentosFuncionariosCollection();
-            for (TbApontamentosFuncionarios tbApontamentosFuncionariosCollectionOrphanCheckTbApontamentosFuncionarios : tbApontamentosFuncionariosCollectionOrphanCheck) {
+            
+            Collection<TbApontamentosFuncionarios> tbApontamentosFuncionariosCollection = tbFuncionarios.getTbApontamentosFuncionariosCollection();
+            for (TbApontamentosFuncionarios tbApontamentosFuncionarios : tbApontamentosFuncionariosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("O Funcionário (" + tbFuncionarios.getNome() + ") não pode ser excluído pois esta sendo usado nos Apontamentos de Funcionários.");
             }
-            Collection<TbProjetoFuncionarios> tbProjetoFuncionariosCollectionOrphanCheck = tbFuncionarios.getTbProjetoFuncionariosCollection();
-            for (TbProjetoFuncionarios tbProjetoFuncionariosCollectionOrphanCheckTbProjetoFuncionarios : tbProjetoFuncionariosCollectionOrphanCheck) {
+            
+            Collection<TbProjetoFuncionarios> tbProjetoFuncionariosCollection = tbFuncionarios.getTbProjetoFuncionariosCollection();
+            for (TbProjetoFuncionarios tbProjetoFuncionarios : tbProjetoFuncionariosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("O Funcionário (" + tbFuncionarios.getNome() + ") não pode ser excluído pois esta vinculado á Projetos.");
             }
-            Collection<TbApontamentosMateriais> tbApontamentosMateriaisCollectionOrphanCheck = tbFuncionarios.getTbApontamentosMateriaisCollection();
-            for (TbApontamentosMateriais tbApontamentosMateriaisCollectionOrphanCheckTbApontamentosMateriais : tbApontamentosMateriaisCollectionOrphanCheck) {
+            
+            Collection<TbApontamentosMateriais> tbApontamentosMateriaisCollection = tbFuncionarios.getTbApontamentosMateriaisCollection();
+            for (TbApontamentosMateriais tbApontamentosMateriais : tbApontamentosMateriaisCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("O Funcionário (" + tbFuncionarios.getNome() + ") não pode ser excluído pois existem apontamentos de materiais.");
             }
-            Collection<TbProjetos> tbProjetosCollectionOrphanCheck = tbFuncionarios.getTbProjetosCollection();
-            for (TbProjetos tbProjetosCollectionOrphanCheckTbProjetos : tbProjetosCollectionOrphanCheck) {
+            
+            Collection<TbProjetos> tbProjetosCollection = tbFuncionarios.getTbProjetosCollection();
+            for (TbProjetos tbProjetos : tbProjetosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("O Funcionário (" + tbFuncionarios.getNome() + ") não pode ser excluído pois esta vinculado á Projetos.");
             }
-            Collection<TbFuncionariosRecursos> tbFuncionariosRecursosCollectionOrphanCheck = tbFuncionarios.getTbFuncionariosRecursosCollection();
-            for (TbFuncionariosRecursos tbFuncionariosRecursosCollectionOrphanCheckTbFuncionariosRecursos : tbFuncionariosRecursosCollectionOrphanCheck) {
+            
+            Collection<TbFuncionariosRecursos> tbFuncionariosRecursosCollection = tbFuncionarios.getTbFuncionariosRecursosCollection();
+            for (TbFuncionariosRecursos tbFuncionariosRecursos : tbFuncionariosRecursosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("O Funcionário (" + tbFuncionarios.getNome() + ") não pode ser excluído pois esta vinculado á Recursos do Projeto.");
             }
-            Collection<TbFuncionarioTurnoSemana> tbFuncionarioTurnoSemanaCollectionOrphanCheck = tbFuncionarios.getTbFuncionarioTurnoSemanaCollection();
-            for (TbFuncionarioTurnoSemana tbFuncionarioTurnoSemanaCollectionOrphanCheckTbFuncionarioTurnoSemana : tbFuncionarioTurnoSemanaCollectionOrphanCheck) {
+            
+            Collection<TbFuncionarioTurnoSemana> tbFuncionarioTurnoSemanaCollection = tbFuncionarios.getTbFuncionarioTurnoSemanaCollection();
+            for (TbFuncionarioTurnoSemana tbFuncionarioTurnoSemana : tbFuncionarioTurnoSemanaCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("O Funcionário (" + tbFuncionarios.getNome() + ") não pode ser excluído pois esta vinculado á Turnos de Funcionários.");
             }
+            
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            
             em.remove(tbFuncionarios);
-            em.getTransaction().commit();
-        } catch (NonexistentEntityException | IllegalOrphanException ex) {
-            try {
-                em.getTransaction().rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("Um erro ocorreu ao tentar reverter a transação.", re);
-            }
-            throw ex;
+        } catch (IllegalOrphanException ex) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(ex.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Registro sendo utilizado por outros cadastros."));
+        } catch (EntityNotFoundException enfe) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(enfe.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Este registro não existe."));
+        } catch (Exception re) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(re.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Um erro ocorreu ao tentar reverter a transação."));
         } finally {
             if (em != null) {
                 em.close();
@@ -172,7 +185,7 @@ public class TbFuncionariosJpaController implements Serializable {
     }
 
     public TbFuncionarios findTbFuncionarios(Integer id) {
-        EntityManager em = getEntityManager();
+        em = getEntityManager();
         try {
             return em.find(TbFuncionarios.class, id);
         } finally {
@@ -181,7 +194,7 @@ public class TbFuncionariosJpaController implements Serializable {
     }
 
     public int getTbFuncionariosCount() {
-        EntityManager em = getEntityManager();
+        em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<TbFuncionarios> rt = cq.from(TbFuncionarios.class);

@@ -7,8 +7,6 @@ package Controladores;
 
 import Controladores.exceptions.IllegalOrphanException;
 import Controladores.exceptions.NonexistentEntityException;
-import Controladores.exceptions.PreexistingEntityException;
-import Controladores.exceptions.RollbackFailureException;
 import Modelos.TbCidades;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -70,17 +68,19 @@ public class TbCidadesJpaController implements Serializable {
         this.listTbEstados = listTbEstados;
     }
 
-    public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create() throws Exception {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
 
             if (this.tbCidade.getHand() == null) {
+                
                 Util utilitarios = new Util();
                 this.tbCidade.setHand(utilitarios.contadorObjetos("TbCidades"));
                 em.persist(this.tbCidade);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
             } else {
+                
                 em.merge(this.tbCidade);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
             }
@@ -88,8 +88,10 @@ public class TbCidadesJpaController implements Serializable {
             em.getTransaction().commit();
 
         } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
-            throw ex;
+            
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(ex.toString(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
+            
         } finally {
             if (em != null) {
                 em.close();
@@ -97,42 +99,45 @@ public class TbCidadesJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, Exception {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             TbCidades tbCidades;
-            try {
-                tbCidades = em.getReference(TbCidades.class, id);
-                tbCidades.getHand();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("Este registro não existe.", enfe);
-            }
+            tbCidades = em.getReference(TbCidades.class, id);
+            tbCidades.getHand();
+            
             List<String> illegalOrphanMessages = null;
-            Collection<TbPessoa> tbPessoaCollectionOrphanCheck = tbCidades.getTbPessoaCollection();
-            for (TbPessoa tbPessoaCollectionOrphanCheckTbPessoa : tbPessoaCollectionOrphanCheck) {
+            
+            Collection<TbPessoa> tbPessoaCollection = tbCidades.getTbPessoaCollection();
+            for (TbPessoa tbPessoa : tbPessoaCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("A Cidade (" + tbCidades + ") não pode ser excluído pois esta sendo usado no Cliente/Fornecedor " + tbPessoaCollectionOrphanCheckTbPessoa.getNomeFantasia() + ".");
+                illegalOrphanMessages.add("A Cidade (" + tbCidades + ") não pode ser excluído pois esta sendo usado no Cliente/Fornecedor "
+                        + tbPessoa.getNomeFantasia() + ".");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            TbEstados tbEstadosHand = tbCidades.getTbEstadosHand();
-            if (tbEstadosHand != null) {
-                tbEstadosHand.getTbCidadesCollection().remove(tbCidades);
-                tbEstadosHand = em.merge(tbEstadosHand);
-            }
+
             em.remove(tbCidades);
-            em.getTransaction().begin();
-        } catch (NonexistentEntityException | IllegalOrphanException ex) {
-            try {
-                em.getTransaction().rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("Um erro ocorreu ao tentar reverter a transação.", re);
-            }
-            throw ex;
+        } catch (IllegalOrphanException ex) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(ex.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Registro sendo utilizado por outros cadastros."));
+            em.getTransaction().rollback();
+        } catch (EntityNotFoundException enfe) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(enfe.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Este registro não existe."));
+        } catch (Exception re) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(re.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Um erro ocorreu ao tentar reverter a transação."));
         } finally {
             if (em != null) {
                 em.close();

@@ -6,8 +6,6 @@
 package Controladores;
 
 import Controladores.exceptions.NonexistentEntityException;
-import Controladores.exceptions.PreexistingEntityException;
-import Controladores.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
@@ -92,27 +90,28 @@ public class TbFuncionarioTurnoSemanaJpaController implements Serializable {
         this.listTbTurnos = listTbTurnos;
     }
 
-    public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create() throws Exception {
 
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
-                        "Este Funcionário já possui um turno neste dia da semana!"));
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            
             if (this.tbFuncionarioTurnoSemana.getHand() == null) {
+                
                 Util utilitarios = new Util();
                 this.tbFuncionarioTurnoSemana.setHand(utilitarios.contadorObjetos("TbFuncionarioTurnoSemana"));
                 em.persist(this.tbFuncionarioTurnoSemana);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
             } else {
+                
                 em.merge(this.tbFuncionarioTurnoSemana);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
-            throw ex;
+            
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(ex.toString(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
         } finally {
             if (em != null) {
                 em.close();
@@ -121,41 +120,26 @@ public class TbFuncionarioTurnoSemanaJpaController implements Serializable {
 
     }
 
-    public void destroy(Integer id) throws NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws NonexistentEntityException, Exception {
 
         try {
+            
             em = getEntityManager();
             em.getTransaction().begin();
-            try {
-                tbFuncionarioTurnoSemana = em.getReference(TbFuncionarioTurnoSemana.class, id);
-                tbFuncionarioTurnoSemana.getHand();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("Este registro não existe.", enfe);
-            }
-            TbTurnos tbTurnosHand = tbFuncionarioTurnoSemana.getTbTurnosHand();
-            if (tbTurnosHand != null) {
-                tbTurnosHand.getTbFuncionarioTurnoSemanaCollection().remove(tbFuncionarioTurnoSemana);
-                tbTurnosHand = em.merge(tbTurnosHand);
-            }
-            TbFuncionarios tbFuncionariosHand = tbFuncionarioTurnoSemana.getTbFuncionariosHand();
-            if (tbFuncionariosHand != null) {
-                tbFuncionariosHand.getTbFuncionarioTurnoSemanaCollection().remove(tbFuncionarioTurnoSemana);
-                tbFuncionariosHand = em.merge(tbFuncionariosHand);
-            }
-            TbDiaSemana tbDiaSemanaHand = tbFuncionarioTurnoSemana.getTbDiaSemanaHand();
-            if (tbDiaSemanaHand != null) {
-                tbDiaSemanaHand.getTbFuncionarioTurnoSemanaCollection().remove(tbFuncionarioTurnoSemana);
-                tbDiaSemanaHand = em.merge(tbDiaSemanaHand);
-            }
+            tbFuncionarioTurnoSemana = em.getReference(TbFuncionarioTurnoSemana.class, id);
+            tbFuncionarioTurnoSemana.getHand();
             em.remove(tbFuncionarioTurnoSemana);
-            em.getTransaction().commit();
-        } catch (Exception ex) {
-            try {
-                em.getTransaction().rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("Um erro ocorreu ao tentar reverter a transação.", re);
-            }
-            throw ex;
+            
+        } catch (EntityNotFoundException enfe) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(enfe.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Este registro não existe."));
+        } catch (Exception re) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(re.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Um erro ocorreu ao tentar reverter a transação."));
         } finally {
             if (em != null) {
                 em.close();

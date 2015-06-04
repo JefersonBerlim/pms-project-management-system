@@ -66,23 +66,25 @@ public class TbMarcosJpaController implements Serializable {
         this.listTbMarcos = listTbMarcos;
     }
 
-    public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create() throws Exception {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            
+
             if (this.tbMarcos.isTmpEhInativo()) {
                 this.tbMarcos.setEhInativo("S");
-            }else{
+            } else {
                 this.tbMarcos.setEhInativo(null);
             }
 
             if (this.tbMarcos.getHand() == null) {
+
                 Util utilitarios = new Util();
                 this.tbMarcos.setHand(utilitarios.contadorObjetos("TbMarcos"));
                 em.persist(this.tbMarcos);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
             } else {
+
                 em.merge(this.tbMarcos);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
             }
@@ -90,8 +92,8 @@ public class TbMarcosJpaController implements Serializable {
             em.getTransaction().commit();
 
         } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
-            throw ex;
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(ex.toString(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
         } finally {
             if (em != null) {
                 em.close();
@@ -99,43 +101,51 @@ public class TbMarcosJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
+    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, Exception {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            try {
-                tbMarcos = em.getReference(TbMarcos.class, id);
-                tbMarcos.getHand();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("Este registro não existe.", enfe);
-            }
+            tbMarcos = em.getReference(TbMarcos.class, id);
+            tbMarcos.getHand();
+            
             List<String> illegalOrphanMessages = null;
-            Collection<TbMarcosServicos> tbMarcosServicosCollectionOrphanCheck = tbMarcos.getTbMarcosServicosCollection();
-            for (TbMarcosServicos tbMarcosServicosCollectionOrphanCheckTbMarcosServicos : tbMarcosServicosCollectionOrphanCheck) {
+            
+            Collection<TbMarcosServicos> tbMarcosServicosCollection = tbMarcos.getTbMarcosServicosCollection();
+            for (TbMarcosServicos tbMarcosServicos : tbMarcosServicosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("O Marco (" + tbMarcos.getDescricao() + ") não pode ser excluído pois esta sendo usado no vinculo com o serviço " + tbMarcosServicosCollectionOrphanCheckTbMarcosServicos.getTbServicosHand().getDescricao() + ".");
+                illegalOrphanMessages.add("O Marco (" + tbMarcos.getDescricao() + ") não pode ser excluído pois esta sendo usado no vinculo com o serviço " + tbMarcosServicos.getTbServicosHand().getDescricao() + ".");
             }
-            Collection<TbProjetoMarcos> tbProjetoMarcosCollectionOrphanCheck = tbMarcos.getTbProjetoMarcosCollection();
-            for (TbProjetoMarcos tbProjetoMarcosCollectionOrphanCheckTbProjetoMarcos : tbProjetoMarcosCollectionOrphanCheck) {
+            
+            Collection<TbProjetoMarcos> tbProjetoMarcosCollection = tbMarcos.getTbProjetoMarcosCollection();
+            for (TbProjetoMarcos tbProjetoMarcos : tbProjetoMarcosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("O Marco (" + tbMarcos.getDescricao() + ") não pode ser excluído pois esta sendo usado no vinculo com o Projeto " + tbProjetoMarcosCollectionOrphanCheckTbProjetoMarcos.getTbProjetoHand().getDecsricao() + ".");
+                illegalOrphanMessages.add("O Marco (" + tbMarcos.getDescricao() + ") não pode ser excluído pois esta sendo usado no vinculo com o Projeto " + tbProjetoMarcos.getTbProjetoHand().getDecsricao() + ".");
             }
+            
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            
             em.remove(tbMarcos);
-            em.getTransaction().commit();
-        } catch (NonexistentEntityException | IllegalOrphanException ex) {
-            try {
-                em.getTransaction().rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("Um erro ocorreu ao tentar reverter a transação.", re);
-            }
-            throw ex;
+        } catch (IllegalOrphanException ex) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(ex.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Registro sendo utilizado por outros cadastros."));
+        } catch (EntityNotFoundException enfe) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(enfe.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Este registro não existe."));
+        } catch (Exception re) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(re.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Um erro ocorreu ao tentar reverter a transação."));
         } finally {
             if (em != null) {
                 em.close();

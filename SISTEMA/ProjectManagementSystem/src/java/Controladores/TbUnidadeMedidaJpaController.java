@@ -65,17 +65,19 @@ public class TbUnidadeMedidaJpaController implements Serializable {
         this.listTbUnidadeMedida = listTbUnidadeMedida;
     }
 
-    public void create() throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create() throws Exception {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
 
             if (this.tbUnidadeMedida.getHand() == null) {
+
                 Util utilitarios = new Util();
                 this.tbUnidadeMedida.setHand(utilitarios.contadorObjetos("TbUnidadeMedida"));
                 em.persist(this.tbUnidadeMedida);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
             } else {
+
                 em.merge(this.tbUnidadeMedida);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
             }
@@ -83,8 +85,8 @@ public class TbUnidadeMedidaJpaController implements Serializable {
             em.getTransaction().commit();
 
         } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
-            throw ex;
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(ex.toString(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
         } finally {
             if (em != null) {
                 em.close();
@@ -95,32 +97,40 @@ public class TbUnidadeMedidaJpaController implements Serializable {
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         try {
             em.getTransaction().begin();
-            try {
-                tbUnidadeMedida = em.getReference(TbUnidadeMedida.class, id);
-                tbUnidadeMedida.getHand();
-            } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("Este registro não existe.", enfe);
-            }
+
+            tbUnidadeMedida = em.getReference(TbUnidadeMedida.class, id);
+            tbUnidadeMedida.getHand();
+
             List<String> illegalOrphanMessages = null;
-            Collection<TbMateriais> tbMateriaisCollectionOrphanCheck = tbUnidadeMedida.getTbMateriaisCollection();
-            for (TbMateriais tbMateriaisCollectionOrphanCheckTbMateriais : tbMateriaisCollectionOrphanCheck) {
+            
+            Collection<TbMateriais> tbMateriaisCollection = tbUnidadeMedida.getTbMateriaisCollection();
+            for (TbMateriais tbMateriais : tbMateriaisCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("A Unidade de Medida (" + tbUnidadeMedida.getDescricao() + ") não pode ser excluído pois esta vinculado no Material " + tbMateriaisCollectionOrphanCheckTbMateriais.getDescricao()+ ".");
+                illegalOrphanMessages.add("A Unidade de Medida (" + tbUnidadeMedida.getDescricao() + ") não pode ser excluído pois esta vinculado no Material " + tbMateriais.getDescricao() + ".");
             }
+            
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            
             em.remove(tbUnidadeMedida);
-            em.getTransaction().commit();
-        } catch (NonexistentEntityException | IllegalOrphanException ex) {
-            try {
-                em.getTransaction().rollback();
-            } catch (Exception re) {
-                throw new RollbackFailureException("Um erro ocorreu ao tentar reverter a transação.", re);
-            }
-            throw ex;
+        } catch (IllegalOrphanException ex) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(ex.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Registro sendo utilizado por outros cadastros."));
+        } catch (EntityNotFoundException enfe) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(enfe.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Este registro não existe."));
+        } catch (Exception re) {
+            em.getTransaction().rollback();
+            FacesContext.getCurrentInstance().addMessage(re.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
+                            "Um erro ocorreu ao tentar reverter a transação."));
         } finally {
             if (em != null) {
                 em.close();
