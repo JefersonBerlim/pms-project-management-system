@@ -57,11 +57,11 @@ public class TbDiaNaoUtilJpaController implements Serializable {
                 Util utilitarios = new Util();
                 this.tbDiaNaoUtil.setHand(utilitarios.contadorObjetos("TbDiaNaoUtil"));
                 em.persist(this.tbDiaNaoUtil);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro salvo com sucesso!", null));
             } else {
 
                 em.merge(this.tbDiaNaoUtil);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro atualizado com sucesso!", null));
             }
 
             em.getTransaction().commit();
@@ -69,7 +69,7 @@ public class TbDiaNaoUtilJpaController implements Serializable {
         } catch (Exception ex) {
 
             em.getTransaction().rollback();
-            FacesContext.getCurrentInstance().addMessage(ex.toString(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
+            FacesContext.getCurrentInstance().addMessage(ex.toString(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas ao persistir o regitsto.", null));
 
         } finally {
             if (em != null) {
@@ -82,7 +82,6 @@ public class TbDiaNaoUtilJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-
             tbDiaNaoUtil = em.getReference(TbDiaNaoUtil.class, id);
             tbDiaNaoUtil.getHand();
 
@@ -90,13 +89,13 @@ public class TbDiaNaoUtilJpaController implements Serializable {
         } catch (EntityNotFoundException enfe) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(enfe.toString(),
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-                            "Este registro não existe."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Este registro não existe.",
+                            null));
         } catch (Exception re) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(re.toString(),
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-                            "Um erro ocorreu ao tentar reverter a transação."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Um erro ocorreu ao tentar reverter a transação.",
+                            null));
         } finally {
             if (em != null) {
                 em.close();

@@ -113,7 +113,6 @@ public class TbRecursosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-
             tbRecursos = em.getReference(TbRecursos.class, id);
             tbRecursos.getHand();
 

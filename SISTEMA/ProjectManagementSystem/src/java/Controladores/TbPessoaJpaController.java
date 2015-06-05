@@ -132,7 +132,6 @@ public class TbPessoaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-
             tbPessoa = em.getReference(TbPessoa.class, id);
             tbPessoa.getHand();
 

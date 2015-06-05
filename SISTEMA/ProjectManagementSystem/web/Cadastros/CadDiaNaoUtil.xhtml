@@ -1,32 +1,40 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
     <h:head>
+
         <title>Facelet Title</title>
-
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
-
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
-
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
     </h:head>
 
     <h:body>
+
         <h:form>
 
-            <h:outputLabel value="Cidade: " for="cidade"/>  
-            <h:inputText class="form-control" required="true" requiredMessage="dfsfs"/>
+            <h:panelGrid columns ="2">
 
-            <h:commandButton value="Gravar"                                 
-                             class="btn btn-success"
-                             actionListener="${tbCidadesJpaController.create}"/>
+                <p:outputLabel value="Data:" for="data"/>
+                <p:calendar id="data" 
+                            required="true"
+                            requiredMessage = "O campo Data é origatório!"
+                            pattern="dd/MM/yyyy" 
+                            value="${tbDiaNaoUtilJpaController.tbDiaNaoUtil.diaNaoUtil}" />
+
+                <p:commandButton value="Gravar"                                 
+                                 class="btn btn-success"
+                                 actionListener="${tbDiaNaoUtilJpaController.create}"/>
+
+            </h:panelGrid>
+
+            <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true"/>
+
         </h:form>
 
     </h:body> 
+
 </html>
 

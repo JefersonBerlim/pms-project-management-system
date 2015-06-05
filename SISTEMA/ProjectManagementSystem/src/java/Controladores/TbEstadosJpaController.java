@@ -7,8 +7,6 @@ package Controladores;
 
 import Controladores.exceptions.IllegalOrphanException;
 import Controladores.exceptions.NonexistentEntityException;
-import Controladores.exceptions.PreexistingEntityException;
-import Controladores.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -101,13 +99,12 @@ public class TbEstadosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            TbEstados tbEstados;
-            tbEstados = em.getReference(TbEstados.class, id);
-            tbEstados.getHand();
+            tbEstado = em.getReference(TbEstados.class, id);
+            tbEstado.getHand();
 
             List<String> illegalOrphanMessages = null;
             
-            Collection<TbCidades> tbCidadesCollection = tbEstados.getTbCidadesCollection();
+            Collection<TbCidades> tbCidadesCollection = tbEstado.getTbCidadesCollection();
             for (TbCidades tbCidades : tbCidadesCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<>();
@@ -118,7 +115,7 @@ public class TbEstadosJpaController implements Serializable {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
 
-            em.remove(tbEstados);
+            em.remove(tbEstado);
         } catch (IllegalOrphanException ex) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(ex.toString(),

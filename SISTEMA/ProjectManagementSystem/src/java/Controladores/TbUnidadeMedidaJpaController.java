@@ -7,7 +7,6 @@ package Controladores;
 
 import Controladores.exceptions.IllegalOrphanException;
 import Controladores.exceptions.NonexistentEntityException;
-import Controladores.exceptions.PreexistingEntityException;
 import Controladores.exceptions.RollbackFailureException;
 import Modelos.TbMateriais;
 import Modelos.TbUnidadeMedida;
@@ -96,8 +95,8 @@ public class TbUnidadeMedidaJpaController implements Serializable {
 
     public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException, RollbackFailureException, Exception {
         try {
+            em = getEntityManager();
             em.getTransaction().begin();
-
             tbUnidadeMedida = em.getReference(TbUnidadeMedida.class, id);
             tbUnidadeMedida.getHand();
 
@@ -160,7 +159,7 @@ public class TbUnidadeMedidaJpaController implements Serializable {
         }
     }
 
-    public List<TbUnidadeMedida> retornaCollectionServicos() {
+    public List<TbUnidadeMedida> retornaCollectionUnidadeMedida() {
         em = getEntityManager();
         Query query = em.createNamedQuery("TbUnidadeMedida.findAll");
         return query.getResultList();

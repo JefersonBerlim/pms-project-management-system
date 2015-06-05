@@ -88,26 +88,24 @@ public class TbPaisesJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            TbPaises tbPaises;
-
-            tbPaises = em.getReference(TbPaises.class, id);
-            tbPaises.getHand();
+            tbPais = em.getReference(TbPaises.class, id);
+            tbPais.getHand();
 
             List<String> illegalOrphanMessages = null;
             
-            Collection<TbEstados> tbEstadosCollection = tbPaises.getTbEstadosCollection();
+            Collection<TbEstados> tbEstadosCollection = tbPais.getTbEstadosCollection();
             for (TbEstados tbEstados : tbEstadosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<>();
                 }
-                illegalOrphanMessages.add("O País (" + tbPaises + ") não pode ser excluído pois esta sendo usado no Estado " + tbEstados.getEstado() + ".");
+                illegalOrphanMessages.add("O País (" + tbPais + ") não pode ser excluído pois esta sendo usado no Estado " + tbEstados.getEstado() + ".");
             }
             
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             
-            em.remove(tbPaises);
+            em.remove(tbPais);
         } catch (IllegalOrphanException ex) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(ex.toString(),

@@ -7,8 +7,6 @@ package Controladores;
 
 import Controladores.exceptions.IllegalOrphanException;
 import Controladores.exceptions.NonexistentEntityException;
-import Controladores.exceptions.PreexistingEntityException;
-import Controladores.exceptions.RollbackFailureException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -88,7 +86,6 @@ public class TbTurnosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-
             tbTurnos = em.getReference(TbTurnos.class, id);
             tbTurnos.getHand();
 

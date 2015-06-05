@@ -104,7 +104,6 @@ public class TbServicosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-
             tbServicos = em.getReference(TbServicos.class, id);
             tbServicos.getHand();
 

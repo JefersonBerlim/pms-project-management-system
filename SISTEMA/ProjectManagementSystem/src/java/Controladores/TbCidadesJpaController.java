@@ -103,25 +103,24 @@ public class TbCidadesJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            TbCidades tbCidades;
-            tbCidades = em.getReference(TbCidades.class, id);
-            tbCidades.getHand();
+            tbCidade = em.getReference(TbCidades.class, id);
+            tbCidade.getHand();
             
             List<String> illegalOrphanMessages = null;
             
-            Collection<TbPessoa> tbPessoaCollection = tbCidades.getTbPessoaCollection();
+            Collection<TbPessoa> tbPessoaCollection = tbCidade.getTbPessoaCollection();
             for (TbPessoa tbPessoa : tbPessoaCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("A Cidade (" + tbCidades + ") não pode ser excluído pois esta sendo usado no Cliente/Fornecedor "
+                illegalOrphanMessages.add("A Cidade (" + tbCidade + ") não pode ser excluído pois esta sendo usado no Cliente/Fornecedor "
                         + tbPessoa.getNomeFantasia() + ".");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
 
-            em.remove(tbCidades);
+            em.remove(tbCidade);
         } catch (IllegalOrphanException ex) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(ex.toString(),

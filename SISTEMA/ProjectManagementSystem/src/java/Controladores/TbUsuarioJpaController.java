@@ -87,10 +87,10 @@ public class TbUsuarioJpaController implements Serializable {
     }
 
     public void destroy(Integer id) throws NonexistentEntityException, Exception {
-        em = getEntityManager();
-        try {
-            em.getTransaction().begin();
 
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
             tbUsuario = em.getReference(TbUsuario.class, id);
             tbUsuario.getHand();
 
