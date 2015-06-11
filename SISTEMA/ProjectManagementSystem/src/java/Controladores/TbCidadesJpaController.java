@@ -74,24 +74,30 @@ public class TbCidadesJpaController implements Serializable {
             em.getTransaction().begin();
 
             if (this.tbCidade.getHand() == null) {
-                
+
                 Util utilitarios = new Util();
                 this.tbCidade.setHand(utilitarios.contadorObjetos("TbCidades"));
                 em.persist(this.tbCidade);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO,
+                                "Registro salvo com sucesso!", null));
             } else {
-                
+
                 em.merge(this.tbCidade);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO,
+                                "Registro atualizado com sucesso!", null));
             }
 
             em.getTransaction().commit();
 
         } catch (Exception ex) {
-            
+
             em.getTransaction().rollback();
-            FacesContext.getCurrentInstance().addMessage(ex.toString(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
-            
+            FacesContext.getCurrentInstance().addMessage(ex.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Problemas ao persistir o regitsto.", null));
+
         } finally {
             if (em != null) {
                 em.close();
@@ -105,15 +111,16 @@ public class TbCidadesJpaController implements Serializable {
             em.getTransaction().begin();
             tbCidade = em.getReference(TbCidades.class, id);
             tbCidade.getHand();
-            
+
             List<String> illegalOrphanMessages = null;
-            
+
             Collection<TbPessoa> tbPessoaCollection = tbCidade.getTbPessoaCollection();
             for (TbPessoa tbPessoa : tbPessoaCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("A Cidade (" + tbCidade + ") não pode ser excluído pois esta sendo usado no Cliente/Fornecedor "
+                illegalOrphanMessages.add("A Cidade (" + tbCidade.getCidade()
+                        + ") não pode ser excluído pois esta sendo usado no Cliente/Fornecedor "
                         + tbPessoa.getNomeFantasia() + ".");
             }
             if (illegalOrphanMessages != null) {
@@ -124,19 +131,16 @@ public class TbCidadesJpaController implements Serializable {
         } catch (IllegalOrphanException ex) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(ex.toString(),
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-                            "Registro sendo utilizado por outros cadastros."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Registro sendo utilizado por outros cadastros.", null));
             em.getTransaction().rollback();
         } catch (EntityNotFoundException enfe) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(enfe.toString(),
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-                            "Este registro não existe."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Este registro não existe.",null));
         } catch (Exception re) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(re.toString(),
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-                            "Um erro ocorreu ao tentar reverter a transação."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Um erro ocorreu ao tentar reverter a transação.",null));
         } finally {
             if (em != null) {
                 em.close();

@@ -61,17 +61,20 @@ public class TbTurnosJpaController implements Serializable {
                     Util utilitarios = new Util();
                     this.tbTurnos.setHand(utilitarios.contadorObjetos("TbTurnos"));
                     em.persist(this.tbTurnos);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro salvo com sucesso!", null));
                 } else {
                     em.merge(this.tbTurnos);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro atualizado com sucesso!", null));
                 }
 
                 em.getTransaction().commit();
 
             } catch (Exception ex) {
                 em.getTransaction().rollback();
-                FacesContext.getCurrentInstance().addMessage(ex.toString(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
+                FacesContext.getCurrentInstance().addMessage(ex.toString(),
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas ao persistir o regitsto.", null));
             } finally {
                 if (em != null) {
                     em.close();
@@ -90,40 +93,38 @@ public class TbTurnosJpaController implements Serializable {
             tbTurnos.getHand();
 
             List<String> illegalOrphanMessages = null;
-            
+
             Collection<TbFuncionarioTurnoSemana> tbFuncionarioTurnoSemanaCollection = tbTurnos.getTbFuncionarioTurnoSemanaCollection();
             for (TbFuncionarioTurnoSemana tbFuncionarioTurnoSemana : tbFuncionarioTurnoSemanaCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<>();
                 }
-                illegalOrphanMessages.add("O Turno (" + tbTurnos.getDescricao() + ") não pode ser excluído pois esta sendo usado no Projeto "
+                illegalOrphanMessages.add("O Turno (" + tbTurnos.getDescricao()
+                        + ") não pode ser excluído pois esta sendo usado no Projeto "
                         + tbFuncionarioTurnoSemana.getHand() + " - "
                         + tbFuncionarioTurnoSemana.getTbDiaSemanaHand().getDescricao() + " - "
                         + tbFuncionarioTurnoSemana.getTbFuncionariosHand().getNome() + " - "
                         + tbFuncionarioTurnoSemana.getTbTurnosHand().getDescricao()
                         + ".");
             }
-            
+
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            
+
             em.remove(tbTurnos);
         } catch (IllegalOrphanException ex) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(ex.toString(),
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-                            "Registro sendo utilizado por outros cadastros."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Registro sendo utilizado por outros cadastros.", null));
         } catch (EntityNotFoundException enfe) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(enfe.toString(),
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-                            "Este registro não existe."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Este registro não existe.", null));
         } catch (Exception re) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(re.toString(),
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-                            "Um erro ocorreu ao tentar reverter a transação."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Um erro ocorreu ao tentar reverter a transação.", null));
         } finally {
             if (em != null) {
                 em.close();
@@ -163,7 +164,7 @@ public class TbTurnosJpaController implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", "Início do Expediente não pode ser superior o Início do Almoço!"));
+                            FacesMessage.SEVERITY_ERROR, "Início do Expediente não pode ser superior o Início do Almoço!", null));
 
             retorno = false;
         }
@@ -172,7 +173,7 @@ public class TbTurnosJpaController implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", "Início do Expediente não pode ser superior o Fim do Almoço!"));
+                            FacesMessage.SEVERITY_ERROR, "Início do Expediente não pode ser superior o Fim do Almoço!", null));
 
             retorno = false;
         }
@@ -181,7 +182,7 @@ public class TbTurnosJpaController implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", "Início do Expediente não pode ser superior o Fim do Expediente!"));
+                            FacesMessage.SEVERITY_ERROR, "Início do Expediente não pode ser superior o Fim do Expediente!", null));
 
             retorno = false;
         }
@@ -191,7 +192,7 @@ public class TbTurnosJpaController implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", "Início do Almoço não pode ser inferior o Início do Expediente!"));
+                            FacesMessage.SEVERITY_ERROR, "Início do Almoço não pode ser inferior o Início do Expediente!", null));
 
             retorno = false;
         }
@@ -200,7 +201,7 @@ public class TbTurnosJpaController implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", "Início do Almoço não pode ser superior o Fim do Almoço!"));
+                            FacesMessage.SEVERITY_ERROR, "Início do Almoço não pode ser superior o Fim do Almoço!", null));
 
             retorno = false;
         }
@@ -209,7 +210,7 @@ public class TbTurnosJpaController implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", "Início do Almoço não pode ser superior o Fim do Expediente!"));
+                            FacesMessage.SEVERITY_ERROR, "Início do Almoço não pode ser superior o Fim do Expediente!", null));
 
             retorno = false;
         }
@@ -219,7 +220,7 @@ public class TbTurnosJpaController implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", "Fim do Almoço não pode ser inferior o Início do Expediente!"));
+                            FacesMessage.SEVERITY_ERROR, "Fim do Almoço não pode ser inferior o Início do Expediente!", null));
 
             retorno = false;
         }
@@ -228,7 +229,7 @@ public class TbTurnosJpaController implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", "Fim do Almoço não pode ser inferior o Início do Almoço!"));
+                            FacesMessage.SEVERITY_ERROR, "Fim do Almoço não pode ser inferior o Início do Almoço!", null));
 
             retorno = false;
         }
@@ -237,7 +238,7 @@ public class TbTurnosJpaController implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", "Fim do Almoço não pode ser superior o Fim do Expediente!"));
+                            FacesMessage.SEVERITY_ERROR, "Fim do Almoço não pode ser superior o Fim do Expediente!", null));
 
             retorno = false;
         }
@@ -247,7 +248,7 @@ public class TbTurnosJpaController implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", "Fim do Expediente não pode ser inferior o Início do Expediente!"));
+                            FacesMessage.SEVERITY_ERROR, "Fim do Expediente não pode ser inferior o Início do Expediente!", null));
 
             retorno = false;
         }
@@ -256,7 +257,7 @@ public class TbTurnosJpaController implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", "Fim do Expediente não pode ser inferior o Início do Almoço!"));
+                            FacesMessage.SEVERITY_ERROR, "Fim do Expediente não pode ser inferior o Início do Almoço!", null));
 
             retorno = false;
         }
@@ -265,7 +266,7 @@ public class TbTurnosJpaController implements Serializable {
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(
-                            FacesMessage.SEVERITY_ERROR, "Error!", "Fim do Expediente não pode ser inferior o Fim do Almoço!"));
+                            FacesMessage.SEVERITY_ERROR, "Fim do Expediente não pode ser inferior o Fim do Almoço!", null));
 
             retorno = false;
         }

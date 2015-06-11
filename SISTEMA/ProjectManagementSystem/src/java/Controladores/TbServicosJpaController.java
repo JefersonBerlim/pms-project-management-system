@@ -7,8 +7,6 @@ package Controladores;
 
 import Controladores.exceptions.IllegalOrphanException;
 import Controladores.exceptions.NonexistentEntityException;
-import Controladores.exceptions.PreexistingEntityException;
-import Controladores.exceptions.RollbackFailureException;
 import Modelos.TbMarcosServicos;
 import Modelos.TbProjetosServicos;
 import Modelos.TbRecursosServicos;
@@ -82,17 +80,20 @@ public class TbServicosJpaController implements Serializable {
                 Util utilitarios = new Util();
                 this.tbServicos.setHand(utilitarios.contadorObjetos("TbServicos"));
                 em.persist(this.tbServicos);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro salvo com sucesso!"));
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro salvo com sucesso!", null));
             } else {
                 em.merge(this.tbServicos);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Registro atualizado com sucesso!"));
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro atualizado com sucesso!", null));
             }
 
             em.getTransaction().commit();
 
         } catch (Exception ex) {
             em.getTransaction().rollback();
-            FacesContext.getCurrentInstance().addMessage(ex.toString(), new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Problemas ao persistir o regitsto."));
+            FacesContext.getCurrentInstance().addMessage(ex.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Problemas ao persistir o regitsto.", null));
         } finally {
             if (em != null) {
                 em.close();
@@ -108,51 +109,54 @@ public class TbServicosJpaController implements Serializable {
             tbServicos.getHand();
 
             List<String> illegalOrphanMessages = null;
-            
+
             Collection<TbMarcosServicos> tbMarcosServicosCollection = tbServicos.getTbMarcosServicosCollection();
             for (TbMarcosServicos tbMarcosServicos : tbMarcosServicosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("O Serviço (" + tbServicos.getDescricao() + ") não pode ser excluído pois esta vinculado ao Marco " + tbMarcosServicos.getTbMarcosHand().getDescricao() + ".");
+                illegalOrphanMessages.add("O Serviço (" + tbServicos.getDescricao()
+                        + ") não pode ser excluído pois esta vinculado ao Marco "
+                        + tbMarcosServicos.getTbMarcosHand().getDescricao() + ".");
             }
-            
+
             Collection<TbProjetosServicos> tbProjetosServicosCollection = tbServicos.getTbProjetosServicosCollection1();
             for (TbProjetosServicos tbProjetosServicos : tbProjetosServicosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("O Serviço (" + tbServicos.getDescricao() + ") não pode ser excluído pois esta vinculado ao Projeto " + tbProjetosServicos.getObservacao() + ".");
+                illegalOrphanMessages.add("O Serviço (" + tbServicos.getDescricao()
+                        + ") não pode ser excluído pois esta vinculado ao Projeto "
+                        + tbProjetosServicos.getObservacao() + ".");
             }
-            
+
             Collection<TbRecursosServicos> tbRecursosServicosCollection = tbServicos.getTbRecursosServicosCollection();
             for (TbRecursosServicos tbRecursosServicos : tbRecursosServicosCollection) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("O Serviço (" + tbServicos.getDescricao() + ") não pode ser excluído pois esta vinculado ao Recurso " + tbRecursosServicos.getTbServicosHand().getDescricao() + ".");
+                illegalOrphanMessages.add("O Serviço (" + tbServicos.getDescricao()
+                        + ") não pode ser excluído pois esta vinculado ao Recurso "
+                        + tbRecursosServicos.getTbServicosHand().getDescricao() + ".");
             }
-            
+
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
-            }          
-            
+            }
+
             em.remove(tbServicos);
         } catch (IllegalOrphanException ex) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(ex.toString(),
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-                            "Registro sendo utilizado por outros cadastros."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Registro sendo utilizado por outros cadastros.", null));
         } catch (EntityNotFoundException enfe) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(enfe.toString(),
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-                            "Este registro não existe."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Este registro não existe.", null));
         } catch (Exception re) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(re.toString(),
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",
-                            "Um erro ocorreu ao tentar reverter a transação."));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Um erro ocorreu ao tentar reverter a transação.", null));
         } finally {
             if (em != null) {
                 em.close();

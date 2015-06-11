@@ -86,11 +86,13 @@ public class TbMateriaisJpaController implements Serializable {
                 Util utilitarios = new Util();
                 this.tbMateriais.setHand(utilitarios.contadorObjetos("TbMateriais"));
                 em.persist(this.tbMateriais);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro salvo com sucesso!", null));
+                FacesContext.getCurrentInstance().addMessage(null, 
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro salvo com sucesso!", null));
             } else {
 
                 em.merge(this.tbMateriais);
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro atualizado com sucesso!", null));
+                FacesContext.getCurrentInstance().addMessage(null, 
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro atualizado com sucesso!", null));
             }
 
             em.getTransaction().commit();
@@ -122,7 +124,10 @@ public class TbMateriaisJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This TbMateriais (" + tbMateriais + ") cannot be destroyed since the TbMaterialMarcoSvc " + tbMaterialMarcoSvc + " in its tbMaterialMarcoSvcCollection field has a non-nullable tbMateriaisHand field.");
+                illegalOrphanMessages.add("O Material (" + tbMaterialMarcoSvc.getTbMateriaisHand().getDescricao()
+                        + ") não pode ser excluído pois esta sendo usado no vinculo com o Serviço e Material "
+                        + tbMaterialMarcoSvc.getTbMarcosServicosHand().getTbServicosHand().getDescricao()
+                        + " - " + tbMaterialMarcoSvc.getTbMateriaisHand().getDescricao() + ".");
             }
 
             Collection<TbApontamentosMateriais> tbApontamentosMateriaisCollection = tbMateriais.getTbApontamentosMateriaisCollection();
@@ -130,7 +135,8 @@ public class TbMateriaisJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This TbMateriais (" + tbMateriais + ") cannot be destroyed since the TbApontamentosMateriais " + tbApontamentosMateriais + " in its tbApontamentosMateriaisCollection field has a non-nullable tbMateriaisHand field.");
+                illegalOrphanMessages.add("O Material (" + tbApontamentosMateriais.getTbMateriaisHand().getDescricao()
+                        + ") não pode ser excluído pois esta sendo usado no vinculo com os Apontamentos de Materiais da OS.");
             }
 
             Collection<TbProjetosMateriais> tbProjetosMateriaisCollection = tbMateriais.getTbProjetosMateriaisCollection();
@@ -138,7 +144,8 @@ public class TbMateriaisJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This TbMateriais (" + tbMateriais + ") cannot be destroyed since the TbProjetosMateriais " + tbProjetosMateriais + " in its tbProjetosMateriaisCollection field has a non-nullable tbMateriaisHand field.");
+                illegalOrphanMessages.add("O Material (" + tbProjetosMateriais.getTbMateriaisHand().getDescricao()
+                        + ") não pode ser excluído pois esta sendo usado no vinculo com os Projetos.");
             }
 
             Collection<TbOsMateriaisTotal> tbOsMateriaisTotalCollection = tbMateriais.getTbOsMateriaisTotalCollection();
@@ -146,7 +153,8 @@ public class TbMateriaisJpaController implements Serializable {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This TbMateriais (" + tbMateriais + ") cannot be destroyed since the TbOsMateriaisTotal " + tbOsMateriaisTotal + " in its tbOsMateriaisTotalCollection field has a non-nullable tbMateriaisHand field.");
+                illegalOrphanMessages.add("O Material (" + tbOsMateriaisTotal.getTbMateriaisHand().getDescricao()
+                        + ") não pode ser excluído pois esta sendo usado no vinculo com os Totalizadores das OS.");
 
                 if (illegalOrphanMessages != null) {
                     throw new IllegalOrphanException(illegalOrphanMessages);
