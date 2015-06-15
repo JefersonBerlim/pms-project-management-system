@@ -80,7 +80,7 @@ public class TbRecursosJpaController implements Serializable {
             if (this.tbRecursos.isTmpFuncionarioSimultaneo()) {
                 this.tbRecursos.setFuncionarioSimultaneo("S");
             } else {
-                this.tbRecursos.setFuncionarioSimultaneo(null);
+                this.tbRecursos.setFuncionarioSimultaneo("N");
             }
 
             if (this.tbRecursos.getHand() == null) {

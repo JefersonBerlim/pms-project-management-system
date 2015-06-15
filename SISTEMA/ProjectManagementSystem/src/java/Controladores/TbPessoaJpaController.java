@@ -89,19 +89,19 @@ public class TbPessoaJpaController implements Serializable {
             if (this.tbPessoa.isTmpEhCliente()) {
                 this.tbPessoa.setEhcliente("S");
             } else {
-                this.tbPessoa.setEhcliente(null);
+                this.tbPessoa.setEhcliente("N");
             }
 
             if (this.tbPessoa.isTmpEhFornecedor()) {
                 this.tbPessoa.setEhfornecedor("S");
             } else {
-                this.tbPessoa.setEhfornecedor(null);
+                this.tbPessoa.setEhfornecedor("N");
             }
 
             if (this.tbPessoa.isTmpEhInativo()) {
                 this.tbPessoa.setEhInativo("S");
             } else {
-                this.tbPessoa.setEhInativo(null);
+                this.tbPessoa.setEhInativo("N");
             }
 
             if (this.tbPessoa.getHand() == null) {

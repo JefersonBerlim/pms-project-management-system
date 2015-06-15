@@ -72,7 +72,7 @@ public class TbMarcosJpaController implements Serializable {
             if (this.tbMarcos.isTmpEhInativo()) {
                 this.tbMarcos.setEhInativo("S");
             } else {
-                this.tbMarcos.setEhInativo(null);
+                this.tbMarcos.setEhInativo("N");
             }
 
             if (this.tbMarcos.getHand() == null) {

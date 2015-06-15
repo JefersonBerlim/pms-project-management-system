@@ -78,7 +78,7 @@ public class TbMateriaisJpaController implements Serializable {
             if (this.tbMateriais.isTmpEhInativo()) {
                 this.tbMateriais.setEhInativo("S");
             } else {
-                this.tbMateriais.setEhInativo(null);
+                this.tbMateriais.setEhInativo("N");
             }
 
             if (this.tbMateriais.getHand() == null) {

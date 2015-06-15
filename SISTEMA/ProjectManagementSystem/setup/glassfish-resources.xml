@@ -5,8 +5,8 @@
         <property name="serverName" value=""/>
         <property name="User" value="sysdba"/>
         <property name="Password" value="masterkey"/>
-        <property name="URL" value="jdbc:firebirdsql:localhost/3050:C:/GitHub/pms-project-management-system/DataBase/PMS_DB.fdb?encoding=UTF8"/>
+        <property name="URL" value="jdbc:firebirdsql:localhost/3050:ProjectManagementSystem?encoding=UTF8"/>
         <property name="driverClass" value="org.firebirdsql.jdbc.FBDriver"/>
-    </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="ProjectManagementSystemJNDI" object-type="user" pool-name="jdbc_firebirdsql_localhost_3050_C__GitHub_pms-project-management-system_DataBase_PMS_DB_fdb?encoding_UTF8_sysdbaPool"/>
+    </jdbc-connection-pool>   
+    <jdbc-resource enabled="true" jndi-name="PMS_JDNI" object-type="user" pool-name="jdbc_firebirdsql_localhost_3050_C__GitHub_pms-project-management-system_DataBase_PMS_DB_fdb?encoding_UTF8_sysdbaPool"/>
 </resources>

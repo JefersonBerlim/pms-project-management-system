@@ -73,7 +73,7 @@ public class TbServicosJpaController implements Serializable {
             if (this.tbServicos.isTmpEhInativo()) {
                 this.tbServicos.setEhInativo("S");
             } else {
-                this.tbServicos.setEhInativo(null);
+                this.tbServicos.setEhInativo("N");
             }
 
             if (this.tbServicos.getHand() == null) {

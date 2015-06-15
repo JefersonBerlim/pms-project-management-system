@@ -13,10 +13,11 @@
     <h:body>
 
         <h:form>
+
             <h:panelGrid columns ="2">
 
                 <p:outputLabel value="Marco:" for="marco"/>
-                <p:selectOneMenu 
+                <p:selectOneMenu
                     id="marco"
                     value="${tbMarcosServicosJpaController.tbMarcosServicos.tbMarcosHand}"
                     required="true"
@@ -25,33 +26,80 @@
                     <f:selectItem
                         itemLabel="Selecione um Marco"/>                        
                     <f:selectItems
-                        value ="${tbMarcosJpaController.listTbMarcos}"
+                        value ="${tbMarcosServicosJpaController.listTbMarcos}"
                         var="marco"
                         itemLabel="${marco.descricao}"/>
+                    <p:ajax listener="${tbMarcosServicosJpaController.atualizaListasTela}" update="servicos"/>
+                    <p:ajax listener="${tbMarcosServicosJpaController.atualizaListasTela}" update="servico"/>
+                    <p:ajax update="ehAutomatico"/>
                 </p:selectOneMenu>
 
-<!-- <p:pickList id="PojoPickList" value="#{pickListView.themes}" var="theme" effect="bounce"
-itemValue="#{theme}" itemLabel="#{theme.displayName}" showSourceControls="true" 
-showTargetControls="true" showCheckbox="true"
-showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="theme"> --> 
-                <p:pickList id="PojoPickList" 
-                            value="${#}"
-                            var="theme" 
-                            effect="bounce"
-                            itemValue="${#}" 
-                            itemLabel="${#}" 
-                            showSourceControls="true" 
-                            showTargetControls="true" 
-                            showCheckbox="true"
-                            showSourceFilter="true" 
-                            showTargetFilter="true" 
-                            filterMatchMode="contains" 
-                            converter="theme">
+                <p:outputLabel value="Serviço:" for="servico"/>
+                <p:selectOneMenu
+                    id="servico"
+                    value="${tbMarcosServicosJpaController.tbMarcosServicos.tbServicosHand}"
+                    required="true"
+                    requiredMessage="O campo Serviço é obrigatório!"
+                    converter="tbServicoConverter">
+                    <f:selectItem
+                        itemLabel="Selecione um Serviço"/>                    
+                    <f:selectItems
+                        value ="${tbMarcosServicosJpaController.listTbServicosNaoVinculados}"
+                        var="servico"
+                        itemLabel="${servico.descricao}"/>
+                </p:selectOneMenu>
 
-                    <p:column style="width:100%;">
-                        <h:outputText value="${#}" />
+                <h:panelGroup id="ehAutomatico">
+                    <p:outputLabel value="Automatiza Processo:" for="ehAutomatico"/>
+                    <p:selectBooleanCheckbox id="automatico" 
+                                             value="${tbMarcosServicosJpaController.tbMarcosServicos.tmpAutomatizaProcesso}"/>
+                </h:panelGroup>
+
+                <p:dataTable id="servicos" 
+                             var="servico"                                                          
+                             value="${tbMarcosServicosJpaController.listTbServicosVinculados}"
+                             paginatorTemplate="{CurrentPageReport}  
+                             {FirstPageLink} 
+                             {PreviousPageLink} 
+                             {PageLinks} 
+                             {NextPageLink} 
+                             {LastPageLink}"
+                             paginator="true" 
+                             rows="15" 
+                             style="margin-bottom:20px">
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Serviço" />
+                        </f:facet>
+                        <h:outputText value="${servico.descricao}" />
                     </p:column>
-                </p:pickList>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Valor Hora"/>
+                        </f:facet>
+                        <h:outputText value="${servico.valorHora}" />
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Ativo?" />
+                        </f:facet>
+                        <h:outputText value="${servico.ehInativo}"/>
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:commandButton value="Gravar"                                 
+                                 icon="ui-icon-disk" 
+                                 id="Gravar"
+                                 actionListener="${tbMarcosJpaController.create}">
+                    <p:ajax listener="${tbMarcosServicosJpaController.atualizaListasTela}" update="servicos"/>
+                    <p:ajax listener="${tbMarcosServicosJpaController.atualizaListasTela}" update="servico"/>
+                    <p:ajax update="ehAutomatico"/>
+                </p:commandButton>
+
             </h:panelGrid>
 
             <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />

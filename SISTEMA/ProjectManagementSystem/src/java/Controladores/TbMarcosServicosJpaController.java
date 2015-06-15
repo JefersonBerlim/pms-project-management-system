@@ -21,6 +21,7 @@ import Utilitarios.Util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -42,6 +43,8 @@ public class TbMarcosServicosJpaController implements Serializable {
     private TbMarcosServicos tbMarcosServicos = new TbMarcosServicos();
     private List<TbMarcos> listTbMarcos = new ArrayList<>();
     private List<TbServicos> listTbServicos = new ArrayList<>();
+    private List<TbServicos> listTbServicosNaoVinculados = new ArrayList<>();
+    private List<TbServicos> listTbServicosVinculados = new ArrayList<>();
 
     public TbMarcosServicosJpaController() {
         emf = Persistence.createEntityManagerFactory("ProjectManagementSystemPU");
@@ -49,6 +52,12 @@ public class TbMarcosServicosJpaController implements Serializable {
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+
+    @PostConstruct
+    public void atualizaListaServicos() {
+        TbServicosJpaController controle = new TbServicosJpaController();
+        this.listTbServicos = controle.retornaCollectionServicos();
     }
 
     public TbMarcosServicos getTbMarcosServicos() {
@@ -83,10 +92,33 @@ public class TbMarcosServicosJpaController implements Serializable {
         this.listTbServicos = listTbServicos;
     }
 
+    public List<TbServicos> getListTbServicosNaoVinculados() {
+        return listTbServicosNaoVinculados;
+    }
+
+    public void setListTbServicosNaoVinculados(List<TbServicos> listTbServicosNaoVinculados) {
+        this.listTbServicosNaoVinculados = listTbServicosNaoVinculados;
+    }
+
+    public List<TbServicos> getListTbServicosVinculados() {
+
+        return listTbServicosVinculados;
+    }
+
+    public void setListTbServicosVinculados(List<TbServicos> listTbServicosVinculados) {
+        this.listTbServicosVinculados = listTbServicosVinculados;
+    }
+
     public void create() throws Exception {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+
+            if (!this.tbMarcosServicos.isTmpAutomatizaProcesso()) {
+                tbMarcosServicos.setAutomatizaProcesso("S");
+            } else {
+                tbMarcosServicos.setAutomatizaProcesso("N");
+            }
 
             if (this.tbMarcosServicos.getHand() == null) {
 
@@ -164,7 +196,7 @@ public class TbMarcosServicosJpaController implements Serializable {
     }
 
     public TbMarcosServicos findTbMarcosServicos(Integer id) {
-        EntityManager em = getEntityManager();
+        em = getEntityManager();
         try {
             return em.find(TbMarcosServicos.class, id);
         } finally {
@@ -185,4 +217,22 @@ public class TbMarcosServicosJpaController implements Serializable {
         }
     }
 
+    public void atualizaListasTela() {
+
+        // Retornar os Serviços Vinculados ao Marco
+        if (this.tbMarcosServicos.getTbMarcosHand() != null) {
+
+            em = getEntityManager();
+            Query query = em.createNamedQuery("TbMarcosServicos.TbServicosVinculados")
+                    .setParameter(tbMarcosServicos.getTbMarcosHand().getHand(), "marco");
+            listTbServicosVinculados = query.getResultList();
+
+            // Retornar os Serviços Não Vinculados ao Marco
+            for (int i = 0; i <= listTbServicos.size(); i++) {
+                if (!listTbServicosVinculados.contains(listTbServicos.get(i))) {
+                    listTbServicosNaoVinculados.add(listTbServicos.get(i));
+                }
+            }
+        }
+    }
 }

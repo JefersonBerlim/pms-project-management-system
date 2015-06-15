@@ -67,13 +67,13 @@ public class TbFuncionariosJpaController implements Serializable {
             if (this.tbFuncionarios.isTmpEhInativo()) {
                 this.tbFuncionarios.setEhInativo("S");
             } else {
-                this.tbFuncionarios.setEhInativo(null);
+                this.tbFuncionarios.setEhInativo("N");
             }
 
             if (this.tbFuncionarios.isTmpEhPlanejador()) {
                 this.tbFuncionarios.setEhPlanejador("S");
             } else {
-                this.tbFuncionarios.setEhPlanejador(null);
+                this.tbFuncionarios.setEhPlanejador("N");
             }
 
             if (this.tbFuncionarios.getHand() == null) {
