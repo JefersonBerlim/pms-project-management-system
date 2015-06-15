@@ -21,6 +21,7 @@ import Utilitarios.Util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -44,7 +45,7 @@ public class TbMarcosServicosJpaController implements Serializable {
     private List<TbMarcos> listTbMarcos = new ArrayList<>();
     private List<TbServicos> listTbServicos = new ArrayList<>();
     private List<TbServicos> listTbServicosNaoVinculados = new ArrayList<>();
-    private List<TbServicos> listTbServicosVinculados = new ArrayList<>();
+    private List<TbMarcosServicos> listTbServicosVinculados = new ArrayList<>();
 
     public TbMarcosServicosJpaController() {
         emf = Persistence.createEntityManagerFactory("ProjectManagementSystemPU");
@@ -100,12 +101,12 @@ public class TbMarcosServicosJpaController implements Serializable {
         this.listTbServicosNaoVinculados = listTbServicosNaoVinculados;
     }
 
-    public List<TbServicos> getListTbServicosVinculados() {
+    public List<TbMarcosServicos> getListTbServicosVinculados() {
 
         return listTbServicosVinculados;
     }
 
-    public void setListTbServicosVinculados(List<TbServicos> listTbServicosVinculados) {
+    public void setListTbServicosVinculados(List<TbMarcosServicos> listTbServicosVinculados) {
         this.listTbServicosVinculados = listTbServicosVinculados;
     }
 
@@ -114,7 +115,7 @@ public class TbMarcosServicosJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            if (!this.tbMarcosServicos.isTmpAutomatizaProcesso()) {
+            if (this.tbMarcosServicos.isTmpAutomatizaProcesso()) {
                 tbMarcosServicos.setAutomatizaProcesso("S");
             } else {
                 tbMarcosServicos.setAutomatizaProcesso("N");
@@ -217,22 +218,38 @@ public class TbMarcosServicosJpaController implements Serializable {
         }
     }
 
-    public void atualizaListasTela() {
+    public void atualizaListasTela() throws IllegalArgumentException {
 
         // Retornar os Serviços Vinculados ao Marco
-        if (this.tbMarcosServicos.getTbMarcosHand() != null) {
+        try {
+            if (this.tbMarcosServicos.getTbMarcosHand() != null) {
 
-            em = getEntityManager();
-            Query query = em.createNamedQuery("TbMarcosServicos.TbServicosVinculados")
-                    .setParameter(tbMarcosServicos.getTbMarcosHand().getHand(), "marco");
-            listTbServicosVinculados = query.getResultList();
+                listTbServicosVinculados = new ArrayList<>();
+                listTbServicosNaoVinculados = new ArrayList<>();
 
-            // Retornar os Serviços Não Vinculados ao Marco
-            for (int i = 0; i <= listTbServicos.size(); i++) {
-                if (!listTbServicosVinculados.contains(listTbServicos.get(i))) {
-                    listTbServicosNaoVinculados.add(listTbServicos.get(i));
+                em = getEntityManager();
+                Query query = em.createNamedQuery("TbMarcosServicos.TbServicosVinculados")
+                        .setParameter("marco", tbMarcosServicos.getTbMarcosHand().getHand());
+                listTbServicosVinculados = query.getResultList();
+
+                // Retornar os Serviços Não Vinculados ao Marco
+                if (listTbServicosVinculados.isEmpty()) {
+                    listTbServicosNaoVinculados = listTbServicos;
+                } else {
+                    for (TbServicos servico : listTbServicos) {
+                        for (TbMarcosServicos TbServicoVinculado : listTbServicosVinculados) {
+                            if (TbServicoVinculado.getTbServicosHand() != listTbServicos 
+                                    && !listTbServicosNaoVinculados.contains(servico)) {
+                                listTbServicosNaoVinculados.add(servico);
+                            }
+                        }
+                    }
                 }
             }
+        } catch (IllegalArgumentException e) {
+            FacesContext.getCurrentInstance().addMessage(e.toString(),
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Consultar Serviço.", e.toString()));
         }
+
     }
 }

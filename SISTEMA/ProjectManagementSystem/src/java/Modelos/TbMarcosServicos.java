@@ -105,7 +105,7 @@ public class TbMarcosServicos implements Serializable {
         return tmpAutomatizaProcesso;
     }
 
-    public void setTmpautomatizaProcesso(boolean tmpAutomatizaProcesso) {
+    public void setTmpAutomatizaProcesso(boolean tmpAutomatizaProcesso) {
         this.tmpAutomatizaProcesso = tmpAutomatizaProcesso;
     }
 

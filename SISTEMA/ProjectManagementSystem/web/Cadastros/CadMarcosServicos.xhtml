@@ -29,9 +29,9 @@
                         value ="${tbMarcosServicosJpaController.listTbMarcos}"
                         var="marco"
                         itemLabel="${marco.descricao}"/>
-                    <p:ajax listener="${tbMarcosServicosJpaController.atualizaListasTela}" update="servicos"/>
-                    <p:ajax listener="${tbMarcosServicosJpaController.atualizaListasTela}" update="servico"/>
-                    <p:ajax update="ehAutomatico"/>
+                    <f:ajax listener="${tbMarcosServicosJpaController.atualizaListasTela}" 
+                            execute="@this"
+                            render="servico servicos"/>
                 </p:selectOneMenu>
 
                 <p:outputLabel value="Serviço:" for="servico"/>
@@ -67,26 +67,25 @@
                              paginator="true" 
                              rows="15" 
                              style="margin-bottom:20px">
-
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Serviço" />
+                            <h:outputText value="Serviço"/>
                         </f:facet>
-                        <h:outputText value="${servico.descricao}" />
+                        <h:outputText value="${servico.tbServicosHand.descricao}"/>
                     </p:column>
 
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Valor Hora"/>
                         </f:facet>
-                        <h:outputText value="${servico.valorHora}" />
+                        <h:outputText value="${servico.tbServicosHand.valorHora}"/>
                     </p:column>
 
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Ativo?" />
                         </f:facet>
-                        <h:outputText value="${servico.ehInativo}"/>
+                        <h:outputText value="${servico.tbServicosHand.ehInativo}"/>
                     </p:column>
 
                 </p:dataTable>
@@ -94,15 +93,12 @@
                 <p:commandButton value="Gravar"                                 
                                  icon="ui-icon-disk" 
                                  id="Gravar"
-                                 actionListener="${tbMarcosJpaController.create}">
-                    <p:ajax listener="${tbMarcosServicosJpaController.atualizaListasTela}" update="servicos"/>
-                    <p:ajax listener="${tbMarcosServicosJpaController.atualizaListasTela}" update="servico"/>
-                    <p:ajax update="ehAutomatico"/>
+                                 actionListener="${tbMarcosServicosJpaController.create}">                    
                 </p:commandButton>
 
             </h:panelGrid>
 
-            <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+            <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true"/>
 
         </h:form>
 
