@@ -28,7 +28,10 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "TB_SERVICOS")
 @NamedQueries({
-    @NamedQuery(name = "TbServicos.findAll", query = "SELECT t FROM TbServicos t")})
+    @NamedQuery(name = "TbServicos.findAll", query = "SELECT t FROM TbServicos t"),
+    @NamedQuery(name = "TbServicos.servicosVinculados", query = "SELECT t FROM TbServicos t "
+            + "INNER JOIN TbMarcosServicos ms ON t.hand = ms.tbServicosHand.hand "
+            + "WHERE ms.tbMarcosHand.hand = :marco ")})
 public class TbServicos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,7 +43,6 @@ public class TbServicos implements Serializable {
     @Size(max = 50)
     @Column(name = "DESCRICAO")
     private String descricao;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "VALOR_HORA")
     private BigDecimal valorHora;
     @Size(max = 1)
@@ -159,7 +161,7 @@ public class TbServicos implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelos.TbServicos[ hand=" + hand + " ]";
+        return descricao;
     }
 
 }

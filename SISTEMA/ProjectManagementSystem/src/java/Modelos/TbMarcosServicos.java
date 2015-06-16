@@ -131,7 +131,7 @@ public class TbMarcosServicos implements Serializable {
 
     @Override
     public String toString() {
-        return "Modelos.TbMarcosServicos[ hand=" + hand + " ]";
+        return "Serviço:" + tbServicosHand.getDescricao() + " - Marco:" + tbMarcosHand.getDescricao();
     }
 
 }

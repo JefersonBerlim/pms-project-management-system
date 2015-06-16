@@ -71,21 +71,21 @@
                         <f:facet name="header">
                             <h:outputText value="Serviço"/>
                         </f:facet>
-                        <h:outputText value="${servico.tbServicosHand.descricao}"/>
+                        <h:outputText value="${servico.descricao}"/>
                     </p:column>
 
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Valor Hora"/>
                         </f:facet>
-                        <h:outputText value="${servico.tbServicosHand.valorHora}"/>
+                        <h:outputText value="${servico.valorHora}"/>
                     </p:column>
 
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Ativo?" />
                         </f:facet>
-                        <h:outputText value="${servico.tbServicosHand.ehInativo}"/>
+                        <h:outputText value="${servico.ehInativo}"/>
                     </p:column>
 
                 </p:dataTable>
@@ -93,7 +93,10 @@
                 <p:commandButton value="Gravar"                                 
                                  icon="ui-icon-disk" 
                                  id="Gravar"
-                                 actionListener="${tbMarcosServicosJpaController.create}">                    
+                                 actionListener="${tbMarcosServicosJpaController.create}">
+                    <f:ajax listener="${tbMarcosServicosJpaController.atualizaListasTela}" 
+                            execute="@this"
+                            render="servico servicos"/>
                 </p:commandButton>
 
             </h:panelGrid>

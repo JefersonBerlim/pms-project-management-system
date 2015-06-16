@@ -5,15 +5,15 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        
+
         <title>Cadastro de Usuários</title>
-        
+
     </h:head>
 
     <h:body>
 
         <h:form>
-            
+
             <h:panelGrid columns ="2">
 
                 <p:outputLabel value="Usuário: " for="usuario"/>
@@ -36,12 +36,12 @@
                                  actionListener="${tbUsuarioJpaController.create}"/>
 
             </h:panelGrid>
-            
+
             <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
 
         </h:form>
-        
+
     </h:body>
-    
+
 </html>
 
