@@ -90,14 +90,12 @@
 
                 </p:dataTable>
 
-                <p:commandButton value="Gravar"                                 
-                                 icon="ui-icon-disk" 
+                <h:commandButton value="Gravar"                                 
                                  id="Gravar"
-                                 actionListener="${tbMarcosServicosJpaController.create}">
-                    <f:ajax listener="${tbMarcosServicosJpaController.atualizaListasTela}" 
-                            execute="@this"
+                                 action="${tbMarcosServicosJpaController.create()}">
+                    <f:ajax event="click"
                             render="servico servicos"/>
-                </p:commandButton>
+                </h:commandButton>
 
             </h:panelGrid>
 

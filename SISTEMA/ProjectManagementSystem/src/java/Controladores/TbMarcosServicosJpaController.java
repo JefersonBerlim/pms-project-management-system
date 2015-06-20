@@ -45,6 +45,7 @@ public class TbMarcosServicosJpaController implements Serializable {
     private List<TbServicos> listTbServicos = new ArrayList<>();
     private List<TbServicos> listTbServicosNaoVinculados = new ArrayList<>();
     private List<TbServicos> listTbServicosVinculados = new ArrayList<>();
+    private List retornaRegistros = new ArrayList<>();
 
     public TbMarcosServicosJpaController() {
         emf = Persistence.createEntityManagerFactory("ProjectManagementSystemPU");
@@ -111,8 +112,6 @@ public class TbMarcosServicosJpaController implements Serializable {
 
     public void create() throws Exception {
         try {
-            em = getEntityManager();
-            em.getTransaction().begin();
 
             if (this.tbMarcosServicos.isTmpAutomatizaProcesso()) {
                 tbMarcosServicos.setAutomatizaProcesso("S");
@@ -120,30 +119,34 @@ public class TbMarcosServicosJpaController implements Serializable {
                 tbMarcosServicos.setAutomatizaProcesso("N");
             }
 
-            if (this.tbMarcosServicos.getHand() == null) {
+            if (this.tbMarcosServicos.getHand() == null && validaInclusao()) {
 
                 Util utilitarios = new Util();
                 this.tbMarcosServicos.setHand(utilitarios.contadorObjetos("TbMarcosServicos"));
+
+                em = getEntityManager();
+                em.getTransaction().begin();
+                
                 em.persist(this.tbMarcosServicos);
+                em.getTransaction().commit();
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO,
                                 "Registro salvo com sucesso!", null));
             } else {
 
                 em.merge(this.tbMarcosServicos);
+                em.getTransaction().commit();
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO,
                                 "Registro atualizado com sucesso!", null));
             }
-
-            em.getTransaction().commit();
 
         } catch (Exception ex) {
 
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(ex.toString(),
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Problemas ao persistir o regitsto.", null));
+                            "Problemas ao persistir o regitsto.", ex.toString()));
 
         } finally {
             if (em != null) {
@@ -196,8 +199,8 @@ public class TbMarcosServicosJpaController implements Serializable {
     }
 
     public TbMarcosServicos findTbMarcosServicos(Integer id) {
-        em = getEntityManager();
         try {
+            em = getEntityManager();
             return em.find(TbMarcosServicos.class, id);
         } finally {
             em.close();
@@ -205,8 +208,8 @@ public class TbMarcosServicosJpaController implements Serializable {
     }
 
     public int getTbMarcosServicosCount() {
-        em = getEntityManager();
         try {
+            em = getEntityManager();
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<TbMarcosServicos> rt = cq.from(TbMarcosServicos.class);
             cq.select(em.getCriteriaBuilder().count(rt));
@@ -220,12 +223,11 @@ public class TbMarcosServicosJpaController implements Serializable {
     public void atualizaListasTela() throws IllegalArgumentException {
 
         try {
+            em = getEntityManager();
             if (this.tbMarcosServicos.getTbMarcosHand() != null) {
 
                 listTbServicosVinculados = new ArrayList<>();
                 listTbServicosNaoVinculados = new ArrayList<>();
-
-                em = getEntityManager();
 
                 // Retornar os Serviços Vinculados ao Marco
                 Query vinculos = em.createNamedQuery("TbServicos.servicosVinculados")
@@ -236,9 +238,9 @@ public class TbMarcosServicosJpaController implements Serializable {
                 if (listTbServicosVinculados.isEmpty()) {
                     listTbServicosNaoVinculados = listTbServicos;
                 } else {
-                    for (int i = 0; i < listTbServicos.size(); i++) {
-                        if (!listTbServicosVinculados.contains(listTbServicos.get(i))) {
-                            listTbServicosNaoVinculados.add(listTbServicos.get(i));
+                    for (TbServicos listTbServico : listTbServicos) {
+                        if (!listTbServicosVinculados.contains(listTbServico) && !listTbServico.getEhInativo().equals("S")) {
+                            listTbServicosNaoVinculados.add(listTbServico);
                         }
                     }
                 }
@@ -247,5 +249,17 @@ public class TbMarcosServicosJpaController implements Serializable {
             FacesContext.getCurrentInstance().addMessage(e.toString(),
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Consultar Serviço.", e.toString()));
         }
+    }
+
+    private boolean validaInclusao() {
+        em = getEntityManager();
+
+        Query vinculos = em.createNamedQuery("TbMarcosServicos.retornaRegistros")
+                .setParameter("marco", tbMarcosServicos.getTbMarcosHand())
+                .setParameter("servico", tbMarcosServicos.getTbServicosHand());
+        retornaRegistros = vinculos.getResultList();
+
+        return retornaRegistros.isEmpty();
+
     }
 }

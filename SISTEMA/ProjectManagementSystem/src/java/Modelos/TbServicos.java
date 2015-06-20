@@ -31,7 +31,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "TbServicos.findAll", query = "SELECT t FROM TbServicos t"),
     @NamedQuery(name = "TbServicos.servicosVinculados", query = "SELECT t FROM TbServicos t "
             + "INNER JOIN TbMarcosServicos ms ON t.hand = ms.tbServicosHand.hand "
-            + "WHERE ms.tbMarcosHand.hand = :marco ")})
+            + "WHERE ms.tbMarcosHand.hand = :marco and t.ehInativo <> 'S'")})
 public class TbServicos implements Serializable {
 
     private static final long serialVersionUID = 1L;

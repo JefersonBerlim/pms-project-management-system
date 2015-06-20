@@ -86,12 +86,12 @@ public class TbMateriaisJpaController implements Serializable {
                 Util utilitarios = new Util();
                 this.tbMateriais.setHand(utilitarios.contadorObjetos("TbMateriais"));
                 em.persist(this.tbMateriais);
-                FacesContext.getCurrentInstance().addMessage(null, 
+                FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro salvo com sucesso!", null));
             } else {
 
                 em.merge(this.tbMateriais);
-                FacesContext.getCurrentInstance().addMessage(null, 
+                FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro atualizado com sucesso!", null));
             }
 
@@ -184,8 +184,8 @@ public class TbMateriaisJpaController implements Serializable {
     }
 
     public TbMateriais findTbMateriais(Integer id) {
-        EntityManager em = getEntityManager();
         try {
+            em = getEntityManager();
             return em.find(TbMateriais.class, id);
         } finally {
             em.close();
@@ -193,8 +193,8 @@ public class TbMateriaisJpaController implements Serializable {
     }
 
     public int getTbMateriaisCount() {
-        EntityManager em = getEntityManager();
         try {
+            em = getEntityManager();
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<TbMateriais> rt = cq.from(TbMateriais.class);
             cq.select(em.getCriteriaBuilder().count(rt));

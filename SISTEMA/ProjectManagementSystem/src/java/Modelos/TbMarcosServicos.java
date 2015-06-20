@@ -30,7 +30,10 @@ import javax.validation.constraints.Size;
 @Table(name = "TB_MARCOS_SERVICOS")
 @NamedQueries({
     @NamedQuery(name = "TbMarcosServicos.findAll", query = "SELECT t FROM TbMarcosServicos t"),
-    @NamedQuery(name = "TbMarcosServicos.TbServicosVinculados", query = "SELECT t FROM TbMarcosServicos t WHERE t.tbMarcosHand.hand = :marco"),})
+    @NamedQuery(name = "TbMarcosServicos.TbServicosVinculados", query = "SELECT t FROM TbMarcosServicos t "
+            + "WHERE t.tbMarcosHand.hand = :marco"),
+    @NamedQuery(name = "TbMarcosServicos.retornaRegistros", query = "SELECT t FROM TbMarcosServicos t "
+            + "WHERE t.tbMarcosHand = :marco AND t.tbServicosHand = :servico"),})
 public class TbMarcosServicos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -123,10 +126,7 @@ public class TbMarcosServicos implements Serializable {
             return false;
         }
         TbMarcosServicos other = (TbMarcosServicos) object;
-        if ((this.hand == null && other.hand != null) || (this.hand != null && !this.hand.equals(other.hand))) {
-            return false;
-        }
-        return true;
+        return !((this.hand == null && other.hand != null) || (this.hand != null && !this.hand.equals(other.hand)));
     }
 
     @Override
