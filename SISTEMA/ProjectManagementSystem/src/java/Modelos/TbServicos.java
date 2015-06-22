@@ -29,6 +29,10 @@ import javax.validation.constraints.Size;
 @Table(name = "TB_SERVICOS")
 @NamedQueries({
     @NamedQuery(name = "TbServicos.findAll", query = "SELECT t FROM TbServicos t"),
+    @NamedQuery(name = "TbServicos.servicosAtivos", query = "SELECT t FROM TbServicos t WHERE t.ehInativo <> 'S'"),
+    @NamedQuery(name = "TbServicos.servicosNaoVinculados", query = "SELECT t FROM TbServicos t "
+            + "WHERE t.ehInativo <> 'S' "
+            + "AND t.hand NOT IN ( SELECT i.tbServicosHand.hand from TbMarcosServicos i WHERE i.tbMarcosHand.hand = :marco)"),
     @NamedQuery(name = "TbServicos.servicosVinculados", query = "SELECT t FROM TbServicos t "
             + "INNER JOIN TbMarcosServicos ms ON t.hand = ms.tbServicosHand.hand "
             + "WHERE ms.tbMarcosHand.hand = :marco and t.ehInativo <> 'S'")})

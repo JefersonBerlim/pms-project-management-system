@@ -192,4 +192,10 @@ public class TbServicosJpaController implements Serializable {
         return query.getResultList();
     }
 
+    public List<TbServicos> retornaCollectionServicosAtivos() {
+        em = getEntityManager();
+        Query query = em.createNamedQuery("TbServicos.servicosAtivos");
+        return query.getResultList();
+    }
+
 }

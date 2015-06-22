@@ -16,8 +16,8 @@
 
             <h:panelGrid columns ="2">
 
-                <p:outputLabel value="Marco:" for="marco"/>
-                <p:selectOneMenu
+                <h:outputLabel value="Marco:" for="marco"/>
+                <h:selectOneMenu
                     id="marco"
                     value="${tbMarcosServicosJpaController.tbMarcosServicos.tbMarcosHand}"
                     required="true"
@@ -29,13 +29,12 @@
                         value ="${tbMarcosServicosJpaController.listTbMarcos}"
                         var="marco"
                         itemLabel="${marco.descricao}"/>
-                    <f:ajax listener="${tbMarcosServicosJpaController.atualizaListasTela}" 
-                            execute="@this"
+                    <f:ajax execute="@this"
                             render="servico servicos"/>
-                </p:selectOneMenu>
+                </h:selectOneMenu>
 
-                <p:outputLabel value="Serviço:" for="servico"/>
-                <p:selectOneMenu
+                <h:outputLabel value="Serviço:" for="servico"/>
+                <h:selectOneMenu
                     id="servico"
                     value="${tbMarcosServicosJpaController.tbMarcosServicos.tbServicosHand}"
                     required="true"
@@ -47,54 +46,44 @@
                         value ="${tbMarcosServicosJpaController.listTbServicosNaoVinculados}"
                         var="servico"
                         itemLabel="${servico.descricao}"/>
-                </p:selectOneMenu>
+                </h:selectOneMenu>
 
                 <h:panelGroup id="ehAutomatico">
-                    <p:outputLabel value="Automatiza Processo:" for="ehAutomatico"/>
-                    <p:selectBooleanCheckbox id="automatico" 
+                    <h:outputLabel value="Automatiza Processo:" for="ehAutomatico"/>
+                    <h:selectBooleanCheckbox id="automatico" 
                                              value="${tbMarcosServicosJpaController.tbMarcosServicos.tmpAutomatizaProcesso}"/>
                 </h:panelGroup>
 
-                <p:dataTable id="servicos" 
+                <h:dataTable id="servicos" 
                              var="servico"                                                          
                              value="${tbMarcosServicosJpaController.listTbServicosVinculados}"
-                             paginatorTemplate="{CurrentPageReport}  
-                             {FirstPageLink} 
-                             {PreviousPageLink} 
-                             {PageLinks} 
-                             {NextPageLink} 
-                             {LastPageLink}"
-                             paginator="true" 
-                             rows="15" 
                              style="margin-bottom:20px">
-                    <p:column>
+                    <h:column>
                         <f:facet name="header">
                             <h:outputText value="Serviço"/>
                         </f:facet>
                         <h:outputText value="${servico.descricao}"/>
-                    </p:column>
+                    </h:column>
 
-                    <p:column>
+                    <h:column>
                         <f:facet name="header">
                             <h:outputText value="Valor Hora"/>
                         </f:facet>
                         <h:outputText value="${servico.valorHora}"/>
-                    </p:column>
+                    </h:column>
 
-                    <p:column>
+                    <h:column>
                         <f:facet name="header">
                             <h:outputText value="Ativo?" />
                         </f:facet>
                         <h:outputText value="${servico.ehInativo}"/>
-                    </p:column>
+                    </h:column>
 
-                </p:dataTable>
+                </h:dataTable>
 
                 <h:commandButton value="Gravar"                                 
                                  id="Gravar"
                                  action="${tbMarcosServicosJpaController.create()}">
-                    <f:ajax event="click"
-                            render="servico servicos"/>
                 </h:commandButton>
 
             </h:panelGrid>
