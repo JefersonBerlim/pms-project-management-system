@@ -1,8 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"    
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html">
 
     <h:head>
 
@@ -16,28 +15,27 @@
 
             <h:panelGrid columns ="2">
 
-                <p:outputLabel value="Usuário: " for="usuario"/>
-                <p:inputText id="usuario"
+                <h:outputLabel value="Usuário: " for="usuario"/>
+                <h:inputText id="usuario"
                              required="true" 
                              requiredMessage = "O campo Usuário é origatório!"
                              maxlength="150"
                              value="${tbUsuarioJpaController.tbUsuario.nome}" />
 
-                <p:outputLabel value="Senha: " for="senha"/>
-                <p:password id="senha"
+                <h:outputLabel value="Senha: " for="senha"/>
+                <h:inputSecret id="senha"
                             required="true" 
                             requiredMessage = "O campo Senha é origatório!"
                             maxlength="8"
                             value="${tbUsuarioJpaController.tbUsuario.senha}" />
 
-                <p:commandButton value="Gravar"                                 
-                                 icon="ui-icon-disk" 
+                <h:commandButton value="Gravar"                                 
                                  id="Gravar"
-                                 actionListener="${tbUsuarioJpaController.create}"/>
+                                 action="${tbUsuarioJpaController.create}"/>
 
             </h:panelGrid>
 
-            <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+            <h:messages id="messages" showDetail="false"/>
 
         </h:form>
 

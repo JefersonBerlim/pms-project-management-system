@@ -2,8 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  
       xmlns:f="http://java.sun.com/jsf/core"  
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html">
 
     <h:head>
 
@@ -17,73 +16,66 @@
 
             <h:panelGrid columns ="4">
 
-                <p:outputLabel value="Nome" for="nome"/>
-                <p:inputText id="nome"
+                <h:outputLabel value="Nome" for="nome"/>
+                <h:inputText id="nome"
                              required="true"
                              requiredMessage = "O campo Nome é origatório!"
                              maxlength="150"
                              value="${tbFuncionariosJpaController.tbFuncionarios.nome}"/>
 
-                <p:outputLabel value="Matrícula" for="matricula"/>
-                <p:inputText id="matricula"
+                <h:outputLabel value="Matrícula" for="matricula"/>
+                <h:inputText id="matricula"
                              maxlength="50"
                              value="${tbFuncionariosJpaController.tbFuncionarios.numeroMatricula}"/>
 
-                <p:outputLabel value="Data Admissão" for="data_admissao"/>
-                <p:calendar id="data_admissao" 
-                            pattern="dd/MM/yyyy" 
+                <h:outputLabel value="Data Admissão" for="data_admissao"/>
+                <h:inputText id="data_admissao" 
                             value="${tbFuncionariosJpaController.tbFuncionarios.dataAdmissao}" />
 
-                <p:outputLabel value="CPF" for="cpf"/>
-                <p:inputMask id="cpf"
-                             mask="999.999.999-99"
+                <h:outputLabel value="CPF" for="cpf"/>
+                <h:inputText id="cpf"
                              value="${tbFuncionariosJpaController.tbFuncionarios.cpf}"/>
 
-                <p:outputLabel value="Identidade" for="identidade"/>
-                <p:inputMask id="identidade"
-                             mask="9.999.999-9"
+                <h:outputLabel value="Identidade" for="identidade"/>
+                <h:inputText id="identidade"
                              value="${tbFuncionariosJpaController.tbFuncionarios.numeroIdentidade}"/>
 
-                <p:outputLabel value="Telefone 1" for="telefone1"/>
-                <p:inputMask id="telefone1" 
-                             mask="(999) 999-9999?"
+                <h:outputLabel value="Telefone 1" for="telefone1"/>
+                <h:inputText id="telefone1" 
                              value="#{tbFuncionariosJpaController.tbFuncionarios.telefone}" />
 
-                <p:outputLabel value="Telefone 2" for="telefone2"/>
-                <p:inputMask id="telefone2" 
-                             mask="(999) 999-9999?"
+                <h:outputLabel value="Telefone 2" for="telefone2"/>
+                <h:inputText id="telefone2" 
                              value="#{tbFuncionariosJpaController.tbFuncionarios.telefone2}"/>
 
-                <p:outputLabel value="Valor Hora" for="valor_hora"/>
-                <p:inputText id="valor_hora"
+                <h:outputLabel value="Valor Hora" for="valor_hora"/>
+                <h:inputText id="valor_hora"
                              value="${tbFuncionariosJpaController.tbFuncionarios.valorHora}">
                     <f:convertNumber maxIntegerDigits="15" maxFractionDigits="2" minFractionDigits="2"/>
-                </p:inputText>
+                </h:inputText>
 
-                <p:outputLabel value="Email" for="email"/>
-                <p:inputText id="email"
+                <h:outputLabel value="Email" for="email"/>
+                <h:inputText id="email"
                              maxlength="50"
                              value="${tbFuncionariosJpaController.tbFuncionarios.email}"/>
 
-                <p:outputLabel value="Data Nascimento" for="data_nascimento"/>
-                <p:calendar id="data_nascimento" 
-                            pattern="dd/MM/yyyy" 
+                <h:outputLabel value="Data Nascimento" for="data_nascimento"/>
+                <h:inputText id="data_nascimento" 
                             value="${tbFuncionariosJpaController.tbFuncionarios.dataNascimento}" />
 
-                <p:outputLabel value="Planejador" for="planejador"/>
-                <p:selectBooleanCheckbox id="planejador" value="${tbFuncionariosJpaController.tbFuncionarios.tmpEhPlanejador}"/>
+                <h:outputLabel value="Planejador" for="planejador"/>
+                <h:selectBooleanCheckbox id="planejador" value="${tbFuncionariosJpaController.tbFuncionarios.tmpEhPlanejador}"/>
 
-                <p:outputLabel value="Inativo" for="ehinativo"/>
-                <p:selectBooleanCheckbox id="ehinativo" value="${tbFuncionariosJpaController.tbFuncionarios.tmpEhInativo}"/>
+                <h:outputLabel value="Inativo" for="ehinativo"/>
+                <h:selectBooleanCheckbox id="ehinativo" value="${tbFuncionariosJpaController.tbFuncionarios.tmpEhInativo}"/>
 
-                <p:commandButton value="Gravar"                                 
-                                 icon="ui-icon-disk" 
+                <h:commandButton value="Gravar"                                 
                                  id="Gravar"
-                                 actionListener="${tbFuncionariosJpaController.create}"/>
+                                 action="${tbFuncionariosJpaController.create}"/>
 
             </h:panelGrid>
 
-            <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true"/>
+            <h:messages id="messages" showDetail="false"/>
 
         </h:form>
 

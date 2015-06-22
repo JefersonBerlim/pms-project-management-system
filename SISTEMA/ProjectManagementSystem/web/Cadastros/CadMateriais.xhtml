@@ -1,8 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  
       xmlns:f="http://java.sun.com/jsf/core"  
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html">
 
     <h:head>
 
@@ -16,8 +15,8 @@
 
             <h:panelGrid columns ="2">
 
-                <p:outputLabel value="Unidade de Medida:" for="unidade"/>
-                <p:selectOneMenu 
+                <h:outputLabel value="Unidade de Medida:" for="unidade"/>
+                <h:selectOneMenu 
                     id="unidade"
                     value="${tbMateriaisJpaController.tbMateriais.tbUnidadeMedidaHand}"
                     required="true"
@@ -29,39 +28,38 @@
                         value ="${tbMateriaisJpaController.listTbUnidadeMedida}"
                         var="unidade"
                         itemLabel="${unidade.descricao}"/>
-                </p:selectOneMenu>
+                </h:selectOneMenu>
 
-                <p:outputLabel value="Descrição:" for="descricao"/>
-                <p:inputText id="descricao"
+                <h:outputLabel value="Descrição:" for="descricao"/>
+                <h:inputText id="descricao"
                              required="true" 
                              requiredMessage = "O campo Descrição é origatório!"
                              value="${tbMateriaisJpaController.tbMateriais.descricao}"/>
 
-                <p:outputLabel value="Observação:" for="observacao"/>
-                <p:inputTextarea id="observacao"
+                <h:outputLabel value="Observação:" for="observacao"/>
+                <h:inputTextarea id="observacao"
                                  rows="6" 
                                  cols="33" 
                                  value="${tbMateriaisJpaController.tbMateriais.observacao}"/>
 
-                <p:outputLabel value="Valor: " for="valor"/>
-                <p:inputText id="valor"
+                <h:outputLabel value="Valor: " for="valor"/>
+                <h:inputText id="valor"
                              value="${tbMateriaisJpaController.tbMateriais.valor}" >
                     <f:convertNumber maxIntegerDigits="15" maxFractionDigits="2" minFractionDigits="2"/>
-                </p:inputText>
+                </h:inputText>
 
                 <h:panelGroup id="ehInativo">
-                    <p:outputLabel value="Inativo:" for="inativo"/>
-                    <p:selectBooleanCheckbox id="inativo" value="${tbMateriaisJpaController.tbMateriais.tmpEhInativo}"/>
+                    <h:outputLabel value="Inativo:" for="inativo"/>
+                    <h:selectBooleanCheckbox id="inativo" value="${tbMateriaisJpaController.tbMateriais.tmpEhInativo}"/>
                 </h:panelGroup>
 
-                <p:commandButton value="Gravar"                                 
-                                 icon="ui-icon-disk" 
+                <h:commandButton value="Gravar"                                 
                                  id="Gravar"
-                                 actionListener="${tbMateriaisJpaController.create}"/>
+                                 action="${tbMateriaisJpaController.create}"/>
 
             </h:panelGrid>
 
-            <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+            <h:messages id="messages" showDetail="false"/>
 
         </h:form>
 

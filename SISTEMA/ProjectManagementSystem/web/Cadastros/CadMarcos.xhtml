@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"  
-      xmlns:f="http://java.sun.com/jsf/core"  
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml"    
+      xmlns:h="http://java.sun.com/jsf/html">
 
     <h:head>
 
@@ -16,26 +14,25 @@
         <h:form>
 
             <h:panelGrid columns ="2">
-                <p:outputLabel value="Descrição: " for="descricao"/>
-                <p:inputText id="descricao"
+                <h:outputLabel value="Descrição: " for="descricao"/>
+                <h:inputText id="descricao"
                              required="true" 
                              requiredMessage = "O descrição Descrição é origatório!"
                              maxlength="50"
                              value="${tbMarcosJpaController.tbMarcos.descricao}" />
 
                 <h:panelGroup id="ehInativo">
-                    <p:outputLabel value="Inativo:" for="inativo"/>
-                    <p:selectBooleanCheckbox id="inativo" value="${tbMarcosJpaController.tbMarcos.tmpEhInativo}"/>
+                    <h:outputLabel value="Inativo:" for="inativo"/>
+                    <h:selectBooleanCheckbox id="inativo" value="${tbMarcosJpaController.tbMarcos.tmpEhInativo}"/>
                 </h:panelGroup> 
 
-                <p:commandButton value="Gravar"                                 
-                                 icon="ui-icon-disk" 
+                <h:commandButton value="Gravar"                                 
                                  id="Gravar"
-                                 actionListener="${tbMarcosJpaController.create}"/>
+                                 action="${tbMarcosJpaController.create}"/>
 
             </h:panelGrid>
 
-            <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+            <h:messages id="messages" showDetail="false"/>
 
         </h:form>
 

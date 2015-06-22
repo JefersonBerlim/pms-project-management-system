@@ -1,8 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  
       xmlns:f="http://java.sun.com/jsf/core"  
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html">
 
     <h:head>
 
@@ -17,7 +16,7 @@
             <h:panelGrid columns ="2">
 
                 <h:outputLabel value="Estado: " for="estado"/>
-                <p:selectOneMenu 
+                <h:selectOneMenu 
                     id="estado"
                     value="${tbCidadesJpaController.tbCidade.tbEstadosHand}"
                     required="true"
@@ -29,22 +28,22 @@
                         value ="${tbCidadesJpaController.listTbEstados}"
                         var="estado"
                         itemLabel="${estado.estado}, ${estado.sigla} - ${estado.tbPaisesHand.pais}"/>
-                </p:selectOneMenu>
+                </h:selectOneMenu>
 
-                <p:outputLabel value="Cidade: " for="cidade"/>
-                <p:inputText id="cidade"
+                <h:outputLabel value="Cidade: " for="cidade"/>
+                <h:inputText id="cidade"
                              required="true" 
                              requiredMessage = "O campo Cidade é origatório!"
                              value="${tbCidadesJpaController.tbCidade.cidade}"/>
 
-                <p:commandButton value="Gravar"                                 
-                                 icon="ui-icon-disk" 
+                <h:commandButton value="Gravar"                                 
                                  id="Gravar"
-                                 actionListener="${tbCidadesJpaController.create}"/>
+                                 action="${tbCidadesJpaController.create}"/>
 
             </h:panelGrid>
 
-            <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+            
+            <h:messages id="messages" showDetail="false" />
 
         </h:form>
 

@@ -2,8 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"  
       xmlns:f="http://java.sun.com/jsf/core"  
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html">
 
     <h:head>
 
@@ -16,37 +15,36 @@
         <h:form>
 
             <h:panelGrid columns ="2">
-                <p:outputLabel value="Descrição: " for="descricao"/>
-                <p:inputText id="descricao"
+                <h:outputLabel value="Descrição: " for="descricao"/>
+                <h:inputText id="descricao"
                              required="true" 
                              requiredMessage = "O campo descrição é origatório!"
                              maxlength="50"
                              value="${tbRecursosJpaController.tbRecursos.descricao}" />
 
-                <p:outputLabel value="Valor Hora: " for="valor_hora"/>
-                <p:inputText id="valor_hora"
+                <h:outputLabel value="Valor Hora: " for="valor_hora"/>
+                <h:inputText id="valor_hora"
                              value="${tbRecursosJpaController.tbRecursos.valorHora}" >
                     <f:convertNumber maxIntegerDigits="15" maxFractionDigits="2" minFractionDigits="2"/>
-                </p:inputText>
+                </h:inputText>
 
                 <h:panelGroup id="ehFuncionarioSumultaneo">
-                    <p:outputLabel value="Funcionário Simultâneo:" for="simultaneo"/>
-                    <p:selectBooleanCheckbox id="simultaneo" value="${tbRecursosJpaController.tbRecursos.tmpFuncionarioSimultaneo}"/>
+                    <h:outputLabel value="Funcionário Simultâneo:" for="simultaneo"/>
+                    <h:selectBooleanCheckbox id="simultaneo" value="${tbRecursosJpaController.tbRecursos.tmpFuncionarioSimultaneo}"/>
                 </h:panelGroup>
 
                 <h:panelGroup id="ehInativo">
-                    <p:outputLabel value="Inativo:" for="inativo"/>
-                    <p:selectBooleanCheckbox id="inativo" value="${tbRecursosJpaController.tbRecursos.tmpEhInativo}"/>
+                    <h:outputLabel value="Inativo:" for="inativo"/>
+                    <h:selectBooleanCheckbox id="inativo" value="${tbRecursosJpaController.tbRecursos.tmpEhInativo}"/>
                 </h:panelGroup>
 
-                <p:commandButton value="Gravar"                                 
-                                 icon="ui-icon-disk" 
+                <h:commandButton value="Gravar"                                 
                                  id="Gravar"
-                                 actionListener="${tbRecursosJpaController.create()}"/>
+                                 action="${tbRecursosJpaController.create()}"/>
 
             </h:panelGrid>
 
-            <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+            <h:messages id="messages" showDetail="false"/>
 
         </h:form>
 
