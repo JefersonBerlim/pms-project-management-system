@@ -92,9 +92,9 @@ public class TbRecursosServicosJpaController implements Serializable {
         em = getEntityManager();
         listTbRecursosVinculados = new ArrayList<>();
 
-        if (tbRecursosServicos.getTbRecursosHand() != null) {
+        if (tbRecursosServicos.getTbServicosHand() != null) {
             Query vinculos = em.createNamedQuery("TbRecursos.recursosVinculados")
-                    .setParameter("recurso", tbRecursosServicos.getTbRecursosHand().getHand());
+                    .setParameter("servico", tbRecursosServicos.getTbServicosHand().getHand());
             listTbRecursosVinculados = vinculos.getResultList();
         }
         if (em != null) {

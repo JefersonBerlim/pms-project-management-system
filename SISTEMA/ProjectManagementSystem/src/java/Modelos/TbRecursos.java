@@ -28,7 +28,14 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "TB_RECURSOS")
 @NamedQueries({
-    @NamedQuery(name = "TbRecursos.findAll", query = "SELECT t FROM TbRecursos t")})
+    @NamedQuery(name = "TbRecursos.findAll", query = "SELECT t FROM TbRecursos t"),
+    @NamedQuery(name = "TbRecursos.recursosAtivos", query = "SELECT t FROM TbRecursos t WHERE t.ehInativo <> 'S'"),
+    @NamedQuery(name = "TbRecursos.recursosNaoVinculados", query = "SELECT t FROM TbRecursos t "
+            + "WHERE t.ehInativo <> 'S' "
+            + "AND t.hand NOT IN ( SELECT i.tbRecursosHand.hand from TbRecursosServicos i WHERE i.tbServicosHand.hand = :servico)"),
+    @NamedQuery(name = "TbRecursos.recursosVinculados", query = "SELECT t FROM TbRecursos t "
+            + "INNER JOIN TbRecursosServicos rs ON t.hand = rs.tbRecursosHand.hand "
+            + "WHERE rs.tbServicosHand.hand = :servico and t.ehInativo <> 'S'")})
 public class TbRecursos implements Serializable {
 
     private static final long serialVersionUID = 1L;

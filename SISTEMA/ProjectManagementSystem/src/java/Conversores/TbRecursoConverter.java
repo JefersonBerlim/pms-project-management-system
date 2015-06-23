@@ -6,7 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@FacesConverter(value = "tbServicoConverter")
+@FacesConverter(value = "tbRecursoConverter")
 public class TbRecursoConverter implements Converter {
 
     @Override
