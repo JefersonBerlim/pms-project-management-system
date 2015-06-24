@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -25,7 +26,9 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "TB_FUNCIONARIOS_RECURSOS")
 @NamedQueries({
-    @NamedQuery(name = "TbFuncionariosRecursos.findAll", query = "SELECT t FROM TbFuncionariosRecursos t")})
+    @NamedQuery(name = "TbFuncionariosRecursos.findAll", query = "SELECT t FROM TbFuncionariosRecursos t"),
+    @NamedQuery(name = "TbFuncionariosRecursos.retornaRegistros", query = "SELECT t FROM TbFuncionariosRecursos t "
+            + "WHERE t.tbRecursosHand = :recurso AND t.tbFuncionariosHand = :funcionario"),})
 public class TbFuncionariosRecursos implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +46,9 @@ public class TbFuncionariosRecursos implements Serializable {
     @JoinColumn(name = "TB_FUNCIONARIOS_HAND", referencedColumnName = "HAND")
     @ManyToOne(optional = false)
     private TbFuncionarios tbFuncionariosHand;
+
+    @Transient
+    private boolean tmpAutomatizaProcesso;
 
     public TbFuncionariosRecursos() {
     }
@@ -81,6 +87,14 @@ public class TbFuncionariosRecursos implements Serializable {
 
     public void setTbFuncionariosHand(TbFuncionarios tbFuncionariosHand) {
         this.tbFuncionariosHand = tbFuncionariosHand;
+    }
+
+    public boolean isTmpAutomatizaProcesso() {
+        return tmpAutomatizaProcesso;
+    }
+
+    public void setTmpAutomatizaProcesso(boolean tmpAutomatizaProcesso) {
+        this.tmpAutomatizaProcesso = tmpAutomatizaProcesso;
     }
 
     @Override

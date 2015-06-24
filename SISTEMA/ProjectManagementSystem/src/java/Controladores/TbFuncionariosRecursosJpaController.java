@@ -6,12 +6,14 @@
 package Controladores;
 
 import Controladores.exceptions.NonexistentEntityException;
+import Modelos.TbFuncionarios;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import Modelos.TbServicos;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import Modelos.TbRecursos;
-import Modelos.TbRecursosServicos;
+import Modelos.TbFuncionariosRecursos;
 import Utilitarios.Util;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,17 +31,17 @@ import javax.persistence.Persistence;
  */
 @ManagedBean
 @ViewScoped
-public class TbRecursosServicosJpaController implements Serializable {
+public class TbFuncionariosRecursosJpaController implements Serializable {
 
     private EntityManagerFactory emf = null;
     private EntityManager em = null;
-    private TbRecursosServicos tbRecursosServicos = new TbRecursosServicos();
-    private List<TbServicos> listTbServicos = new ArrayList<>();
+    private TbFuncionariosRecursos tbFuncionariosRecursos = new TbFuncionariosRecursos();
+    private List<TbFuncionarios> listTbFuncionarios = new ArrayList<>();
     private List<TbRecursos> listTbRecursosNaoVinculados = new ArrayList<>();
     private List<TbRecursos> listTbRecursosVinculados = new ArrayList<>();
     private List retornaRegistros = new ArrayList<>();
 
-    public TbRecursosServicosJpaController() {
+    public TbFuncionariosRecursosJpaController() {
         emf = Persistence.createEntityManagerFactory("ProjectManagementSystemPU");
     }
 
@@ -47,39 +49,23 @@ public class TbRecursosServicosJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public TbRecursosServicos getTbRecursosServicos() {
-        return tbRecursosServicos;
+    public TbFuncionariosRecursos getTbFuncionariosRecursos() {
+        return tbFuncionariosRecursos;
     }
 
-    public void setTbRecursosServicos(TbRecursosServicos tbRecursosServicos) {
-        this.tbRecursosServicos = tbRecursosServicos;
+    public void setTbFuncionariosRecursos(TbFuncionariosRecursos tbFuncionariosRecursos) {
+        this.tbFuncionariosRecursos = tbFuncionariosRecursos;
     }
 
-    public List<TbServicos> getListTbServicos() {
-        TbServicosJpaController controle = new TbServicosJpaController();
-        this.listTbServicos = controle.retornaCollectionServicosAtivos();
-
-        return listTbServicos;
+    public List<TbFuncionarios> getListTbFuncionarios() {
+        return listTbFuncionarios;
     }
 
-    public void setListTbServicos(List<TbServicos> listTbServicos) {
-        this.listTbServicos = listTbServicos;
+    public void setListTbFuncionarios(List<TbFuncionarios> listTbFuncionarios) {
+        this.listTbFuncionarios = listTbFuncionarios;
     }
 
     public List<TbRecursos> getListTbRecursosNaoVinculados() {
-
-        em = getEntityManager();
-        listTbRecursosNaoVinculados = new ArrayList<>();
-
-        if (tbRecursosServicos.getTbServicosHand()!= null) {
-            Query vinculos = em.createNamedQuery("TbRecursos.recursosNaoVinculadosServico")
-                    .setParameter("servico", tbRecursosServicos.getTbServicosHand().getHand());
-            listTbRecursosNaoVinculados = vinculos.getResultList();
-        }
-        if (em != null) {
-            em.close();
-        }
-
         return listTbRecursosNaoVinculados;
     }
 
@@ -88,19 +74,6 @@ public class TbRecursosServicosJpaController implements Serializable {
     }
 
     public List<TbRecursos> getListTbRecursosVinculados() {
-
-        em = getEntityManager();
-        listTbRecursosVinculados = new ArrayList<>();
-
-        if (tbRecursosServicos.getTbServicosHand() != null) {
-            Query vinculos = em.createNamedQuery("TbRecursos.recursosVinculadosServicos")
-                    .setParameter("servico", tbRecursosServicos.getTbServicosHand().getHand());
-            listTbRecursosVinculados = vinculos.getResultList();
-        }
-        if (em != null) {
-            em.close();
-        }
-
         return listTbRecursosVinculados;
     }
 
@@ -113,23 +86,23 @@ public class TbRecursosServicosJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
 
-            if (this.tbRecursosServicos.isTmpAutomatizaProcesso()) {
-                tbRecursosServicos.setAutomatizaProcesso("S");
+            if (this.tbFuncionariosRecursos.isTmpAutomatizaProcesso()) {
+                tbFuncionariosRecursos.setAutomatizaProcesso("S");
             } else {
-                tbRecursosServicos.setAutomatizaProcesso("N");
+                tbFuncionariosRecursos.setAutomatizaProcesso("N");
             }
 
             if (validaInclusao()) {
                 Util utilitarios = new Util();
-                this.tbRecursosServicos.setHand(utilitarios.contadorObjetos("TbRecursosServicos"));
-                em.persist(this.tbRecursosServicos);
+                this.tbFuncionariosRecursos.setHand(utilitarios.contadorObjetos("TbFuncionariosRecursos"));
+                em.persist(this.tbFuncionariosRecursos);
                 em.getTransaction().commit();
 
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO,
                                 "Registro salvo com sucesso!", null));
             } else {
-                em.merge(this.tbRecursosServicos);
+                em.merge(this.tbFuncionariosRecursos);
                 em.getTransaction().commit();
 
                 FacesContext.getCurrentInstance().addMessage(null,
@@ -152,10 +125,10 @@ public class TbRecursosServicosJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            tbRecursosServicos = em.getReference(TbRecursosServicos.class, id);
-            tbRecursosServicos.getHand();
+            tbFuncionariosRecursos = em.getReference(TbFuncionariosRecursos.class, id);
+            tbFuncionariosRecursos.getHand();
 
-            em.remove(tbRecursosServicos);
+            em.remove(tbFuncionariosRecursos);
         } catch (EntityNotFoundException enfe) {
             em.getTransaction().rollback();
             FacesContext.getCurrentInstance().addMessage(enfe.toString(),
@@ -171,10 +144,25 @@ public class TbRecursosServicosJpaController implements Serializable {
         }
     }
 
-    public TbRecursosServicos findTbRecursosServicos(Integer id) {
+    public TbFuncionariosRecursos findTbFuncionariosRecursos(Integer id) {
         try {
             em = getEntityManager();
-            return em.find(TbRecursosServicos.class, id);
+            return em.find(TbFuncionariosRecursos.class, id);
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public int getTbFuncionariosRecursosCount() {
+        try {
+            em = getEntityManager();
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            Root<TbFuncionariosRecursos> rt = cq.from(TbFuncionariosRecursos.class);
+            cq.select(em.getCriteriaBuilder().count(rt));
+            Query q = em.createQuery(cq);
+            return ((Long) q.getSingleResult()).intValue();
         } finally {
             if (em != null) {
                 em.close();
@@ -184,9 +172,9 @@ public class TbRecursosServicosJpaController implements Serializable {
 
     private boolean validaInclusao() {
 
-        Query vinculos = em.createNamedQuery("TbRecursosServicos.retornaRegistros")
-                .setParameter("servico", tbRecursosServicos.getTbServicosHand())
-                .setParameter("recurso", tbRecursosServicos.getTbRecursosHand());
+        Query vinculos = em.createNamedQuery("TbFuncionariosRecursos.retornaRegistros")
+                .setParameter("recurso", tbFuncionariosRecursos.getTbRecursosHand())
+                .setParameter("funcionario", tbFuncionariosRecursos.getTbFuncionariosHand());
         retornaRegistros = vinculos.getResultList();
 
         return retornaRegistros.isEmpty();

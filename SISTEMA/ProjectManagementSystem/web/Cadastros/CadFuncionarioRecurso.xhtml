@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+
+        <title>Vinculo Funcionário X Recurso</title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <h:panelGrid columns ="2">
+
+                <h:outputLabel value="Funcionário:" for="funcionario"/>
+                <h:selectOneMenu
+                    id="funcionario"
+                    value="${tbFuncionariosRecursosJpaController.tbFuncionariosRecursos.tbFuncionariosHand}"
+                    required="true"
+                    requiredMessage="O campo Funcionário é obrigatório!"
+                    converter="tbFuncionariosConverter">
+                    <f:selectItem
+                        itemLabel="Selecione um Funcionário"/>                        
+                    <f:selectItems
+                        value ="${tbFuncionariosRecursosJpaController.listTbFuncionarios}"
+                        var="funcionario"
+                        itemLabel="${funcionario.nome}"/>
+                    <f:ajax execute="@this"
+                            render="recurso recursos"/>
+                </h:selectOneMenu>
+
+                <h:outputLabel value="Recurso:" for="recurso"/>
+                <h:selectOneMenu
+                    id="recurso"
+                    value="${tbFuncionariosRecursosJpaController.tbFuncionariosRecursos.tbRecursosHand}"
+                    required="true"
+                    requiredMessage="O campo Recurso é obrigatório!"
+                    converter="tbRecursoConverter">
+                    <f:selectItem
+                        itemLabel="Selecione um Recurso"/>                    
+                    <f:selectItems
+                        value ="${tbFuncionariosRecursosJpaController.listTbRecursosNaoVinculados}"
+                        var="recurso"
+                        itemLabel="${recurso.descricao}"/>
+                </h:selectOneMenu>
+
+                <h:panelGroup id="ehAutomatico">
+                    <h:outputLabel value="Automatiza Processo:" for="ehAutomatico"/>
+                    <h:selectBooleanCheckbox id="automatico" 
+                                             value="${tbFuncionariosRecursosJpaController.tbFuncionariosRecursos.tmpAutomatizaProcesso}"/>
+                </h:panelGroup>
+
+                <h:dataTable id="recursos" 
+                             var="recurso"                                                          
+                             value="${tbFuncionariosRecursosJpaController.listTbRecursosVinculados}"
+                             style="margin-bottom:20px">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Recurso"/>
+                        </f:facet>
+                        <h:outputText value="${recurso.descricao}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Valor Hora"/>
+                        </f:facet>
+                        <h:outputText value="${recurso.valorHora}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Simultâneo?" />
+                        </f:facet>
+                        <h:outputText value="${recurso.funcionarioSimultaneo}"/>
+                    </h:column>
+
+                </h:dataTable>
+
+                <h:commandButton value="Gravar"                                 
+                                 id="Gravar"
+                                 action="${tbFuncionariosRecursosJpaController.create()}">
+                </h:commandButton>
+
+            </h:panelGrid>
+
+            <h:messages id="messages" showDetail="false"/>
+
+        </h:form>
+
+    </h:body>
+
+</html>
