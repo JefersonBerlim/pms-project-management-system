@@ -31,7 +31,8 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "TB_FUNCIONARIOS")
 @NamedQueries({
-    @NamedQuery(name = "TbFuncionarios.findAll", query = "SELECT t FROM TbFuncionarios t")})
+    @NamedQuery(name = "TbFuncionarios.findAll", query = "SELECT t FROM TbFuncionarios t"),
+    @NamedQuery(name = "TbFuncionarios.funcionariosAtivos", query = "SELECT t FROM TbFuncionarios t WHERE t.ehInativo <> 'S'"),})
 public class TbFuncionarios implements Serializable {
 
     private static final long serialVersionUID = 1L;

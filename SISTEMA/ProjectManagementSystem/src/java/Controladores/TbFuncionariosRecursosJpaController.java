@@ -58,6 +58,10 @@ public class TbFuncionariosRecursosJpaController implements Serializable {
     }
 
     public List<TbFuncionarios> getListTbFuncionarios() {
+
+        TbFuncionariosJpaController controle = new TbFuncionariosJpaController();
+        this.listTbFuncionarios = controle.retornaCollectionFuncionariosAtivos();
+
         return listTbFuncionarios;
     }
 
@@ -66,7 +70,21 @@ public class TbFuncionariosRecursosJpaController implements Serializable {
     }
 
     public List<TbRecursos> getListTbRecursosNaoVinculados() {
+
+        em = getEntityManager();
+        listTbRecursosNaoVinculados = new ArrayList<>();
+
+        if (tbFuncionariosRecursos.getTbFuncionariosHand() != null) {
+            Query vinculos = em.createNamedQuery("TbRecursos.recursosNaoVinculadosFuncionario")
+                    .setParameter("funcionario", tbFuncionariosRecursos.getTbFuncionariosHand().getHand());
+            listTbRecursosNaoVinculados = vinculos.getResultList();
+        }
+        if (em != null) {
+            em.close();
+        }
+
         return listTbRecursosNaoVinculados;
+
     }
 
     public void setListTbRecursosNaoVinculados(List<TbRecursos> listTbRecursosNaoVinculados) {
@@ -74,6 +92,19 @@ public class TbFuncionariosRecursosJpaController implements Serializable {
     }
 
     public List<TbRecursos> getListTbRecursosVinculados() {
+
+        em = getEntityManager();
+        listTbRecursosVinculados = new ArrayList<>();
+
+        if (tbFuncionariosRecursos.getTbFuncionariosHand() != null) {
+            Query vinculos = em.createNamedQuery("TbRecursos.recursosVinculadosFuncionario")
+                    .setParameter("funcionario", tbFuncionariosRecursos.getTbFuncionariosHand().getHand());
+            listTbRecursosVinculados = vinculos.getResultList();
+        }
+        if (em != null) {
+            em.close();
+        }
+
         return listTbRecursosVinculados;
     }
 

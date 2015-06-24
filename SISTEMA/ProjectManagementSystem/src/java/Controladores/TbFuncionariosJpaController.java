@@ -218,4 +218,10 @@ public class TbFuncionariosJpaController implements Serializable {
         return query.getResultList();
     }
 
+    public List<TbFuncionarios> retornaCollectionFuncionariosAtivos() {
+        em = getEntityManager();
+        Query query = em.createNamedQuery("TbFuncionarios.funcionariosAtivos");
+        return query.getResultList();
+    }
+
 }
