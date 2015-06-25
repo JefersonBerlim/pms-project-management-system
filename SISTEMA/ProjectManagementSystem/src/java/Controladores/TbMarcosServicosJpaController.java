@@ -55,12 +55,6 @@ public class TbMarcosServicosJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    @PostConstruct
-    public void atualizaListaServicos() {
-        TbServicosJpaController controle = new TbServicosJpaController();
-        this.listTbServicos = controle.retornaCollectionServicosAtivos();
-    }
-
     public TbMarcosServicos getTbMarcosServicos() {
         return tbMarcosServicos;
     }
@@ -261,9 +255,15 @@ public class TbMarcosServicosJpaController implements Serializable {
     public List<TbMarcosServicos> retornaCollectionAtivos() {
 
         List<TbMarcosServicos> listVinculos = new ArrayList<>();
-
-        Query vinculos = em.createNamedQuery("TbMarcosServicos.retornaRegistrosAtivos");
-        listVinculos = vinculos.getResultList();
+        try {
+            em = getEntityManager();
+            Query vinculos = em.createNamedQuery("TbMarcosServicos.retornaRegistrosAtivos");
+            listVinculos = vinculos.getResultList();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
 
         return listVinculos;
 

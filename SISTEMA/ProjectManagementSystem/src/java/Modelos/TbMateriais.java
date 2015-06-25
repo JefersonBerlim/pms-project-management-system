@@ -30,13 +30,13 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "TB_MATERIAIS")
 @NamedQueries({
-    @NamedQuery(name = "TbMateriais.findAll", query = "SELECT t FROM TbMateriais t"),
+    @NamedQuery(name = "TbMateriais.findAll", query = " SELECT t FROM TbMateriais t "),
     @NamedQuery(name = "TbMateriais.materiaisNaoVinculados", query = "SELECT t FROM TbMateriais t "
-            + "WHERE t.ehInativo <> 'S' "
-            + "AND t.hand NOT IN ( SELECT i.tbMateriaisHand.hand from TbMaterialMarcoSvc i WHERE i.hand = :marco_servico)"),
+            + " WHERE t.ehInativo <> 'S' "
+            + " AND t.hand NOT IN ( SELECT i.tbMateriaisHand.hand from TbMaterialMarcoSvc i WHERE i.hand = :marco_servico) "),
     @NamedQuery(name = "TbMateriais.materiaisVinculados", query = "SELECT t FROM TbMateriais t "
-            + "INNER JOIN TbMaterialMarcoSvc mms ON t.hand = mms.tbMateriaisHand.hand "
-            + "WHERE mms.hand = :marco_servico and t.ehInativo <> 'S'")})
+            + " INNER JOIN TbMaterialMarcoSvc mms ON t.hand = mms.tbMateriaisHand.hand "
+            + " WHERE mms.hand = :marco_servico and t.ehInativo <> 'S' ")})
 public class TbMateriais implements Serializable {
 
     private static final long serialVersionUID = 1L;
