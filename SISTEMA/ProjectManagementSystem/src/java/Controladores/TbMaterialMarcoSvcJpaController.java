@@ -115,8 +115,6 @@ public class TbMaterialMarcoSvcJpaController implements Serializable {
 
     public void create() throws Exception {
         try {
-            em = getEntityManager();
-            em.getTransaction().begin();
 
             if (this.tbMaterialMarcoSvc.isTmpAutomatizaProcesso()) {
                 tbMaterialMarcoSvc.setAutomatizaProcesso("S");
@@ -125,6 +123,9 @@ public class TbMaterialMarcoSvcJpaController implements Serializable {
             }
 
             if (validaInclusao()) {
+                em = getEntityManager();
+                em.getTransaction().begin();
+
                 Util utilitarios = new Util();
                 this.tbMaterialMarcoSvc.setHand(utilitarios.contadorObjetos("TbMaterialMarcoSvc"));
 
@@ -205,9 +206,11 @@ public class TbMaterialMarcoSvcJpaController implements Serializable {
 
     private boolean validaInclusao() {
 
+        em = getEntityManager();
+
         Query vinculos = em.createNamedQuery("TbMaterialMarcoSvc.retornaRegistros")
-                .setParameter("marco_servico", tbMaterialMarcoSvc.getTbMarcosServicosHand())
-                .setParameter("material", tbMaterialMarcoSvc.getTbMateriaisHand());
+                .setParameter("marcoservico", tbMaterialMarcoSvc.getTbMarcosServicosHand().getHand())
+                .setParameter("material", tbMaterialMarcoSvc.getTbMateriaisHand().getHand());
         retornaRegistros = vinculos.getResultList();
 
         return retornaRegistros.isEmpty();

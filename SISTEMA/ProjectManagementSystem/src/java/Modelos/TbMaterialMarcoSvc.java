@@ -27,8 +27,8 @@ import javax.validation.constraints.Size;
 @Table(name = "TB_MATERIAL_MARCO_SVC")
 @NamedQueries({
     @NamedQuery(name = "TbMaterialMarcoSvc.findAll", query = " SELECT t FROM TbMaterialMarcoSvc t "),
-    @NamedQuery(name = " TbMaterialMarcoSvc.retornaRegistros", query = "SELECT t FROM TbMaterialMarcoSvc t "
-            + " WHERE t.tbMarcosServicosHand = :marco_servico AND t.tbMateriaisHand = :material ")})
+    @NamedQuery(name = "TbMaterialMarcoSvc.retornaRegistros", query = "SELECT t FROM TbMaterialMarcoSvc t "
+            + " WHERE t.tbMarcosServicosHand.hand = :marcoservico AND t.tbMateriaisHand.hand = :material "),})
 public class TbMaterialMarcoSvc implements Serializable {
 
     private static final long serialVersionUID = 1L;
