@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -25,7 +26,9 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "TB_MATERIAL_MARCO_SVC")
 @NamedQueries({
-    @NamedQuery(name = "TbMaterialMarcoSvc.findAll", query = "SELECT t FROM TbMaterialMarcoSvc t")})
+    @NamedQuery(name = "TbMaterialMarcoSvc.findAll", query = "SELECT t FROM TbMaterialMarcoSvc t"),
+    @NamedQuery(name = "TbMaterialMarcoSvc.retornaRegistros", query = "SELECT t FROM TbMaterialMarcoSvc t "
+            + "WHERE t.tbMarcosServicosHand = :marco_servico AND t.tbMateriaisHand = :material")})
 public class TbMaterialMarcoSvc implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +46,9 @@ public class TbMaterialMarcoSvc implements Serializable {
     @JoinColumn(name = "TB_MARCOS_SERVICOS_HAND", referencedColumnName = "HAND")
     @ManyToOne(optional = false)
     private TbMarcosServicos tbMarcosServicosHand;
+
+    @Transient
+    private boolean tmpAutomatizaProcesso;
 
     public TbMaterialMarcoSvc() {
     }
@@ -81,6 +87,14 @@ public class TbMaterialMarcoSvc implements Serializable {
 
     public void setTbMarcosServicosHand(TbMarcosServicos tbMarcosServicosHand) {
         this.tbMarcosServicosHand = tbMarcosServicosHand;
+    }
+
+    public boolean isTmpAutomatizaProcesso() {
+        return tmpAutomatizaProcesso;
+    }
+
+    public void setTmpAutomatizaProcesso(boolean tmpAutomatizaProcesso) {
+        this.tmpAutomatizaProcesso = tmpAutomatizaProcesso;
     }
 
     @Override

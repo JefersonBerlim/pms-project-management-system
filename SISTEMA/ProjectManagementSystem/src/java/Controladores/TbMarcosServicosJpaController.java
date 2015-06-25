@@ -247,12 +247,25 @@ public class TbMarcosServicosJpaController implements Serializable {
 
     private boolean validaInclusao() {
 
+        retornaRegistros = new ArrayList<>();
+
         Query vinculos = em.createNamedQuery("TbMarcosServicos.retornaRegistros")
                 .setParameter("marco", tbMarcosServicos.getTbMarcosHand())
                 .setParameter("servico", tbMarcosServicos.getTbServicosHand());
         retornaRegistros = vinculos.getResultList();
 
         return retornaRegistros.isEmpty();
+
+    }
+
+    public List<TbMarcosServicos> retornaCollectionAtivos() {
+
+        List<TbMarcosServicos> listVinculos = new ArrayList<>();
+
+        Query vinculos = em.createNamedQuery("TbMarcosServicos.retornaRegistrosAtivos");
+        listVinculos = vinculos.getResultList();
+
+        return listVinculos;
 
     }
 }

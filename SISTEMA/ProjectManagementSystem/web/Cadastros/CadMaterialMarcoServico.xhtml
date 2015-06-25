@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"  
+      xmlns:f="http://java.sun.com/jsf/core"  
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+
+        <title>Vinculo Material X Marcos/Serviços</title>
+
+    </h:head>
+
+    <h:body>
+
+        <h:form>
+
+            <h:panelGrid columns ="2">
+
+                <h:outputLabel value="Marco - Serviço:" for="marco_servico"/>
+                <h:selectOneMenu
+                    id="marco_servico"
+                    value="${tbMaterialMarcoSvcJpaController.tbMaterialMarcoSvc.tbMarcosServicosHand}"
+                    required="true"
+                    requiredMessage="O campo Marco - Serviço é obrigatório!"
+                    converter="tbMarcosServicosConverter">
+                    <f:selectItem
+                        itemLabel="Selecione um Marco - Serviço"/>                        
+                    <f:selectItems
+                        value ="${tbMaterialMarcoSvcJpaController.listTbMarcosServicos}"
+                        var="marco_servico"
+                        itemLabel="${marco_servico.tbMarcosHand.descricao} - ${marco_servico.tbServicosHand.descricao}"/>
+                    <f:ajax execute="@this"
+                            render="material materiais"/>
+                </h:selectOneMenu>
+
+                <h:outputLabel value="Material:" for="material"/>
+                <h:selectOneMenu
+                    id="material"
+                    value="${tbMaterialMarcoSvcJpaController.tbMaterialMarcoSvc.tbMateriaisHand}"
+                    required="true"
+                    requiredMessage="O campo Material é obrigatório!"
+                    converter="tbMateriaisConverter">
+                    <f:selectItem
+                        itemLabel="Selecione um Material"/>                    
+                    <f:selectItems
+                        value ="${tbMaterialMarcoSvcJpaController.listTbMateriaisNaoVinculados}"
+                        var="material"
+                        itemLabel="${material.descricao}"/>
+                </h:selectOneMenu>
+
+                <h:panelGroup id="ehAutomatico">
+                    <h:outputLabel value="Automatiza Processo:" for="ehAutomatico"/>
+                    <h:selectBooleanCheckbox id="automatico" 
+                                             value="${tbMaterialMarcoSvcJpaController.tbMaterialMarcoSvc.tmpAutomatizaProcesso}"/>
+                </h:panelGroup>
+
+                <h:dataTable id="materiais" 
+                             var="materiais"                                                          
+                             value="${tbMaterialMarcoSvcJpaController.listTbMateriaisVinculados}"
+                             style="margin-bottom:20px">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Material"/>
+                        </f:facet>
+                        <h:outputText value="${materiais.descricao}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Valor"/>
+                        </f:facet>
+                        <h:outputText value="${materiais.valor}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Observação" />
+                        </f:facet>
+                        <h:outputText value="${materiais.observacao}"/>
+                    </h:column>
+
+                </h:dataTable>
+
+                <h:commandButton value="Gravar"                                 
+                                 id="Gravar"
+                                 action="${tbMaterialMarcoSvcJpaController.create()}">
+                </h:commandButton>
+
+            </h:panelGrid>
+
+            <h:messages id="messages" showDetail="false"/>
+
+        </h:form>
+
+    </h:body>
+
+</html>
