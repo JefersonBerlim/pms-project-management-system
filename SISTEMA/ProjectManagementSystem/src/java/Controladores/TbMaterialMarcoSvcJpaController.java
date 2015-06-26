@@ -76,7 +76,7 @@ public class TbMaterialMarcoSvcJpaController implements Serializable {
 
         if (tbMaterialMarcoSvc.getTbMarcosServicosHand() != null) {
             Query vinculos = em.createNamedQuery("TbMateriais.materiaisNaoVinculados")
-                    .setParameter("marco_servico", tbMaterialMarcoSvc.getTbMarcosServicosHand().getHand());
+                    .setParameter("marcoservico", tbMaterialMarcoSvc.getTbMarcosServicosHand().getHand());
             listTbMateriaisNaoVinculados = vinculos.getResultList();
 
         }
@@ -98,7 +98,7 @@ public class TbMaterialMarcoSvcJpaController implements Serializable {
 
         if (tbMaterialMarcoSvc.getTbMarcosServicosHand() != null) {
             Query vinculos = em.createNamedQuery("TbMateriais.materiaisVinculados")
-                    .setParameter("marco_servico", tbMaterialMarcoSvc.getTbMarcosServicosHand().getHand());
+                    .setParameter("marcoservico", tbMaterialMarcoSvc.getTbMarcosServicosHand().getHand());
             listTbMateriaisVinculados = vinculos.getResultList();
 
         }
