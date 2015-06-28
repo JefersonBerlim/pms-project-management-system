@@ -2,47 +2,45 @@
 <html xmlns="http://www.w3.org/1999/xhtml"  
       xmlns:f="http://java.sun.com/jsf/core"  
       xmlns:h="http://java.sun.com/jsf/html">
-
     <h:head>
-
         <title>Cadastro de Cidades</title>
-
+        <meta charset="UTF-8"/>
+        <h:outputStylesheet library="bootstrap/css" name="bootstrap.min.css" />    
+        <h:outputStylesheet library="bootstrap-material-design-master/dist/css" name="roboto.min.css" />
+        <h:outputStylesheet library="bootstrap-material-design-master/dist/css" name="material-fullpalette.min.css" />
+        <h:outputStylesheet library="bootstrap-material-design-master/dist/css" name="ripples.min.css" />
+        <h:outputStylesheet library="bootstrap-material-design-master/dist/css" name="snackbar.min.css" />         
     </h:head>
 
     <h:body>
 
         <h:form>
 
-            <h:panelGrid columns ="2">
+            <h:outputLabel value="Estado: " for="estado"/>
+            <h:selectOneMenu 
+                id="estado"
+                value="${tbCidadesJpaController.tbCidade.tbEstadosHand}"
+                required="true"
+                requiredMessage="O campo Estado é obrigatório!"
+                converter="tbEstadoConverter">
+                <f:selectItem
+                    itemLabel="Selecione um Estado"/>                        
+                <f:selectItems
+                    value ="${tbCidadesJpaController.listTbEstados}"
+                    var="estado"
+                    itemLabel="${estado.estado}, ${estado.sigla} - ${estado.tbPaisesHand.pais}"/>
+            </h:selectOneMenu>
 
-                <h:outputLabel value="Estado: " for="estado"/>
-                <h:selectOneMenu 
-                    id="estado"
-                    value="${tbCidadesJpaController.tbCidade.tbEstadosHand}"
-                    required="true"
-                    requiredMessage="O campo Estado é obrigatório!"
-                    converter="tbEstadoConverter">
-                    <f:selectItem
-                        itemLabel="Selecione um Estado"/>                        
-                    <f:selectItems
-                        value ="${tbCidadesJpaController.listTbEstados}"
-                        var="estado"
-                        itemLabel="${estado.estado}, ${estado.sigla} - ${estado.tbPaisesHand.pais}"/>
-                </h:selectOneMenu>
+            <h:outputLabel value="Cidade: " for="cidade"/>
+            <h:inputText id="cidade"
+                         required="true" 
+                         requiredMessage = "O campo Cidade é origatório!"
+                         value="${tbCidadesJpaController.tbCidade.cidade}"/>
 
-                <h:outputLabel value="Cidade: " for="cidade"/>
-                <h:inputText id="cidade"
-                             required="true" 
-                             requiredMessage = "O campo Cidade é origatório!"
-                             value="${tbCidadesJpaController.tbCidade.cidade}"/>
+            <h:commandButton value="Gravar"                                 
+                             id="Gravar"
+                             action="${tbCidadesJpaController.create}"/>
 
-                <h:commandButton value="Gravar"                                 
-                                 id="Gravar"
-                                 action="${tbCidadesJpaController.create}"/>
-
-            </h:panelGrid>
-
-            
             <h:messages id="messages" showDetail="false" />
 
         </h:form>

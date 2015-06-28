@@ -1,38 +1,37 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"    
-      xmlns:h="http://java.sun.com/jsf/html">
-
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-
         <title>Cadastro de Países</title>
-
     </h:head>
-
     <h:body>
-
         <h:form>
+            <p:panel id="panel" header="Cadastro de Países">
+                <h:panelGrid columns="2" cellpadding="5">
+                    
+                    <p:outputLabel value="País: " for="pais"/>
+                    <p:inputText id="pais"
+                                 label="País"
+                                 required="true" 
+                                 size="24"
+                                 requiredMessage = "O campo País é origatório!"
+                                 value="${tbPaisesJpaController.tbPais.pais}">
+                        <f:validateLength maximum="150" />
+                    </p:inputText>
 
-            <h:panelGrid columns ="2">
+                    <p:commandButton value="Gravar"                                 
+                                     title="Gravar"
+                                     id="Gravar"
+                                     icon="ui-icon-disk"
+                                     actionListener="${tbPaisesJpaController.create}"/>
+                </h:panelGrid>
+            </p:panel>
 
-                <h:outputLabel value="País: " for="pais"/>
-                <h:inputText id="pais"
-                             required="true" 
-                             requiredMessage = "O campo País é origatório!"
-                             maxlength="150"
-                             value="${tbPaisesJpaController.tbPais.pais}" />
-
-                <h:commandButton value="Gravar"                                 
-                                 id="Gravar"
-                                 actionListener="${tbPaisesJpaController.create}"/>
-
-            </h:panelGrid>
-
-            <h:messages id="messages" showDetail="false"/>
+            <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
 
         </h:form>
-
     </h:body>
-
 </html>
-
